@@ -5,13 +5,9 @@
 //  Created by Dre on 09/08/2021.
 //
 
+import Combine
 import SwiftUI
 import UIKit
-
-public struct DynamicInfoItem: Identifiable {
-    public var id: Int { title.hashValue }
-    public let title: String
-}
 
 // MARK: - View Model
 
@@ -24,8 +20,11 @@ protocol RedDynamicInfoViewModelProtocol: ObservableObject {
 final class RedDynamicInfoViewModel: RedDynamicInfoViewModelProtocol {
     @Published private(set) var items: [DynamicInfoItem] = []
     @Published private(set) var isLoading = false
+    private let fetcher: DynamicItemsFetchable
+    private var cancellables: Set<AnyCancellable> = []
 
-    init() {
+    init(fetcher: DynamicItemsFetchable) {
+        self.fetcher = fetcher
         loadItems()
     }
 
@@ -36,21 +35,21 @@ final class RedDynamicInfoViewModel: RedDynamicInfoViewModelProtocol {
     private func loadItems() {
         isLoading = true
         items = []
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [self] in
-            items = [
-                .init(title: "First Item"),
-                .init(title: "Second Item"),
-                .init(title: "Third Item"),
-                .init(title: "Fourth Item"),
-                .init(title: "Fifth Item"),
-                .init(title: "Sixth Item"),
-                .init(title: "Seventh Item"),
-                .init(title: "Eighth Item"),
-                .init(title: "Ninth Item"),
-                .init(title: "Tenth Item"),
-            ]
-            isLoading = false
-        }
+
+        fetcher.fetchItems
+            .sink(
+                receiveCompletion: { completion in
+                    guard case .failure(let error) = completion else { return }
+                    // TODO: show error
+                    print("Error = \(error)")
+                },
+                receiveValue: { [weak self] items in
+                    guard let self = self else { return }
+                    self.items = items
+                    self.isLoading = false
+                }
+            )
+            .store(in: &cancellables)
     }
 }
 
@@ -103,6 +102,6 @@ struct RedDynamicInfoView<ViewModel>: View where ViewModel: RedDynamicInfoViewMo
 
 struct RedDynamicInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        RedDynamicInfoView(viewModel: RedDynamicInfoViewModel())
+        RedDynamicInfoView(viewModel: RedDynamicInfoViewModel(fetcher: DynamicItemsFetcher()))
     }
 }

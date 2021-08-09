@@ -29,7 +29,7 @@ final class RedFlow {
     }
     
     static func makeRedDynamicInfoViewController() -> UIViewController {
-        let viewModel = RedDynamicInfoViewModel()
+        let viewModel = RedDynamicInfoViewModel(fetcher: DynamicItemsFetcher())
         let viewController = RedDynamicInfoViewController(viewModel: viewModel)
         return viewController
     }
