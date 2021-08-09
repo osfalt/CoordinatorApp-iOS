@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3124245D26B89C7D0074F592 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3124245C26B89C7D0074F592 /* BaseNavigationController.swift */; };
 		3124245F26B89C950074F592 /* BaseNavigationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3124245E26B89C950074F592 /* BaseNavigationControllerTests.swift */; };
+		3150391326C1D774009ECBEF /* RedDynamicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3150391226C1D774009ECBEF /* RedDynamicInfoViewController.swift */; };
 		3171B7B126B9D1DF0094D31B /* GreenSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171B7B026B9D1DF0094D31B /* GreenSecondViewController.swift */; };
 		3171B7B326B9D9330094D31B /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171B7B226B9D9330094D31B /* AppCoordinator.swift */; };
 		3171B7B626B9DA210094D31B /* AppCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171B7B526B9DA210094D31B /* AppCoordinatorTests.swift */; };
@@ -57,6 +58,7 @@
 /* Begin PBXFileReference section */
 		3124245C26B89C7D0074F592 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		3124245E26B89C950074F592 /* BaseNavigationControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationControllerTests.swift; sourceTree = "<group>"; };
+		3150391226C1D774009ECBEF /* RedDynamicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedDynamicInfoViewController.swift; sourceTree = "<group>"; };
 		3171B7B026B9D1DF0094D31B /* GreenSecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenSecondViewController.swift; sourceTree = "<group>"; };
 		3171B7B226B9D9330094D31B /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		3171B7B526B9DA210094D31B /* AppCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorTests.swift; sourceTree = "<group>"; };
@@ -116,6 +118,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3150391426C1D891009ECBEF /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		3171B7B426B9D9360094D31B /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +163,7 @@
 				3171B7B426B9D9360094D31B /* Coordinators */,
 				31B5079726C081E500C8F3B6 /* DeepLinking */,
 				319C46E826B4B36400DDC21C /* Scenes */,
+				3150391426C1D891009ECBEF /* Services */,
 				319C46BC26B4B1D100DDC21C /* ContentView.swift */,
 				319C46B826B4B1D100DDC21C /* AppDelegate.swift */,
 				319C46BA26B4B1D100DDC21C /* SceneDelegate.swift */,
@@ -230,6 +240,7 @@
 			children = (
 				319C46EB26B4B4BD00DDC21C /* RedFirstViewController.swift */,
 				31B6F72A26B75A2A00FDBDA2 /* RedSecondViewController.swift */,
+				3150391226C1D774009ECBEF /* RedDynamicInfoViewController.swift */,
 			);
 			path = RedFlow;
 			sourceTree = "<group>";
@@ -374,6 +385,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3150391326C1D774009ECBEF /* RedDynamicInfoViewController.swift in Sources */,
 				319C46B926B4B1D100DDC21C /* AppDelegate.swift in Sources */,
 				31B5079026BF2CC700C8F3B6 /* GreenFlowCoordinator.swift in Sources */,
 				31B5079B26C1B7E900C8F3B6 /* DeepLinkPayload.swift in Sources */,

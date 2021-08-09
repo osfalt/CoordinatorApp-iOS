@@ -32,12 +32,16 @@ public final class RedFlowCoordinator: DeepLinkHandling {
     public enum InterfaceState: Equatable, StateTransitioning {
         case redFirstScreen
         case redSecondScreen
+        case redDynamicInfoScreen
 
         public static func isValidTransition(from: InterfaceState?, to: InterfaceState?) -> Bool {
             switch (from, to) {
             case (.none, .redFirstScreen),
                  (.redFirstScreen, .redSecondScreen),
-                 (.redSecondScreen, .redFirstScreen):
+                 (.redSecondScreen, .redFirstScreen),
+                 (.redSecondScreen, .redDynamicInfoScreen),
+                 (.redDynamicInfoScreen, .redSecondScreen),
+                 (.redDynamicInfoScreen, .redFirstScreen):
                 return true
             default:
                 return false
@@ -66,6 +70,7 @@ public final class RedFlowCoordinator: DeepLinkHandling {
     #warning("Use array of weak references")
     private weak var firstViewController: UIViewController?
     private weak var secondViewController: UIViewController?
+    private weak var dynamicInfoViewController: UIViewController?
 
     private var cancellables: Set<AnyCancellable> = []
 
@@ -97,6 +102,9 @@ public final class RedFlowCoordinator: DeepLinkHandling {
 
         case .redSecondScreen:
             showRedSecondScreen()
+
+        case .redDynamicInfoScreen:
+            showRedDynamicInfoScreen()
 
         case .none:
             break
@@ -135,8 +143,8 @@ public final class RedFlowCoordinator: DeepLinkHandling {
             return
         }
 
-        let redSecondVC = RedFlow.makeSecondViewController(didTapNextButton: {
-            print(">>> redSecondOnNext")
+        let redSecondVC = RedFlow.makeSecondViewController(didTapNextButton: { [weak self] in
+            self?.state = .redDynamicInfoScreen
         })
         flowNavigationController?.pushViewController(redSecondVC, animated: animated)
         flowNavigationController?.didPopViewControllerPublisher
@@ -147,6 +155,23 @@ public final class RedFlowCoordinator: DeepLinkHandling {
             .store(in: &cancellables)
 
         self.secondViewController = redSecondVC
+    }
+
+    private func showRedDynamicInfoScreen() {
+        guard dynamicInfoViewController == nil else {
+            return
+        }
+
+        let dynamicInfoVC = RedFlow.makeRedDynamicInfoViewController()
+        flowNavigationController?.pushViewController(dynamicInfoVC, animated: animated)
+        flowNavigationController?.didPopViewControllerPublisher
+            .sink { [weak self, weak dynamicInfoVC] popped, shown in
+                guard popped === dynamicInfoVC else { return }
+                self?.updateCurrentStateBasedOnUI()
+            }
+            .store(in: &cancellables)
+
+        self.dynamicInfoViewController = dynamicInfoVC
     }
 
 }
@@ -173,6 +198,9 @@ extension RedFlowCoordinator.InterfaceState: CustomStringConvertible {
 
         case .redSecondScreen:
             return "redSecondScreen"
+
+        case .redDynamicInfoScreen:
+            return "redDynamicInfoScreen"
         }
     }
 
