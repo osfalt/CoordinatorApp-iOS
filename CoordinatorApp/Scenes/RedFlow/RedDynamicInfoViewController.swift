@@ -11,15 +11,11 @@ import UIKit
 
 // MARK: - View Model
 
-protocol RedDynamicInfoViewModelProtocol: ObservableObject {
-    var items: [DynamicInfoItem] { get }
-    var isLoading: Bool { get }
-    func didTapReloadButton()
-}
-
-final class RedDynamicInfoViewModel: RedDynamicInfoViewModelProtocol {
+final class RedDynamicInfoViewModel: ObservableObject {
     @Published private(set) var items: [DynamicInfoItem] = []
     @Published private(set) var isLoading = false
+    @Published var showError: Bool = false
+
     private let fetcher: DynamicItemsFetchable
     private var cancellables: Set<AnyCancellable> = []
 
@@ -38,15 +34,13 @@ final class RedDynamicInfoViewModel: RedDynamicInfoViewModelProtocol {
 
         fetcher.fetchItems
             .sink(
-                receiveCompletion: { completion in
-                    guard case .failure(let error) = completion else { return }
-                    // TODO: show error
-                    print("Error = \(error)")
+                receiveCompletion: { [weak self] completion in
+                    self?.isLoading = false
+                    guard case .failure = completion else { return }
+                    self?.showError = true
                 },
                 receiveValue: { [weak self] items in
-                    guard let self = self else { return }
-                    self.items = items
-                    self.isLoading = false
+                    self?.items = items
                 }
             )
             .store(in: &cancellables)
@@ -55,15 +49,15 @@ final class RedDynamicInfoViewModel: RedDynamicInfoViewModelProtocol {
 
 // MARK: - View Controller
 
-final class RedDynamicInfoViewController<ViewModel>: BaseViewController<RedDynamicInfoView<ViewModel>>, RedFlowInterfaceStateContaining where ViewModel: RedDynamicInfoViewModelProtocol {
+final class RedDynamicInfoViewController: BaseViewController<RedDynamicInfoView>, RedFlowInterfaceStateContaining {
 
     var state: RedFlowCoordinator.InterfaceState {
         .redDynamicInfoScreen
     }
 
-    private let viewModel: ViewModel
+    private let viewModel: RedDynamicInfoViewModel
 
-    init(viewModel: ViewModel) {
+    init(viewModel: RedDynamicInfoViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.title = "Red Dynamic Info Screen"
@@ -80,8 +74,8 @@ final class RedDynamicInfoViewController<ViewModel>: BaseViewController<RedDynam
 
 // MARK: - View
 
-struct RedDynamicInfoView<ViewModel>: View where ViewModel: RedDynamicInfoViewModelProtocol {
-    @ObservedObject var viewModel: ViewModel
+struct RedDynamicInfoView: View {
+    @ObservedObject var viewModel: RedDynamicInfoViewModel
 
     var body: some View {
         VStack {
@@ -96,6 +90,9 @@ struct RedDynamicInfoView<ViewModel>: View where ViewModel: RedDynamicInfoViewMo
             Button("Reload", action: viewModel.didTapReloadButton)
                 .disabled(viewModel.isLoading)
                 .padding()
+        }
+        .alert(isPresented: $viewModel.showError) {
+            Alert(title: Text("Error"))
         }
     }
 }
