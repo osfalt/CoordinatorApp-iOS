@@ -85,17 +85,7 @@ struct RedDynamicInfoView: View {
         VStack {
             ZStack {
                 List(viewModel.items) { item in
-                    Button(action: { viewModel.didSelectCell(item) }) {
-                        HStack {
-                            Text(item.title)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Image(systemName: "chevron.right")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 12, height: 12)
-                                .opacity(0.8)
-                        }
-                    }
+                    ListCell(text: item.title, action: { viewModel.didSelectCell(item) })
                 }
                 if viewModel.isLoading {
                     ProgressView()
