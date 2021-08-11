@@ -8,18 +8,18 @@
 import SwiftUI
 import UIKit
 
-protocol GreenSecondViewModelProtocol: AnyObject {
+public protocol GreenSecondViewModelProtocol: AnyObject {
     var title: String { get }
     var description: String { get }
     var didTapNextButton: () -> Void { get }
 }
 
-final class GreenSecondViewModel: GreenSecondViewModelProtocol {
-    let title: String
-    let description: String
-    let didTapNextButton: () -> Void
+public final class GreenSecondViewModel: GreenSecondViewModelProtocol {
+    public let title: String
+    public let description: String
+    public let didTapNextButton: () -> Void
 
-    init(didTapNextButton: @escaping () -> Void) {
+    public init(didTapNextButton: @escaping () -> Void) {
         self.title = "Second Green Screen"
         self.description = "This is the SECOND screen with GREEN background colour"
         self.didTapNextButton = didTapNextButton
@@ -31,7 +31,7 @@ final class GreenSecondViewController: BaseViewController<GreenSecondView>, Gree
     override var content: Content {
         GreenSecondView(viewModel: viewModel)
     }
-    
+
     var state: GreenFlowCoordinator.InterfaceState {
         .greenSecondScreen
     }

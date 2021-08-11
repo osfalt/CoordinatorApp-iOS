@@ -8,18 +8,18 @@
 import SwiftUI
 import UIKit
 
-protocol GreenFirstViewModelProtocol: AnyObject {
+public protocol GreenFirstViewModelProtocol: AnyObject {
     var title: String { get }
     var description: String { get }
     var didTapNextButton: () -> Void { get }
 }
 
-final class GreenFirstViewModel: GreenFirstViewModelProtocol {
-    let title: String
-    let description: String
-    let didTapNextButton: () -> Void
+public final class GreenFirstViewModel: GreenFirstViewModelProtocol {
+    public let title: String
+    public let description: String
+    public let didTapNextButton: () -> Void
 
-    init(didTapNextButton: @escaping () -> Void) {
+    public init(didTapNextButton: @escaping () -> Void) {
         self.title = "First Green Screen"
         self.description = "This is the FIRST screen with GREEN background colour"
         self.didTapNextButton = didTapNextButton
@@ -31,7 +31,7 @@ final class GreenFirstViewController: BaseViewController<GreenFirstView>, GreenF
     override var content: Content {
         GreenFirstView(viewModel: viewModel)
     }
-    
+
     var state: GreenFlowCoordinator.InterfaceState {
         .greenFirstScreen
     }

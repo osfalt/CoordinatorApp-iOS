@@ -61,6 +61,7 @@ public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLin
         animationEnabled && !UIAccessibility.isReduceMotionEnabled
     }
 
+    private let builder: FlowsBuilderProtocol
     private weak var rootViewController: UIViewController?
     private weak var tabBarController: UITabBarController?
 
@@ -71,8 +72,9 @@ public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLin
     private var currentSelectedTabIndex: Int?
 
     // MARK: - Public
-    public init(rootViewController: UIViewController) {
+    public init(rootViewController: UIViewController, builder: FlowsBuilderProtocol) {
         self.rootViewController = rootViewController
+        self.builder = builder
     }
 
     public func start() {
@@ -84,18 +86,18 @@ public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLin
 
     // MARK: - Start Child Coordinators
     private func startRedFlow() {
-        let redFlowNavigationController = RedFlow.makeFlowNavigationController()
+        let redFlowNavigationController = builder.redFlow.makeFlowViewController()
         tabBarController?.addChild(redFlowNavigationController)
 
-        redFlowCoordinator = RedFlowCoordinator(flowNavigationController: redFlowNavigationController)
+        redFlowCoordinator = RedFlowCoordinator(flowNavigationController: redFlowNavigationController, builder: builder.redFlow)
         redFlowCoordinator?.start()
     }
 
     private func startGreenFlow() {
-        let greenFlowNavigationVC = GreenFlow.makeFlowNavigationController()
+        let greenFlowNavigationVC = builder.greenFlow.makeFlowViewController()
         tabBarController?.addChild(greenFlowNavigationVC)
 
-        greenFlowCoordinator = GreenFlowCoordinator(flowNavigationController: greenFlowNavigationVC)
+        greenFlowCoordinator = GreenFlowCoordinator(flowNavigationController: greenFlowNavigationVC, builder: builder.greenFlow)
         greenFlowCoordinator?.start()
     }
 
@@ -151,8 +153,7 @@ public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLin
             return
         }
 
-        let tabBarController = UITabBarController()
-        tabBarController.view.backgroundColor = .lightGray
+        let tabBarController = builder.makeFlowViewController()
         tabBarController.delegate = self
         tabBarController.selectedIndex = TabIndex.redFlow
 

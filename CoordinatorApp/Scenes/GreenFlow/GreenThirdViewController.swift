@@ -8,20 +8,20 @@
 import SwiftUI
 import UIKit
 
-protocol GreenThirdViewModelProtocol: AnyObject {
+public protocol GreenThirdViewModelProtocol: AnyObject {
     var title: String { get }
     var description: String { get }
     var dynamicText: String? { get }
     var didTapNextButton: () -> Void { get }
 }
 
-final class GreenThirdViewModel: GreenThirdViewModelProtocol {
-    let title: String
-    let description: String
-    let dynamicText: String?
-    let didTapNextButton: () -> Void
+public final class GreenThirdViewModel: GreenThirdViewModelProtocol {
+    public let title: String
+    public let description: String
+    public let dynamicText: String?
+    public let didTapNextButton: () -> Void
 
-    init(dynamicText: String? = nil, didTapNextButton: @escaping () -> Void) {
+    public init(dynamicText: String? = nil, didTapNextButton: @escaping () -> Void) {
         self.title = "Third Green Screen"
         self.description = "This is the THIRD screen with GREEN background colour"
         self.dynamicText = dynamicText

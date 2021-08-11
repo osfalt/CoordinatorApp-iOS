@@ -14,7 +14,7 @@ protocol RedFirstViewModelProtocol: AnyObject {
     var didTapNextButton: () -> Void { get }
 }
 
-final class RedFirstViewModel: RedFirstViewModelProtocol {
+public final class RedFirstViewModel: RedFirstViewModelProtocol {
     let title: String
     let description: String
     let didTapNextButton: () -> Void
@@ -27,7 +27,7 @@ final class RedFirstViewModel: RedFirstViewModelProtocol {
 }
 
 final class RedFirstViewController: BaseViewController<RedFirstView>, RedFlowInterfaceStateContaining {
-    
+
     override var content: Content {
         RedFirstView(viewModel: viewModel)
     }

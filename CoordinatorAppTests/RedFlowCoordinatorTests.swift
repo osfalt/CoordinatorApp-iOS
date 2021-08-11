@@ -16,7 +16,7 @@ class RedFlowCoordinatorTests: XCTestCase {
 
     override func setUpWithError() throws {
         flowNavigationController = BaseNavigationController()
-        coordinator = RedFlowCoordinator(flowNavigationController: flowNavigationController)
+        coordinator = RedFlowCoordinator(flowNavigationController: flowNavigationController, builder: RedFlowBuilder())
         coordinator.animationEnabled = false
     }
 

@@ -18,7 +18,7 @@ class AppCoordinatorTests: XCTestCase {
 
     override func setUpWithError() throws {
         rootViewController = UIViewController()
-        coordinator = AppCoordinator(rootViewController: rootViewController)
+        coordinator = AppCoordinator(rootViewController: rootViewController, builder: FlowsBuilder())
         coordinator.animationEnabled = false
     }
 

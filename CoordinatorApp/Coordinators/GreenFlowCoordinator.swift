@@ -74,6 +74,7 @@ public final class GreenFlowCoordinator: DeepLinkHandling {
         animationEnabled && !UIAccessibility.isReduceMotionEnabled
     }
 
+    private let builder: GreenFlowBuilderProtocol
     private weak var flowNavigationController: BaseNavigationController?
     #warning("Use array of weak references")
     private weak var firstViewController: UIViewController?
@@ -84,8 +85,9 @@ public final class GreenFlowCoordinator: DeepLinkHandling {
 
     // MARK: - Init
 
-    public init(flowNavigationController: BaseNavigationController) {
+    public init(flowNavigationController: BaseNavigationController, builder: GreenFlowBuilderProtocol) {
         self.flowNavigationController = flowNavigationController
+        self.builder = builder
     }
 
     // MARK: - Methods
@@ -143,9 +145,9 @@ public final class GreenFlowCoordinator: DeepLinkHandling {
             return
         }
 
-        let greenFirstVC = GreenFlow.makeFirstViewController(didTapNextButton: { [weak self] in
+        let greenFirstVC = builder.makeGreenFirstModule(didTapNextButton: { [weak self] in
             self?.state = .greenSecondScreen
-        })
+        }).vc
         flowNavigationController?.pushViewController(greenFirstVC, animated: false)
 
         self.firstViewController = greenFirstVC
@@ -156,9 +158,9 @@ public final class GreenFlowCoordinator: DeepLinkHandling {
             return
         }
 
-        let greenSecondVC = GreenFlow.makeSecondViewController(didTapNextButton: { [weak self] in
+        let greenSecondVC = builder.makeGreenSecondModule(didTapNextButton: { [weak self] in
             self?.state = .greenThirdScreen(nil)
-        })
+        }).vc
         flowNavigationController?.pushViewController(greenSecondVC, animated: animated)
         flowNavigationController?.didPopViewControllerPublisher
             .sink { [weak self, weak greenSecondVC] popped, shown in
@@ -175,7 +177,7 @@ public final class GreenFlowCoordinator: DeepLinkHandling {
             return
         }
 
-        let greenThirdVC = GreenFlow.makeThirdViewController(dynamicText: dynamicText, didTapNextButton: {})
+        let greenThirdVC = builder.makeGreenThirdModule(dynamicText: dynamicText, didTapNextButton: {}).vc
         flowNavigationController?.pushViewController(greenThirdVC, animated: animated)
         flowNavigationController?.didPopViewControllerPublisher
             .sink { [weak self, weak greenThirdVC] popped, shown in

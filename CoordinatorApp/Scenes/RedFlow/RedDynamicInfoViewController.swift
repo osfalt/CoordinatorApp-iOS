@@ -11,23 +11,23 @@ import UIKit
 
 // MARK: - View Model
 
-final class RedDynamicInfoViewModel: ObservableObject {
+public final class RedDynamicInfoViewModel: ObservableObject {
     @Published private(set) var items: [DynamicInfoItem] = []
     @Published private(set) var isLoading = false
     @Published var showError: Bool = false
 
-    func didTapReloadButton() {
+    public func didTapReloadButton() {
         loadItems()
     }
 
-    func didSelectCell(_ item: DynamicInfoItem) {
+    public func didSelectCell(_ item: DynamicInfoItem) {
         print("didSelectCell -> \(item.title)")
     }
 
     private let fetcher: DynamicItemsFetchable
     private var cancellables: Set<AnyCancellable> = []
 
-    init(fetcher: DynamicItemsFetchable) {
+    public init(fetcher: DynamicItemsFetchable) {
         self.fetcher = fetcher
         loadItems()
     }

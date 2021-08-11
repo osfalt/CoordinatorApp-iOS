@@ -21,7 +21,7 @@ final class DynamicItemsFetcher: DynamicItemsFetchable {
 
     var fetchItems: AnyPublisher<[DynamicInfoItem], Error> {
         Future<[DynamicInfoItem], Error> { promise in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 let items: [DynamicInfoItem] = [
                     .init(id: 0, title: "First Item"),
                     .init(id: 1, title: "Second Item"),

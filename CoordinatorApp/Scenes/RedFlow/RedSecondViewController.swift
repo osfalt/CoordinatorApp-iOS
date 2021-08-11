@@ -8,18 +8,18 @@
 import SwiftUI
 import UIKit
 
-protocol RedSecondViewModelProtocol: AnyObject {
+public protocol RedSecondViewModelProtocol: AnyObject {
     var title: String { get }
     var description: String { get }
     var didTapNextButton: () -> Void { get }
 }
 
-final class RedSecondViewModel: RedSecondViewModelProtocol {
-    let title: String
-    let description: String
-    let didTapNextButton: () -> Void
+public final class RedSecondViewModel: RedSecondViewModelProtocol {
+    public let title: String
+    public let description: String
+    public let didTapNextButton: () -> Void
     
-    init(didTapNextButton: @escaping () -> Void) {
+    public init(didTapNextButton: @escaping () -> Void) {
         self.title = "Second Red Screen"
         self.description = "This is the SECOND screen with RED background colour"
         self.didTapNextButton = didTapNextButton
@@ -31,7 +31,7 @@ final class RedSecondViewController: BaseViewController<RedSecondView>, RedFlowI
     override var content: Content {
         RedSecondView(viewModel: viewModel)
     }
-    
+
     var state: RedFlowCoordinator.InterfaceState {
         .redSecondScreen
     }
