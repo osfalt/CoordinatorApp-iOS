@@ -16,15 +16,19 @@ final class RedDynamicInfoViewModel: ObservableObject {
     @Published private(set) var isLoading = false
     @Published var showError: Bool = false
 
+    func didTapReloadButton() {
+        loadItems()
+    }
+
+    func didSelectCell(_ item: DynamicInfoItem) {
+        print("didSelectCell -> \(item.title)")
+    }
+
     private let fetcher: DynamicItemsFetchable
     private var cancellables: Set<AnyCancellable> = []
 
     init(fetcher: DynamicItemsFetchable) {
         self.fetcher = fetcher
-        loadItems()
-    }
-
-    func didTapReloadButton() {
         loadItems()
     }
 
@@ -81,7 +85,17 @@ struct RedDynamicInfoView: View {
         VStack {
             ZStack {
                 List(viewModel.items) { item in
-                    Text(item.title)
+                    Button(action: { viewModel.didSelectCell(item) }) {
+                        HStack {
+                            Text(item.title)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Image(systemName: "chevron.right")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 12, height: 12)
+                                .opacity(0.8)
+                        }
+                    }
                 }
                 if viewModel.isLoading {
                     ProgressView()
