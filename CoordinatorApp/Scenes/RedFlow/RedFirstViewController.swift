@@ -27,6 +27,11 @@ final class RedFirstViewModel: RedFirstViewModelProtocol {
 }
 
 final class RedFirstViewController: BaseViewController<RedFirstView>, RedFlowInterfaceStateContaining {
+    
+    override var content: Content {
+        RedFirstView(viewModel: viewModel)
+    }
+
     var state: RedFlowCoordinator.InterfaceState {
         .redFirstScreen
     }
@@ -41,10 +46,6 @@ final class RedFirstViewController: BaseViewController<RedFirstView>, RedFlowInt
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override var content: Content {
-        RedFirstView(viewModel: viewModel)
     }
 }
 

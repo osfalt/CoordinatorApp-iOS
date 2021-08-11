@@ -30,21 +30,6 @@ final class GreenThirdViewModel: GreenThirdViewModelProtocol {
 }
 
 final class GreenThirdViewController: BaseViewController<AnyView>, GreenFlowInterfaceStateContaining {
-    var state: GreenFlowCoordinator.InterfaceState {
-        .greenThirdScreen(nil)
-    }
-    
-    let viewModel: GreenThirdViewModelProtocol
-
-    init(viewModel: GreenThirdViewModelProtocol) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        self.title = viewModel.title
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
     override var content: Content {
         AnyView(
@@ -59,6 +44,22 @@ final class GreenThirdViewController: BaseViewController<AnyView>, GreenFlowInte
                 }
             }
         )
+    }
+
+    var state: GreenFlowCoordinator.InterfaceState {
+        .greenThirdScreen(nil)
+    }
+    
+    let viewModel: GreenThirdViewModelProtocol
+
+    init(viewModel: GreenThirdViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        self.title = viewModel.title
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 

@@ -55,6 +55,10 @@ final class RedDynamicInfoViewModel: ObservableObject {
 
 final class RedDynamicInfoViewController: BaseViewController<RedDynamicInfoView>, RedFlowInterfaceStateContaining {
 
+    override var content: Content {
+        RedDynamicInfoView(viewModel: viewModel)
+    }
+
     var state: RedFlowCoordinator.InterfaceState {
         .redDynamicInfoScreen
     }
@@ -69,10 +73,6 @@ final class RedDynamicInfoViewController: BaseViewController<RedDynamicInfoView>
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override var content: Content {
-        RedDynamicInfoView(viewModel: viewModel)
     }
 }
 

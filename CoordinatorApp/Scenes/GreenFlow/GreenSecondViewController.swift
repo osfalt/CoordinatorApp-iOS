@@ -27,6 +27,11 @@ final class GreenSecondViewModel: GreenSecondViewModelProtocol {
 }
 
 final class GreenSecondViewController: BaseViewController<GreenSecondView>, GreenFlowInterfaceStateContaining {
+
+    override var content: Content {
+        GreenSecondView(viewModel: viewModel)
+    }
+    
     var state: GreenFlowCoordinator.InterfaceState {
         .greenSecondScreen
     }
@@ -41,10 +46,6 @@ final class GreenSecondViewController: BaseViewController<GreenSecondView>, Gree
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override var content: Content {
-        GreenSecondView(viewModel: viewModel)
     }
 }
 

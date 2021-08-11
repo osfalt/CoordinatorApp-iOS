@@ -27,6 +27,11 @@ final class GreenFirstViewModel: GreenFirstViewModelProtocol {
 }
 
 final class GreenFirstViewController: BaseViewController<GreenFirstView>, GreenFlowInterfaceStateContaining {
+
+    override var content: Content {
+        GreenFirstView(viewModel: viewModel)
+    }
+    
     var state: GreenFlowCoordinator.InterfaceState {
         .greenFirstScreen
     }
@@ -41,10 +46,6 @@ final class GreenFirstViewController: BaseViewController<GreenFirstView>, GreenF
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override var content: Content {
-        GreenFirstView(viewModel: viewModel)
     }
 }
 
