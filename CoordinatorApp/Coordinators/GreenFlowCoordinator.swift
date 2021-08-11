@@ -118,8 +118,9 @@ public final class GreenFlowCoordinator: DeepLinkHandling {
             }
             showGreenSecondScreen()
 
-        case .greenThirdScreen:
-            showGreenThirdScreen()
+        case .greenThirdScreen(let deepLinkPayload):
+            let dynamicText = (deepLinkPayload as? GreenFlowDeepLinkPayload)?.dynamicText
+            showGreenThirdScreen(dynamicText: dynamicText)
 
         case .none:
             break
