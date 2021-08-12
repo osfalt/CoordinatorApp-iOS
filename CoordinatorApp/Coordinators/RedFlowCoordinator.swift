@@ -29,24 +29,10 @@ public final class RedFlowCoordinator: DeepLinkHandling {
 
     // MARK: - Types
 
-    public enum InterfaceState: Equatable, StateTransitioning {
+    public enum InterfaceState: Equatable {
         case redFirstScreen
         case redSecondScreen
         case redDynamicInfoScreen
-
-        public static func isValidTransition(from: InterfaceState?, to: InterfaceState?) -> Bool {
-            switch (from, to) {
-            case (.none, .redFirstScreen),
-                 (.redFirstScreen, .redSecondScreen),
-                 (.redSecondScreen, .redFirstScreen),
-                 (.redSecondScreen, .redDynamicInfoScreen),
-                 (.redDynamicInfoScreen, .redSecondScreen),
-                 (.redDynamicInfoScreen, .redFirstScreen):
-                return true
-            default:
-                return false
-            }
-        }
     }
 
     // MARK: - Properties
@@ -89,12 +75,6 @@ public final class RedFlowCoordinator: DeepLinkHandling {
     }
 
     private func updateUIBasedOnCurrentState() {
-        guard InterfaceState.isValidTransition(from: previousState, to: state) else {
-            #warning("Should this be removed?")
-            updateCurrentStateBasedOnUI()
-            return
-        }
-
         switch state {
         case .redFirstScreen:
             if flowNavigationController?.topViewController == secondViewController {

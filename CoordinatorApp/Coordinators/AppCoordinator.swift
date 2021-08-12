@@ -8,14 +8,6 @@
 import Combine
 import UIKit
 
-#warning("Remove StateTransitioning")
-// MARK: - StateTransitioning protocol
-public protocol StateTransitioning {
-    associatedtype State: Equatable
-    static func isValidTransition(from: State, to: State) -> Bool
-}
-
-// MARK: - AppCoordinator
 public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLinkHandling {
 
     // MARK: - Public

@@ -25,23 +25,7 @@ class RedFlowCoordinatorTests: XCTestCase {
         coordinator.start()
         assertBasics()
     }
-
-    // MARK: - Transitions Tests
-    func testInterfaceStateTransitionsValidity() throws {
-        typealias State = RedFlowCoordinator.InterfaceState
-
-        XCTAssertTrue(State.isValidTransition(from: .none, to: .redFirstScreen))
-        XCTAssertTrue(State.isValidTransition(from: .redFirstScreen, to: .redSecondScreen))
-        XCTAssertTrue(State.isValidTransition(from: .redSecondScreen, to: .redFirstScreen))
-
-        XCTAssertFalse(State.isValidTransition(from: .none, to: .none))
-        XCTAssertFalse(State.isValidTransition(from: .none, to: .redSecondScreen))
-        XCTAssertFalse(State.isValidTransition(from: .redFirstScreen, to: .none))
-        XCTAssertFalse(State.isValidTransition(from: .redFirstScreen, to: .redFirstScreen))
-        XCTAssertFalse(State.isValidTransition(from: .redSecondScreen, to: .none))
-        XCTAssertFalse(State.isValidTransition(from: .redSecondScreen, to: .redSecondScreen))
-    }
-
+    
     // MARK: - Flow Tests
     func testSuccessOfRedFlowTransitionFromInitialToFirstScreenState() throws {
         coordinator.start()

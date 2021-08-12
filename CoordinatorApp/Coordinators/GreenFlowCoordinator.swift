@@ -26,24 +26,10 @@ public final class GreenFlowCoordinator: DeepLinkHandling {
 
     // MARK: - Types
 
-    public enum InterfaceState: Equatable, StateTransitioning {
+    public enum InterfaceState: Equatable {
         case greenFirstScreen
         case greenSecondScreen
         case greenThirdScreen(DeepLinkPayload?)
-
-        public static func isValidTransition(from: InterfaceState?, to: InterfaceState?) -> Bool {
-            switch (from, to) {
-            case (.none, .greenFirstScreen),
-                 (.greenFirstScreen, .greenSecondScreen),
-                 (.greenSecondScreen, .greenThirdScreen),
-                 (.greenThirdScreen, .greenSecondScreen),
-                 (.greenThirdScreen, .greenFirstScreen),
-                 (.greenSecondScreen, .greenFirstScreen):
-                return true
-            default:
-                return false
-            }
-        }
 
         public static func == (lhs: InterfaceState, rhs: InterfaceState) -> Bool {
             switch (lhs, rhs) {
@@ -97,12 +83,6 @@ public final class GreenFlowCoordinator: DeepLinkHandling {
     }
 
     private func updateUIBasedOnCurrentState() {
-        guard InterfaceState.isValidTransition(from: previousState, to: state) else {
-            #warning("Should this be removed?")
-            updateCurrentStateBasedOnUI()
-            return
-        }
-
         switch state {
         case .greenFirstScreen:
             if flowNavigationController?.topViewController != nil

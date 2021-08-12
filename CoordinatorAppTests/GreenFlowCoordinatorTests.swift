@@ -26,27 +26,6 @@ class GreenFlowCoordinatorTests: XCTestCase {
         assertBasics()
     }
 
-    // MARK: - Transitions Tests
-    func testInterfaceStateTransitionsValidity() throws {
-        typealias State = GreenFlowCoordinator.InterfaceState
-
-        XCTAssertTrue(State.isValidTransition(from: .none, to: .greenFirstScreen))
-        XCTAssertTrue(State.isValidTransition(from: .greenFirstScreen, to: .greenSecondScreen))
-        XCTAssertTrue(State.isValidTransition(from: .greenSecondScreen, to: .greenThirdScreen(nil)))
-        XCTAssertTrue(State.isValidTransition(from: .greenSecondScreen, to: .greenFirstScreen))
-        XCTAssertTrue(State.isValidTransition(from: .greenThirdScreen(nil), to: .greenSecondScreen))
-        XCTAssertTrue(State.isValidTransition(from: .greenThirdScreen(nil), to: .greenFirstScreen))
-
-        XCTAssertFalse(State.isValidTransition(from: .none, to: .none))
-        XCTAssertFalse(State.isValidTransition(from: .none, to: .greenSecondScreen))
-        XCTAssertFalse(State.isValidTransition(from: .none, to: .greenThirdScreen(nil)))
-        XCTAssertFalse(State.isValidTransition(from: .greenFirstScreen, to: .none))
-        XCTAssertFalse(State.isValidTransition(from: .greenFirstScreen, to: .greenFirstScreen))
-        XCTAssertFalse(State.isValidTransition(from: .greenFirstScreen, to: .greenThirdScreen(nil)))
-        XCTAssertFalse(State.isValidTransition(from: .greenSecondScreen, to: .none))
-        XCTAssertFalse(State.isValidTransition(from: .greenThirdScreen(nil), to: .none))
-    }
-
     // MARK: - Flow Tests
     func testSuccessOfGreenFlowTransitionFromInitialToFirstScreenState() throws {
         coordinator.start()
