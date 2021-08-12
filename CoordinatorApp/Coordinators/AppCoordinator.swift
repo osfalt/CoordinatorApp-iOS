@@ -8,6 +8,7 @@
 import Combine
 import UIKit
 
+#warning("Remove StateTransitioning")
 // MARK: - StateTransitioning protocol
 public protocol StateTransitioning {
     associatedtype State: Equatable
@@ -18,44 +19,31 @@ public protocol StateTransitioning {
 public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLinkHandling {
 
     // MARK: - Public
+
     public enum TabIndex {
         public static let redFlow = 0
         public static let greenFlow = 1
     }
 
-    public enum InterfaceState: Equatable, StateTransitioning {
+    public enum InterfaceState: Equatable {
         case redFlow
         case greenFlow
-
-        public static func isValidTransition(from: InterfaceState?, to: InterfaceState?) -> Bool {
-            switch (from, to) {
-            case (.none, .redFlow),
-                 (.none, .greenFlow),
-                 (.redFlow, .greenFlow),
-                 (.greenFlow, .redFlow),
-                 (.redFlow, .redFlow),
-                 (.greenFlow, .greenFlow):
-                return true
-            default:
-                return false
-            }
-        }
     }
 
-    // MARK: - States
+    // MARK: - State
+
     public private(set) var state: InterfaceState? {
         didSet {
             guard state != oldValue else { return }
-            previousState = oldValue
             print("App didSet state = \(String(describing: state))")
             updateUIBasedOnCurrentState()
         }
     }
-    private var previousState: InterfaceState?
-
+    
     public var animationEnabled: Bool = true
 
     // MARK: - Private
+
     private var animated: Bool {
         animationEnabled && !UIAccessibility.isReduceMotionEnabled
     }
@@ -64,6 +52,7 @@ public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLin
     private weak var rootViewController: UIViewController?
     private weak var tabBarController: UITabBarController?
 
+    #warning("Should child coordinators be public?")
     private var redFlowCoordinator: RedFlowCoordinator?
     private var greenFlowCoordinator: GreenFlowCoordinator?
 
@@ -84,6 +73,7 @@ public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLin
     }
 
     // MARK: - Start Child Coordinators
+
     private func startRedFlow() {
         let redFlowNavigationController = builder.redFlow.makeFlowViewController()
         tabBarController?.addChild(redFlowNavigationController)
@@ -103,29 +93,22 @@ public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLin
     // MARK: - States
 
     private func updateUIBasedOnCurrentState() {
-        guard InterfaceState.isValidTransition(from: previousState, to: state) else {
-            updateCurrentStateBasedOnUI()
+        let selectedIndex: Int
+        switch state {
+        case .redFlow:
+            selectedIndex = TabIndex.redFlow
+
+        case .greenFlow:
+            selectedIndex = TabIndex.greenFlow
+
+        case .none:
             return
         }
 
-        switch state {
-        case .redFlow:
-            guard tabBarController?.selectedIndex != TabIndex.redFlow else {
-                return
-            }
-            tabBarController?.selectedIndex = TabIndex.redFlow
-            updateCurrentSelectedTabIndex()
-
-        case .greenFlow:
-            guard tabBarController?.selectedIndex != TabIndex.greenFlow else {
-                return
-            }
-            tabBarController?.selectedIndex = TabIndex.greenFlow
-            updateCurrentSelectedTabIndex()
-
-        case .none:
-            break
+        if tabBarController?.selectedIndex == selectedIndex {
+            return
         }
+        tabBarController?.selectedIndex = selectedIndex
     }
 
     private func updateCurrentStateBasedOnUI() {
@@ -142,11 +125,8 @@ public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLin
         }
     }
 
-    private func updateCurrentSelectedTabIndex() {
-        currentSelectedTabIndex = tabBarController?.selectedIndex
-    }
-
     // MARK: - Show Screens
+
     private func embedTabBarScreen() {
         guard tabBarController == nil else {
             return
@@ -158,8 +138,6 @@ public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLin
 
         rootViewController?.embed(tabBarController)
         self.tabBarController = tabBarController
-
-        updateCurrentSelectedTabIndex()
     }
 
 }
@@ -169,10 +147,6 @@ public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLin
 extension AppCoordinator {
 
     public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if currentSelectedTabIndex == tabBarController.selectedIndex {
-            return
-        }
-        updateCurrentSelectedTabIndex()
         updateCurrentStateBasedOnUI()
     }
 
