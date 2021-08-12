@@ -43,8 +43,7 @@ public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLin
     }
 
     // MARK: - States
-    #warning("Should state be public or create separate function for deep link?")
-    public var state: InterfaceState? {
+    public private(set) var state: InterfaceState? {
         didSet {
             guard state != oldValue else { return }
             previousState = oldValue
