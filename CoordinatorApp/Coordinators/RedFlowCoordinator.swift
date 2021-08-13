@@ -31,12 +31,10 @@ public final class RedFlowCoordinator: Coordinating, DeepLinkHandling {
     public private(set) var state: InterfaceState? {
         didSet {
             guard state != oldValue else { return }
-            previousState = oldValue
             print("RedFlow - didSet state: \(String(describing: state))")
             updateUIBasedOnCurrentState()
         }
     }
-    private var previousState: InterfaceState?
 
     public var onFinish: (() -> Void)?
     public var animationEnabled: Bool = true

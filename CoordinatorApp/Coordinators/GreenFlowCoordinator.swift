@@ -11,7 +11,7 @@ import UIKit
 // MARK: - DeepLinkPayload
 
 struct GreenFlowDeepLinkPayload: DeepLinkPayload {
-   let dynamicText: String
+    let dynamicText: String
 }
 
 // MARK: - GreenFlowInterfaceStateContaining protocol

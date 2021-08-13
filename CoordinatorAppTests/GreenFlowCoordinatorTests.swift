@@ -48,16 +48,6 @@ class GreenFlowCoordinatorTests: XCTestCase {
         XCTAssertTrue(flowNavigationController.viewControllers[1] is GreenSecondViewController)
     }
 
-    func testFailOfGreenFlowTransitionFromInitialToThirdScreenState() throws {
-        coordinator.start()
-        assertBasics()
-
-        coordinator.state = .greenThirdScreen(nil)
-
-        XCTAssertEqual(flowNavigationController.viewControllers.count, 1)
-        XCTAssertTrue(flowNavigationController.viewControllers[0] is GreenFirstViewController)
-    }
-
     func testSuccessOfGreenFlowTransitionFromSecondToFirstScreenState() throws {
         coordinator.start()
         assertBasics()
@@ -85,16 +75,6 @@ class GreenFlowCoordinatorTests: XCTestCase {
         XCTAssertTrue(flowNavigationController.viewControllers[0] is GreenFirstViewController)
         XCTAssertTrue(flowNavigationController.viewControllers[1] is GreenSecondViewController)
         XCTAssertTrue(flowNavigationController.viewControllers[2] is GreenThirdViewController)
-    }
-
-    func testFailOfGreenFlowTransitionFromFirstToThirdScreenState() throws {
-        coordinator.start()
-        assertBasics()
-
-        coordinator.state = .greenThirdScreen(nil)
-
-        XCTAssertEqual(flowNavigationController.viewControllers.count, 1)
-        XCTAssertTrue(flowNavigationController.viewControllers[0] is GreenFirstViewController)
     }
 
     func testSuccessOfGreenFlowTransitionFromThirdToSecondScreenState() throws {
