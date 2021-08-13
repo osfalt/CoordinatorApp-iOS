@@ -13,60 +13,45 @@ class RedFlowCoordinatorTests: XCTestCase {
 
     private var flowNavigationController: BaseNavigationController!
     private var coordinator: RedFlowCoordinator!
+    private var builder: MockRedFlowBuilder!
 
     override func setUpWithError() throws {
         flowNavigationController = BaseNavigationController()
-        coordinator = RedFlowCoordinator(flowNavigationController: flowNavigationController, builder: RedFlowBuilder())
+        builder = MockRedFlowBuilder()
+
+        coordinator = RedFlowCoordinator(flowNavigationController: flowNavigationController, builder: builder)
         coordinator.animationEnabled = false
     }
 
-    // MARK: - Basic Tests
-    func testStart() throws {
-        coordinator.start()
-        assertBasics()
-    }
-    
     // MARK: - Flow Tests
-    func testSuccessOfRedFlowTransitionFromInitialToFirstScreenState() throws {
+
+    func testStateAfterStart() throws {
         coordinator.start()
-        assertBasics()
-
-        coordinator.state = .redFirstScreen
-        assertBasics()
+        XCTAssertEqual(coordinator.state, .redFirstScreen)
     }
 
-    func testSuccessOfRedFlowTransitionFromFirstToSecondScreenState() throws {
+    func testTransitionFromRedFirstToSecondScreenState() throws {
         coordinator.start()
-        assertBasics()
+        XCTAssertEqual(coordinator.state, .redFirstScreen)
 
-        coordinator.state = .redFirstScreen
-        coordinator.state = .redSecondScreen
-
-        XCTAssertEqual(flowNavigationController.viewControllers.count, 2)
-        XCTAssertTrue(flowNavigationController.viewControllers[0] is RedFirstViewController)
-        XCTAssertTrue(flowNavigationController.viewControllers[1] is RedSecondViewController)
+        let redFirstViewController = try XCTUnwrap(builder.redFirstViewController)
+        redFirstViewController.tapOnNextButton()
+        XCTAssertEqual(coordinator.state, .redSecondScreen)
     }
 
-    func testSuccessOfRedFlowTransitionFromSecondToFirstScreenState() throws {
+    func testTransitionFromRedSecondToDynamicScreenState() throws {
         coordinator.start()
-        assertBasics()
+        XCTAssertEqual(coordinator.state, .redFirstScreen)
 
-        coordinator.state = .redFirstScreen
-        coordinator.state = .redSecondScreen
+        let redFirstViewController = try XCTUnwrap(builder.redFirstViewController)
+        redFirstViewController.tapOnNextButton()
+        XCTAssertEqual(coordinator.state, .redSecondScreen)
 
-        XCTAssertEqual(flowNavigationController.viewControllers.count, 2)
-        XCTAssertTrue(flowNavigationController.viewControllers[0] is RedFirstViewController)
-        XCTAssertTrue(flowNavigationController.viewControllers[1] is RedSecondViewController)
-
-        coordinator.state = .redFirstScreen
-
-        XCTAssertEqual(flowNavigationController.viewControllers.count, 1)
-        XCTAssertTrue(flowNavigationController.viewControllers[0] is RedFirstViewController)
+        let redSecondViewController = try XCTUnwrap(builder.redSecondViewController)
+        redSecondViewController.tapOnNextButton()
+        XCTAssertEqual(coordinator.state, .redDynamicInfoScreen)
     }
 
-    // MARK: - Private methods
-    private func assertBasics() {
-        XCTAssertTrue(flowNavigationController.viewControllers[0] is RedFirstViewController)
-    }
+    #warning("TODO: Tests for pop VCs")
 
 }

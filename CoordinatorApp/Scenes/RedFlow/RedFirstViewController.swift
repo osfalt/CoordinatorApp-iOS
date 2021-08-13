@@ -8,18 +8,18 @@
 import SwiftUI
 import UIKit
 
-protocol RedFirstViewModelProtocol: AnyObject {
+public protocol RedFirstViewModelProtocol: AnyObject {
     var title: String { get }
     var description: String { get }
     var didTapNextButton: () -> Void { get }
 }
 
 public final class RedFirstViewModel: RedFirstViewModelProtocol {
-    let title: String
-    let description: String
-    let didTapNextButton: () -> Void
+    public let title: String
+    public let description: String
+    public let didTapNextButton: () -> Void
 
-    init(didTapNextButton: @escaping () -> Void) {
+    public init(didTapNextButton: @escaping () -> Void) {
         self.title = "First Red Screen"
         self.description = "This is the FIRST screen with RED background colour"
         self.didTapNextButton = didTapNextButton

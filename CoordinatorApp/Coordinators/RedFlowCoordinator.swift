@@ -37,7 +37,7 @@ public final class RedFlowCoordinator: DeepLinkHandling {
 
     // MARK: - Properties
 
-    public var state: InterfaceState? {
+    public private(set) var state: InterfaceState? {
         didSet {
             guard state != oldValue else { return }
             previousState = oldValue

@@ -13,6 +13,7 @@
 		3150391626C1E7F5009ECBEF /* DynamicItemsFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3150391526C1E7F5009ECBEF /* DynamicItemsFetcher.swift */; };
 		315FC87C26C47DC7006C301E /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315FC87B26C47DC6006C301E /* ListCell.swift */; };
 		315FC87F26C48E91006C301E /* MockFlowsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315FC87E26C48E91006C301E /* MockFlowsBuilder.swift */; };
+		315FC88126C67E08006C301E /* MockRedFlowBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315FC88026C67E08006C301E /* MockRedFlowBuilder.swift */; };
 		3171B7B126B9D1DF0094D31B /* GreenSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171B7B026B9D1DF0094D31B /* GreenSecondViewController.swift */; };
 		3171B7B326B9D9330094D31B /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171B7B226B9D9330094D31B /* AppCoordinator.swift */; };
 		3171B7B626B9DA210094D31B /* AppCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171B7B526B9DA210094D31B /* AppCoordinatorTests.swift */; };
@@ -65,6 +66,7 @@
 		3150391526C1E7F5009ECBEF /* DynamicItemsFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicItemsFetcher.swift; sourceTree = "<group>"; };
 		315FC87B26C47DC6006C301E /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		315FC87E26C48E91006C301E /* MockFlowsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFlowsBuilder.swift; sourceTree = "<group>"; };
+		315FC88026C67E08006C301E /* MockRedFlowBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRedFlowBuilder.swift; sourceTree = "<group>"; };
 		3171B7B026B9D1DF0094D31B /* GreenSecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenSecondViewController.swift; sourceTree = "<group>"; };
 		3171B7B226B9D9330094D31B /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		3171B7B526B9DA210094D31B /* AppCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorTests.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				315FC87E26C48E91006C301E /* MockFlowsBuilder.swift */,
+				315FC88026C67E08006C301E /* MockRedFlowBuilder.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3171B7B626B9DA210094D31B /* AppCoordinatorTests.swift in Sources */,
+				315FC88126C67E08006C301E /* MockRedFlowBuilder.swift in Sources */,
 				315FC87F26C48E91006C301E /* MockFlowsBuilder.swift in Sources */,
 				31B5079226BFCB5700C8F3B6 /* RedFlowCoordinatorTests.swift in Sources */,
 				31B5079426BFCE3700C8F3B6 /* GreenFlowCoordinatorTests.swift in Sources */,
