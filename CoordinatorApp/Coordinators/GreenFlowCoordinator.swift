@@ -22,7 +22,7 @@ protocol GreenFlowInterfaceStateContaining: AnyObject {
 
 // MARK: - GreenFlowCoordinator
 
-public final class GreenFlowCoordinator: DeepLinkHandling {
+public final class GreenFlowCoordinator: Coordinating, DeepLinkHandling {
 
     // MARK: - Types
 
@@ -55,6 +55,7 @@ public final class GreenFlowCoordinator: DeepLinkHandling {
     }
     private var previousState: InterfaceState?
 
+    public var onFinish: (() -> Void)?
     public var animationEnabled: Bool = true
     private var animated: Bool {
         animationEnabled && !UIAccessibility.isReduceMotionEnabled

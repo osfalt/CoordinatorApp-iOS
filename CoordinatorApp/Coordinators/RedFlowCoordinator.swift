@@ -8,15 +8,6 @@
 import Combine
 import UIKit
 
-#warning("TODO: Implement Coordinating protocol")
-public protocol Coordinating: AnyObject {
-    associatedtype InterfaceState
-    var state: InterfaceState? { get }
-    var animationEnabled: Bool { get }
-    func start()
-    func activate() // might be called by parent coordinator to say that child flow is active now (e.g. when user selects a tab in TabBar)
-}
-
 // MARK: - RedFlowInterfaceStateContaining protocol
 
 protocol RedFlowInterfaceStateContaining: AnyObject {
@@ -25,7 +16,7 @@ protocol RedFlowInterfaceStateContaining: AnyObject {
 
 // MARK: - RedFlowCoordinator
 
-public final class RedFlowCoordinator: DeepLinkHandling {
+public final class RedFlowCoordinator: Coordinating, DeepLinkHandling {
 
     // MARK: - Types
 
@@ -47,6 +38,7 @@ public final class RedFlowCoordinator: DeepLinkHandling {
     }
     private var previousState: InterfaceState?
 
+    public var onFinish: (() -> Void)?
     public var animationEnabled: Bool = true
     private var animated: Bool {
         animationEnabled && !UIAccessibility.isReduceMotionEnabled

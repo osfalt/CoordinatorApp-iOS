@@ -8,7 +8,7 @@
 import Combine
 import UIKit
 
-public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLinkHandling {
+public final class AppCoordinator: NSObject, Coordinating, DeepLinkHandling, UITabBarControllerDelegate {
 
     // MARK: - Public
 
@@ -31,7 +31,8 @@ public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLin
             updateUIBasedOnCurrentState()
         }
     }
-    
+
+    public var onFinish: (() -> Void)?
     public var animationEnabled: Bool = true
 
     // MARK: - Private
@@ -70,7 +71,10 @@ public final class AppCoordinator: NSObject, UITabBarControllerDelegate, DeepLin
         let redFlowNavigationController = builder.redFlow.makeFlowViewController()
         tabBarController?.addChild(redFlowNavigationController)
 
-        redFlowCoordinator = RedFlowCoordinator(flowNavigationController: redFlowNavigationController, builder: builder.redFlow)
+        redFlowCoordinator = RedFlowCoordinator(
+            flowNavigationController: redFlowNavigationController,
+            builder: builder.redFlow
+        )
         redFlowCoordinator?.start()
     }
 
