@@ -22,7 +22,7 @@ protocol GreenFlowInterfaceStateContaining: AnyObject {
 
 // MARK: - GreenFlowCoordinator
 
-public final class GreenFlowCoordinator: Coordinating, DeepLinkHandling {
+public final class GreenFlowCoordinator: Coordinating {
 
     // MARK: - Types
 

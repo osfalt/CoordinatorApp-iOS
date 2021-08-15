@@ -8,7 +8,7 @@
 import Combine
 import UIKit
 
-public final class AppCoordinator: NSObject, Coordinating, DeepLinkHandling, UITabBarControllerDelegate {
+public final class AppCoordinator: NSObject, Coordinating, UITabBarControllerDelegate {
 
     // MARK: - Public
 

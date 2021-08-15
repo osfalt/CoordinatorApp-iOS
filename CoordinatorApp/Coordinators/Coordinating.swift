@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol Coordinating: AnyObject {
+public protocol Coordinating: DeepLinkHandling {
 
     var onFinish: (() -> Void)? { get set }
     var animationEnabled: Bool { get }

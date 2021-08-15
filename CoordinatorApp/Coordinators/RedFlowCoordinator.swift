@@ -16,7 +16,7 @@ protocol RedFlowInterfaceStateContaining: AnyObject {
 
 // MARK: - RedFlowCoordinator
 
-public final class RedFlowCoordinator: Coordinating, DeepLinkHandling {
+public final class RedFlowCoordinator: Coordinating {
 
     // MARK: - Types
 
