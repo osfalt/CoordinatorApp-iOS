@@ -11,15 +11,12 @@ import XCTest
 
 class RedFlowCoordinatorTests: XCTestCase {
 
-    private var flowNavigationController: BaseNavigationController!
+    private var factory: RedFlowModuleFactory!
     private var coordinator: RedFlowCoordinator!
-    private var builder: MockRedFlowBuilder!
 
     override func setUpWithError() throws {
-        flowNavigationController = BaseNavigationController()
-        builder = MockRedFlowBuilder()
-
-        coordinator = RedFlowCoordinator(flowNavigationController: flowNavigationController, builder: builder)
+        factory = RedFlowModuleFactory()
+        coordinator = RedFlowCoordinator(flowNavigationController: factory.redFlowNavigationVC, moduleFactory: factory)
         coordinator.animationEnabled = false
     }
 
@@ -34,7 +31,7 @@ class RedFlowCoordinatorTests: XCTestCase {
         coordinator.start()
         XCTAssertEqual(coordinator.state, .redFirstScreen)
 
-        let redFirstViewController = try XCTUnwrap(builder.redFirstViewController)
+        let redFirstViewController = try XCTUnwrap(factory.redFirstViewController)
         redFirstViewController.tapOnNextButton()
         XCTAssertEqual(coordinator.state, .redSecondScreen)
     }
@@ -43,11 +40,11 @@ class RedFlowCoordinatorTests: XCTestCase {
         coordinator.start()
         XCTAssertEqual(coordinator.state, .redFirstScreen)
 
-        let redFirstViewController = try XCTUnwrap(builder.redFirstViewController)
+        let redFirstViewController = try XCTUnwrap(factory.redFirstViewController)
         redFirstViewController.tapOnNextButton()
         XCTAssertEqual(coordinator.state, .redSecondScreen)
 
-        let redSecondViewController = try XCTUnwrap(builder.redSecondViewController)
+        let redSecondViewController = try XCTUnwrap(factory.redSecondViewController)
         redSecondViewController.tapOnNextButton()
         XCTAssertEqual(coordinator.state, .redDynamicInfoScreen)
     }

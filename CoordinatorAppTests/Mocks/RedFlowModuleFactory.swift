@@ -1,5 +1,5 @@
 //
-//  MockRedFlowBuilder.swift
+//  RedFlowModuleFactory.swift
 //  CoordinatorAppTests
 //
 //  Created by Dre on 13/08/2021.
@@ -9,14 +9,17 @@ import Combine
 import UIKit
 import CoordinatorApp
 
-final class MockRedFlowBuilder: RedFlowModuleFactoryProtocol {
+// MARK: - Module Factory
+
+final class RedFlowModuleFactory: RedFlowModuleFactoryProtocol {
     private(set) lazy var redFlowNavigationVC = BaseNavigationController()
     private(set) var redFirstViewController: MockRedFirstController?
     private(set) var redSecondViewController: MockRedSecondController?
     private(set) var redDynamicController: MockRedDynamicController?
 
-    func makeFlowViewController() -> BaseNavigationController {
-        return redFlowNavigationVC
+    func makeFlow() -> RedFlow {
+        let coordinator = RedFlowCoordinator(flowNavigationController: redFlowNavigationVC, moduleFactory: self)
+        return (redFlowNavigationVC, coordinator)
     }
 
     func makeRedFirstModule(didTapNextButton: @escaping () -> Void) -> RedFirstModule {
@@ -46,6 +49,8 @@ final class MockRedFlowBuilder: RedFlowModuleFactoryProtocol {
         return (redDynamicController, redDynamicController.viewModel)
     }
 }
+
+// MARK: - View Controllers
 
 final class MockRedFirstController: UIViewController {
     private(set) lazy var viewModel = RedFirstViewModel(didTapNextButton: didTapNextButton)
