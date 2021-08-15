@@ -43,11 +43,7 @@ public final class MainCoordinator: NSObject, Coordinating, UITabBarControllerDe
 
     private let moduleFactory: MainModuleFactoryProtocol
     private weak var tabBarController: UITabBarController?
-
-    #warning("Should child coordinators be public?")
-    private var redFlowCoordinator: Coordinating?
-    private var greenFlowCoordinator: Coordinating?
-
+    private var childCoordinators: [Coordinating] = []
     private var cancellables: Set<AnyCancellable> = []
     private var currentSelectedTabIndex: Int?
 
@@ -73,14 +69,14 @@ public final class MainCoordinator: NSObject, Coordinating, UITabBarControllerDe
         let (redFlowController, redFlowCoordinator) = moduleFactory.redFlow.makeFlow()
         tabBarController?.addChild(redFlowController)
         redFlowCoordinator.start()
-        self.redFlowCoordinator = redFlowCoordinator
+        childCoordinators.append(redFlowCoordinator)
     }
 
     private func startGreenFlow() {
         let (greenFlowNavigationController, greenFlowCoordinator) = moduleFactory.greenFlow.makeFlow()
         tabBarController?.addChild(greenFlowNavigationController)
         greenFlowCoordinator.start()
-        self.greenFlowCoordinator = greenFlowCoordinator
+        childCoordinators.append(greenFlowCoordinator)
     }
 
     // MARK: - States
@@ -148,8 +144,12 @@ extension MainCoordinator {
             state = .greenFlow
         }
 
-        return redFlowCoordinator?.handleDeepLink(deepLink) == true
-            || greenFlowCoordinator?.handleDeepLink(deepLink) == true
+        let deepLinkWasHandled = childCoordinators
+            .lazy
+            .map { $0.handleDeepLink(deepLink) }
+            .first(where: { handled in return handled })
+
+        return deepLinkWasHandled == true
     }
 
 }
