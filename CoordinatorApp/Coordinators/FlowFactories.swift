@@ -7,21 +7,21 @@
 
 import UIKit
 
-// MARK: - Module Factory
+// MARK: - Main Flow Factory
 
-public protocol MainModuleFactoryProtocol {
+public protocol MainFlowFactoryProtocol {
     typealias MainFlow = (flowController: UITabBarController, coordinator: Coordinating)
-    var redFlow: RedFlowModuleFactoryProtocol { get }
+    var redFlow: RedFlowFactoryProtocol { get }
     var greenFlow: GreenFlowModuleFactoryProtocol { get }
     func makeFlow() -> MainFlow
 }
 
-final class MainModuleFactory: MainModuleFactoryProtocol {
-    let redFlow: RedFlowModuleFactoryProtocol
+final class MainModuleFactory: MainFlowFactoryProtocol {
+    let redFlow: RedFlowFactoryProtocol
     let greenFlow: GreenFlowModuleFactoryProtocol
 
     init(
-        redFlow: RedFlowModuleFactoryProtocol = RedFlowModuleFactory(),
+        redFlow: RedFlowFactoryProtocol = RedFlowFactory(),
         greenFlow: GreenFlowModuleFactoryProtocol = GreenFlowModuleFactory()
     ) {
         self.redFlow = redFlow
@@ -31,14 +31,14 @@ final class MainModuleFactory: MainModuleFactoryProtocol {
     func makeFlow() -> MainFlow {
         let tabBarController = UITabBarController()
         tabBarController.view.backgroundColor = .lightGray
-        let coordinator = MainCoordinator(flowViewController: tabBarController, moduleFactory: self)
+        let coordinator = MainCoordinator(flowViewController: tabBarController, flowFactory: self)
         return (tabBarController, coordinator)
     }
 }
 
-// MARK: - Red Flow Module Factory
+// MARK: - Red Flow Factory
 
-public protocol RedFlowModuleFactoryProtocol {
+public protocol RedFlowFactoryProtocol {
     typealias RedFlow = (flowController: BaseNavigationController, coordinator: Coordinating)
     typealias RedFirstModule = (vc: UIViewController, vm: RedFirstViewModel)
     typealias RedSecondModule = (vc: UIViewController, vm: RedSecondViewModel)
@@ -50,12 +50,12 @@ public protocol RedFlowModuleFactoryProtocol {
     func makeRedDynamicModule() -> RedDynamicModule
 }
 
-final class RedFlowModuleFactory: RedFlowModuleFactoryProtocol {
+final class RedFlowFactory: RedFlowFactoryProtocol {
     func makeFlow() -> RedFlow {
         let redFlowBarItem = UITabBarItem(title: "Red Flow", image: .init(systemName: "person.crop.circle"), selectedImage: nil)
         let redFlowNavigationVC = BaseNavigationController()
         redFlowNavigationVC.tabBarItem = redFlowBarItem
-        let coordinator = RedFlowCoordinator(flowNavigationController: redFlowNavigationVC, moduleFactory: self)
+        let coordinator = RedFlowCoordinator(flowNavigationController: redFlowNavigationVC, flowFactory: self)
         return (redFlowNavigationVC, coordinator)
     }
 
@@ -78,7 +78,7 @@ final class RedFlowModuleFactory: RedFlowModuleFactoryProtocol {
     }
 }
 
-// MARK: - Green Flow Module Factory
+// MARK: - Green Flow Factory
 
 public protocol GreenFlowModuleFactoryProtocol {
     typealias GreenFlow = (flowController: BaseNavigationController, coordinator: Coordinating)

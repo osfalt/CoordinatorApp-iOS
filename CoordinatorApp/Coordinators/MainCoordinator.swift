@@ -41,7 +41,7 @@ public final class MainCoordinator: NSObject, Coordinating, UITabBarControllerDe
         animationEnabled && !UIAccessibility.isReduceMotionEnabled
     }
 
-    private let moduleFactory: MainModuleFactoryProtocol
+    private let flowFactory: MainFlowFactoryProtocol
     private weak var tabBarController: UITabBarController?
     private var childCoordinators: [Coordinating] = []
     private var cancellables: Set<AnyCancellable> = []
@@ -50,10 +50,10 @@ public final class MainCoordinator: NSObject, Coordinating, UITabBarControllerDe
     // MARK: - Public
     public init(
         flowViewController: UITabBarController,
-        moduleFactory: MainModuleFactoryProtocol
+        flowFactory: MainFlowFactoryProtocol
     ) {
         self.tabBarController = flowViewController
-        self.moduleFactory = moduleFactory
+        self.flowFactory = flowFactory
     }
 
     public func start() {
@@ -66,14 +66,14 @@ public final class MainCoordinator: NSObject, Coordinating, UITabBarControllerDe
     // MARK: - Start Child Coordinators
 
     private func startRedFlow() {
-        let (redFlowController, redFlowCoordinator) = moduleFactory.redFlow.makeFlow()
+        let (redFlowController, redFlowCoordinator) = flowFactory.redFlow.makeFlow()
         tabBarController?.addChild(redFlowController)
         redFlowCoordinator.start()
         childCoordinators.append(redFlowCoordinator)
     }
 
     private func startGreenFlow() {
-        let (greenFlowNavigationController, greenFlowCoordinator) = moduleFactory.greenFlow.makeFlow()
+        let (greenFlowNavigationController, greenFlowCoordinator) = flowFactory.greenFlow.makeFlow()
         tabBarController?.addChild(greenFlowNavigationController)
         greenFlowCoordinator.start()
         childCoordinators.append(greenFlowCoordinator)

@@ -1,5 +1,5 @@
 //
-//  RedFlowModuleFactory.swift
+//  RedFlowFactory.swift
 //  CoordinatorAppTests
 //
 //  Created by Dre on 13/08/2021.
@@ -11,14 +11,14 @@ import CoordinatorApp
 
 // MARK: - Module Factory
 
-final class RedFlowModuleFactory: RedFlowModuleFactoryProtocol {
+final class RedFlowFactory: RedFlowFactoryProtocol {
     private(set) lazy var redFlowNavigationVC = BaseNavigationController()
     private(set) var redFirstViewController: MockRedFirstController?
     private(set) var redSecondViewController: MockRedSecondController?
     private(set) var redDynamicController: MockRedDynamicController?
 
     func makeFlow() -> RedFlow {
-        let coordinator = RedFlowCoordinator(flowNavigationController: redFlowNavigationVC, moduleFactory: self)
+        let coordinator = RedFlowCoordinator(flowNavigationController: redFlowNavigationVC, flowFactory: self)
         return (redFlowNavigationVC, coordinator)
     }
 

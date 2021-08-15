@@ -42,7 +42,7 @@ public final class RedFlowCoordinator: Coordinating {
         animationEnabled && !UIAccessibility.isReduceMotionEnabled
     }
 
-    private let moduleFactory: RedFlowModuleFactoryProtocol
+    private let flowFactory: RedFlowFactoryProtocol
     private weak var flowNavigationController: BaseNavigationController?
     #warning("Use array of weak references")
     private weak var firstViewController: UIViewController?
@@ -53,9 +53,9 @@ public final class RedFlowCoordinator: Coordinating {
 
     // MARK: - Init
 
-    public init(flowNavigationController: BaseNavigationController, moduleFactory: RedFlowModuleFactoryProtocol) {
+    public init(flowNavigationController: BaseNavigationController, flowFactory: RedFlowFactoryProtocol) {
         self.flowNavigationController = flowNavigationController
-        self.moduleFactory = moduleFactory
+        self.flowFactory = flowFactory
     }
 
     // MARK: - Methods
@@ -102,7 +102,7 @@ public final class RedFlowCoordinator: Coordinating {
             return
         }
 
-        let redFirstVC = moduleFactory.makeRedFirstModule(didTapNextButton: { [weak self] in
+        let redFirstVC = flowFactory.makeRedFirstModule(didTapNextButton: { [weak self] in
             self?.state = .redSecondScreen
         }).vc
         flowNavigationController?.pushViewController(redFirstVC, animated: false)
@@ -115,7 +115,7 @@ public final class RedFlowCoordinator: Coordinating {
             return
         }
 
-        let redSecondVC = moduleFactory.makeRedSecondModule(didTapNextButton: { [weak self] in
+        let redSecondVC = flowFactory.makeRedSecondModule(didTapNextButton: { [weak self] in
             self?.state = .redDynamicInfoScreen
         }).vc
         flowNavigationController?.pushViewController(redSecondVC, animated: animated)
@@ -134,7 +134,7 @@ public final class RedFlowCoordinator: Coordinating {
             return
         }
 
-        let dynamicInfoVC = moduleFactory.makeRedDynamicModule().vc
+        let dynamicInfoVC = flowFactory.makeRedDynamicModule().vc
         flowNavigationController?.pushViewController(dynamicInfoVC, animated: animated)
         flowNavigationController?.didPopViewControllerPublisher
             .sink { [weak self, weak dynamicInfoVC] popped, shown in

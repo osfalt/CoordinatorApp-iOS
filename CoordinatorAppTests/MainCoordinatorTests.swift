@@ -16,7 +16,7 @@ class MainCoordinatorTests: XCTestCase {
 
     override func setUpWithError() throws {
         tabBarController = MockTabBarController()
-        coordinator = MainCoordinator(flowViewController: tabBarController, moduleFactory: DummyMainModuleFactory())
+        coordinator = MainCoordinator(flowViewController: tabBarController, flowFactory: DummyMainFlowFactory())
         coordinator.animationEnabled = false
     }
 
@@ -43,13 +43,13 @@ class MainCoordinatorTests: XCTestCase {
 
 // MARK: - Dummy Object
 
-private final class DummyMainModuleFactory: MainModuleFactoryProtocol {
-    let redFlow: RedFlowModuleFactoryProtocol = RedFlowModuleFactory()
+private final class DummyMainFlowFactory: MainFlowFactoryProtocol {
+    let redFlow: RedFlowFactoryProtocol = RedFlowFactory()
     let greenFlow: GreenFlowModuleFactoryProtocol = GreenFlowModuleFactory()
 
     func makeFlow() -> MainFlow {
         let tabBarController = UITabBarController()
-        let coordinator = MainCoordinator(flowViewController: tabBarController, moduleFactory: self)
+        let coordinator = MainCoordinator(flowViewController: tabBarController, flowFactory: self)
         return (tabBarController, coordinator)
     }
 }

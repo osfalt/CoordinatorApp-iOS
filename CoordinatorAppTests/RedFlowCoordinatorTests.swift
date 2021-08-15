@@ -11,12 +11,12 @@ import XCTest
 
 class RedFlowCoordinatorTests: XCTestCase {
 
-    private var factory: RedFlowModuleFactory!
+    private var factory: RedFlowFactory!
     private var coordinator: RedFlowCoordinator!
 
     override func setUpWithError() throws {
-        factory = RedFlowModuleFactory()
-        coordinator = RedFlowCoordinator(flowNavigationController: factory.redFlowNavigationVC, moduleFactory: factory)
+        factory = RedFlowFactory()
+        coordinator = RedFlowCoordinator(flowNavigationController: factory.redFlowNavigationVC, flowFactory: factory)
         coordinator.animationEnabled = false
     }
 
