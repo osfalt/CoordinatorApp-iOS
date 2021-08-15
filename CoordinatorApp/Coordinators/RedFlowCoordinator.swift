@@ -42,7 +42,7 @@ public final class RedFlowCoordinator: Coordinating {
         animationEnabled && !UIAccessibility.isReduceMotionEnabled
     }
 
-    private let builder: RedFlowBuilderProtocol
+    private let builder: RedFlowModuleFactoryProtocol
     private weak var flowNavigationController: BaseNavigationController?
     #warning("Use array of weak references")
     private weak var firstViewController: UIViewController?
@@ -53,7 +53,7 @@ public final class RedFlowCoordinator: Coordinating {
 
     // MARK: - Init
 
-    public init(flowNavigationController: BaseNavigationController, builder: RedFlowBuilderProtocol) {
+    public init(flowNavigationController: BaseNavigationController, builder: RedFlowModuleFactoryProtocol) {
         self.flowNavigationController = flowNavigationController
         self.builder = builder
     }

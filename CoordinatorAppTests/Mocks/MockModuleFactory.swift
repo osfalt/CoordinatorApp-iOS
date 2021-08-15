@@ -1,5 +1,5 @@
 //
-//  MockFlowsBuilder.swift
+//  MockModuleFactory.swift
 //  CoordinatorAppTests
 //
 //  Created by Dre on 12/08/2021.
@@ -8,15 +8,15 @@
 import UIKit
 import CoordinatorApp
 
-final class MockFlowsBuilder: FlowsBuilderProtocol {
-    let redFlow: RedFlowBuilderProtocol
-    let greenFlow: GreenFlowBuilderProtocol
+final class MockModuleFactory: MainModuleFactoryProtocol {
+    let redFlow: RedFlowModuleFactoryProtocol
+    let greenFlow: GreenFlowModuleFactoryProtocol
 
     private(set) lazy var tabBarController = MockTabBarController()
 
     init(
-        redFlow: RedFlowBuilderProtocol,
-        greenFlow: GreenFlowBuilderProtocol
+        redFlow: RedFlowModuleFactoryProtocol,
+        greenFlow: GreenFlowModuleFactoryProtocol
     ) {
         self.redFlow = redFlow
         self.greenFlow = greenFlow

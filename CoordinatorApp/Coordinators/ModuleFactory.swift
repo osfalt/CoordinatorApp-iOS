@@ -1,5 +1,5 @@
 //
-//  FlowBuilders.swift
+//  ModuleFactory.swift
 //  CoordinatorApp
 //
 //  Created by Dre on 03/08/2021.
@@ -7,21 +7,21 @@
 
 import UIKit
 
-// MARK: - Flows Builder
+// MARK: - Module Factory
 
-public protocol FlowsBuilderProtocol {
-    var redFlow: RedFlowBuilderProtocol { get }
-    var greenFlow: GreenFlowBuilderProtocol { get }
+public protocol MainModuleFactoryProtocol {
+    var redFlow: RedFlowModuleFactoryProtocol { get }
+    var greenFlow: GreenFlowModuleFactoryProtocol { get }
     func makeFlowViewController() -> UITabBarController
 }
 
-final class FlowsBuilder: FlowsBuilderProtocol {
-    let redFlow: RedFlowBuilderProtocol
-    let greenFlow: GreenFlowBuilderProtocol
+final class MainModuleFactory: MainModuleFactoryProtocol {
+    let redFlow: RedFlowModuleFactoryProtocol
+    let greenFlow: GreenFlowModuleFactoryProtocol
 
     init(
-        redFlow: RedFlowBuilderProtocol = RedFlowBuilder(),
-        greenFlow: GreenFlowBuilderProtocol = GreenFlowBuilder()
+        redFlow: RedFlowModuleFactoryProtocol = RedFlowModuleFactory(),
+        greenFlow: GreenFlowModuleFactoryProtocol = GreenFlowModuleFactory()
     ) {
         self.redFlow = redFlow
         self.greenFlow = greenFlow
@@ -34,9 +34,9 @@ final class FlowsBuilder: FlowsBuilderProtocol {
     }
 }
 
-// MARK: - Red Flow Module Builder
+// MARK: - Red Flow Module Factory
 
-public protocol RedFlowBuilderProtocol {
+public protocol RedFlowModuleFactoryProtocol {
     typealias RedFirstModule = (vc: UIViewController, vm: RedFirstViewModel)
     typealias RedSecondModule = (vc: UIViewController, vm: RedSecondViewModel)
     typealias RedDynamicModule = (vc: UIViewController, vm: RedDynamicInfoViewModel)
@@ -47,7 +47,7 @@ public protocol RedFlowBuilderProtocol {
     func makeRedDynamicModule() -> RedDynamicModule
 }
 
-final class RedFlowBuilder: RedFlowBuilderProtocol {
+final class RedFlowModuleFactory: RedFlowModuleFactoryProtocol {
     func makeFlowViewController() -> BaseNavigationController {
         let redFlowBarItem = UITabBarItem(title: "Red Flow", image: .init(systemName: "person.crop.circle"), selectedImage: nil)
         let redFlowNavigationVC = BaseNavigationController()
@@ -74,9 +74,9 @@ final class RedFlowBuilder: RedFlowBuilderProtocol {
     }
 }
 
-// MARK: - Green Flow Module Builder
+// MARK: - Green Flow Module Factory
 
-public protocol GreenFlowBuilderProtocol {
+public protocol GreenFlowModuleFactoryProtocol {
     typealias GreenFirstModule = (vc: UIViewController, vm: GreenFirstViewModel)
     typealias GreenSecondModule = (vc: UIViewController, vm: GreenSecondViewModel)
     typealias GreenThirdModule = (vc: UIViewController, vm: GreenThirdViewModel)
@@ -87,7 +87,7 @@ public protocol GreenFlowBuilderProtocol {
     func makeGreenThirdModule(dynamicText: String?, didTapNextButton: @escaping () -> Void) -> GreenThirdModule
 }
 
-final class GreenFlowBuilder: GreenFlowBuilderProtocol {
+final class GreenFlowModuleFactory: GreenFlowModuleFactoryProtocol {
     func makeFlowViewController() -> BaseNavigationController {
         let greenFlowBarItem = UITabBarItem(title: "Green Flow", image: .init(systemName: "person.2.circle"), selectedImage: nil)
         let greenFlowNavigationVC = BaseNavigationController()

@@ -9,7 +9,7 @@ import Combine
 import UIKit
 import CoordinatorApp
 
-final class MockRedFlowBuilder: RedFlowBuilderProtocol {
+final class MockRedFlowBuilder: RedFlowModuleFactoryProtocol {
     private(set) lazy var redFlowNavigationVC = BaseNavigationController()
     private(set) var redFirstViewController: MockRedFirstController?
     private(set) var redSecondViewController: MockRedSecondController?

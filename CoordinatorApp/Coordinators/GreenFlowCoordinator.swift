@@ -61,7 +61,7 @@ public final class GreenFlowCoordinator: Coordinating {
         animationEnabled && !UIAccessibility.isReduceMotionEnabled
     }
 
-    private let builder: GreenFlowBuilderProtocol
+    private let builder: GreenFlowModuleFactoryProtocol
     private weak var flowNavigationController: BaseNavigationController?
     #warning("Use array of weak references")
     private weak var firstViewController: UIViewController?
@@ -72,7 +72,7 @@ public final class GreenFlowCoordinator: Coordinating {
 
     // MARK: - Init
 
-    public init(flowNavigationController: BaseNavigationController, builder: GreenFlowBuilderProtocol) {
+    public init(flowNavigationController: BaseNavigationController, builder: GreenFlowModuleFactoryProtocol) {
         self.flowNavigationController = flowNavigationController
         self.builder = builder
     }
