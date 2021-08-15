@@ -8,7 +8,7 @@
 import UIKit
 import CoordinatorApp
 
-final class MockModuleFactory: MainModuleFactoryProtocol {
+final class MockMainModuleFactory: MainModuleFactoryProtocol {
     let redFlow: RedFlowModuleFactoryProtocol
     let greenFlow: GreenFlowModuleFactoryProtocol
 
@@ -22,8 +22,9 @@ final class MockModuleFactory: MainModuleFactoryProtocol {
         self.greenFlow = greenFlow
     }
 
-    func makeFlowViewController() -> UITabBarController {
-        return tabBarController
+    func makeFlow() -> MainFlow {
+        let coordinator = MainCoordinator(flowViewController: tabBarController, moduleFactory: self)
+        return (tabBarController, coordinator)
     }
 }
 

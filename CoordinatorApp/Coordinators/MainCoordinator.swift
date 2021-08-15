@@ -121,10 +121,6 @@ public final class MainCoordinator: NSObject, Coordinating, UITabBarControllerDe
     // MARK: - Show Screens
 
     private func configureTabBarController() {
-        guard tabBarController == nil else {
-            return
-        }
-
         tabBarController?.delegate = self
         tabBarController?.selectedIndex = TabIndex.redFlow
     }
