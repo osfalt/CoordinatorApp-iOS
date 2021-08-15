@@ -29,14 +29,14 @@ final class MockModuleFactory: MainModuleFactoryProtocol {
 
 final class MockTabBarController: UITabBarController {
     func selectRedFlowTab() {
-        selectedIndex = AppCoordinator.TabIndex.redFlow
+        selectedIndex = MainCoordinator.TabIndex.redFlow
         if let selectedViewController = selectedViewController {
             delegate?.tabBarController?(self, didSelect: selectedViewController)
         }
     }
 
     func selectGreenFlowTab() {
-        selectedIndex = AppCoordinator.TabIndex.greenFlow
+        selectedIndex = MainCoordinator.TabIndex.greenFlow
         if let selectedViewController = selectedViewController {
             delegate?.tabBarController?(self, didSelect: selectedViewController)
         }

@@ -11,7 +11,7 @@ import SwiftUI
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    private var appCoordinator: AppCoordinator?
+    private var appCoordinator: Coordinating?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -42,9 +42,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         window.makeKeyAndVisible()
 
-        let appCoordinator = AppCoordinator(rootViewController: rootVC, builder: FlowsBuilder())
-        appCoordinator.start()
-        self.appCoordinator = appCoordinator
+        let mainModuleFactory = MainModuleFactory()
+        let (mainFlowController, mainCoordinator) = mainModuleFactory.makeFlow()
+        rootVC.embed(mainFlowController)
+        mainCoordinator.start()
+        self.appCoordinator = mainCoordinator
 
         // HANDLE URL
         if let urlContext = connectionOptions.urlContexts.first {

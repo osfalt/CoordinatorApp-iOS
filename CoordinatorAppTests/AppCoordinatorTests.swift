@@ -12,14 +12,14 @@ import XCTest
 class AppCoordinatorTests: XCTestCase {
 
     private var rootViewController: UIViewController!
-    private var coordinator: AppCoordinator!
+    private var coordinator: MainCoordinator!
     private var builder: MockModuleFactory!
 
     override func setUpWithError() throws {
         rootViewController = UIViewController()
         builder = MockModuleFactory(redFlow: RedFlowModuleFactory(), greenFlow: GreenFlowModuleFactory())
 
-        coordinator = AppCoordinator(rootViewController: rootViewController, builder: builder)
+        coordinator = MainCoordinator(rootViewController: rootViewController, builder: builder)
         coordinator.animationEnabled = false
     }
 

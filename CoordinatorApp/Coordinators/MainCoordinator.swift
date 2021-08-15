@@ -1,5 +1,5 @@
 //
-//  AppCoordinator.swift
+//  MainCoordinator.swift
 //  CoordinatorApp
 //
 //  Created by Dre on 03/08/2021.
@@ -8,7 +8,7 @@
 import Combine
 import UIKit
 
-public final class AppCoordinator: NSObject, Coordinating, UITabBarControllerDelegate {
+public final class MainCoordinator: NSObject, Coordinating, UITabBarControllerDelegate {
 
     // MARK: - Public
 
@@ -41,25 +41,27 @@ public final class AppCoordinator: NSObject, Coordinating, UITabBarControllerDel
         animationEnabled && !UIAccessibility.isReduceMotionEnabled
     }
 
-    private let builder: FlowsBuilderProtocol
-    private weak var rootViewController: UIViewController?
+    private let moduleFactory: MainModuleFactoryProtocol
     private weak var tabBarController: UITabBarController?
 
     #warning("Should child coordinators be public?")
-    private var redFlowCoordinator: RedFlowCoordinator?
-    private var greenFlowCoordinator: GreenFlowCoordinator?
+    private var redFlowCoordinator: Coordinating?
+    private var greenFlowCoordinator: Coordinating?
 
     private var cancellables: Set<AnyCancellable> = []
     private var currentSelectedTabIndex: Int?
 
     // MARK: - Public
-    public init(rootViewController: UIViewController, builder: FlowsBuilderProtocol) {
-        self.rootViewController = rootViewController
-        self.builder = builder
+    public init(
+        flowViewController: UITabBarController,
+        moduleFactory: MainModuleFactoryProtocol
+    ) {
+        self.tabBarController = flowViewController
+        self.moduleFactory = moduleFactory
     }
 
     public func start() {
-        embedTabBarScreen()
+        configureTabBarController()
         startRedFlow()
         startGreenFlow()
         state = .redFlow
@@ -68,22 +70,17 @@ public final class AppCoordinator: NSObject, Coordinating, UITabBarControllerDel
     // MARK: - Start Child Coordinators
 
     private func startRedFlow() {
-        let redFlowNavigationController = builder.redFlow.makeFlowViewController()
-        tabBarController?.addChild(redFlowNavigationController)
-
-        redFlowCoordinator = RedFlowCoordinator(
-            flowNavigationController: redFlowNavigationController,
-            builder: builder.redFlow
-        )
-        redFlowCoordinator?.start()
+        let (redFlowController, redFlowCoordinator) = moduleFactory.redFlow.makeFlow()
+        tabBarController?.addChild(redFlowController)
+        redFlowCoordinator.start()
+        self.redFlowCoordinator = redFlowCoordinator
     }
 
     private func startGreenFlow() {
-        let greenFlowNavigationVC = builder.greenFlow.makeFlowViewController()
-        tabBarController?.addChild(greenFlowNavigationVC)
-
-        greenFlowCoordinator = GreenFlowCoordinator(flowNavigationController: greenFlowNavigationVC, builder: builder.greenFlow)
-        greenFlowCoordinator?.start()
+        let (greenFlowNavigationController, greenFlowCoordinator) = moduleFactory.greenFlow.makeFlow()
+        tabBarController?.addChild(greenFlowNavigationController)
+        greenFlowCoordinator.start()
+        self.greenFlowCoordinator = greenFlowCoordinator
     }
 
     // MARK: - States
@@ -123,24 +120,20 @@ public final class AppCoordinator: NSObject, Coordinating, UITabBarControllerDel
 
     // MARK: - Show Screens
 
-    private func embedTabBarScreen() {
+    private func configureTabBarController() {
         guard tabBarController == nil else {
             return
         }
 
-        let tabBarController = builder.makeFlowViewController()
-        tabBarController.delegate = self
-        tabBarController.selectedIndex = TabIndex.redFlow
-
-        rootViewController?.embed(tabBarController)
-        self.tabBarController = tabBarController
+        tabBarController?.delegate = self
+        tabBarController?.selectedIndex = TabIndex.redFlow
     }
 
 }
 
 // MARK: - UITabBarControllerDelegate
 
-extension AppCoordinator {
+extension MainCoordinator {
 
     public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         updateCurrentStateBasedOnUI()
@@ -150,7 +143,7 @@ extension AppCoordinator {
 
 // MARK: - DeepLinkHandling
 
-extension AppCoordinator {
+extension MainCoordinator {
 
     @discardableResult
     public func handleDeepLink(_ deepLink: DeepLink) -> Bool {
@@ -167,7 +160,7 @@ extension AppCoordinator {
 
 // MARK: - Private extensions
 
-extension AppCoordinator.InterfaceState: CustomStringConvertible {
+extension MainCoordinator.InterfaceState: CustomStringConvertible {
 
     public var description: String {
         switch self {
