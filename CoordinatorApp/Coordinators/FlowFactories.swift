@@ -12,17 +12,17 @@ import UIKit
 public protocol MainFlowFactoryProtocol {
     typealias MainFlow = (flowController: UITabBarController, coordinator: Coordinating)
     var redFlow: RedFlowFactoryProtocol { get }
-    var greenFlow: GreenFlowModuleFactoryProtocol { get }
+    var greenFlow: GreenFlowFactoryProtocol { get }
     func makeFlow() -> MainFlow
 }
 
 final class MainFlowFactory: MainFlowFactoryProtocol {
     let redFlow: RedFlowFactoryProtocol
-    let greenFlow: GreenFlowModuleFactoryProtocol
+    let greenFlow: GreenFlowFactoryProtocol
 
     init(
         redFlow: RedFlowFactoryProtocol = RedFlowFactory(),
-        greenFlow: GreenFlowModuleFactoryProtocol = GreenFlowModuleFactory()
+        greenFlow: GreenFlowFactoryProtocol = GreenFlowFactory()
     ) {
         self.redFlow = redFlow
         self.greenFlow = greenFlow
@@ -80,7 +80,7 @@ final class RedFlowFactory: RedFlowFactoryProtocol {
 
 // MARK: - Green Flow Factory
 
-public protocol GreenFlowModuleFactoryProtocol {
+public protocol GreenFlowFactoryProtocol {
     typealias GreenFlow = (flowController: BaseNavigationController, coordinator: Coordinating)
     typealias GreenFirstModule = (vc: UIViewController, vm: GreenFirstViewModel)
     typealias GreenSecondModule = (vc: UIViewController, vm: GreenSecondViewModel)
@@ -92,12 +92,12 @@ public protocol GreenFlowModuleFactoryProtocol {
     func makeGreenThirdModule(dynamicText: String?, didTapNextButton: @escaping () -> Void) -> GreenThirdModule
 }
 
-final class GreenFlowModuleFactory: GreenFlowModuleFactoryProtocol {
+final class GreenFlowFactory: GreenFlowFactoryProtocol {
     func makeFlow() -> GreenFlow {
         let greenFlowBarItem = UITabBarItem(title: "Green Flow", image: .init(systemName: "person.2.circle"), selectedImage: nil)
         let greenFlowNavigationVC = BaseNavigationController()
         greenFlowNavigationVC.tabBarItem = greenFlowBarItem
-        let coordinator = GreenFlowCoordinator(flowNavigationController: greenFlowNavigationVC, moduleFactory: self)
+        let coordinator = GreenFlowCoordinator(flowNavigationController: greenFlowNavigationVC, flowFactory: self)
         return (greenFlowNavigationVC, coordinator)
     }
 

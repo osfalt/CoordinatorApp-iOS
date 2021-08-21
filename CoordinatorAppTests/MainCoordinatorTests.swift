@@ -45,7 +45,7 @@ class MainCoordinatorTests: XCTestCase {
 
 private final class DummyMainFlowFactory: MainFlowFactoryProtocol {
     let redFlow: RedFlowFactoryProtocol = RedFlowFactory()
-    let greenFlow: GreenFlowModuleFactoryProtocol = GreenFlowModuleFactory()
+    let greenFlow: GreenFlowFactoryProtocol = GreenFlowFactory()
 
     func makeFlow() -> MainFlow {
         let tabBarController = UITabBarController()

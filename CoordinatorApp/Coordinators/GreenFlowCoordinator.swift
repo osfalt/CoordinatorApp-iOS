@@ -61,7 +61,7 @@ public final class GreenFlowCoordinator: Coordinating {
         animationEnabled && !UIAccessibility.isReduceMotionEnabled
     }
 
-    private let moduleFactory: GreenFlowModuleFactoryProtocol
+    private let flowFactory: GreenFlowFactoryProtocol
     private weak var flowNavigationController: BaseNavigationController?
     #warning("Use array of weak references")
     private weak var firstViewController: UIViewController?
@@ -72,9 +72,9 @@ public final class GreenFlowCoordinator: Coordinating {
 
     // MARK: - Init
 
-    public init(flowNavigationController: BaseNavigationController, moduleFactory: GreenFlowModuleFactoryProtocol) {
+    public init(flowNavigationController: BaseNavigationController, flowFactory: GreenFlowFactoryProtocol) {
         self.flowNavigationController = flowNavigationController
-        self.moduleFactory = moduleFactory
+        self.flowFactory = flowFactory
     }
 
     // MARK: - Methods
@@ -127,7 +127,7 @@ public final class GreenFlowCoordinator: Coordinating {
             return
         }
 
-        let greenFirstVC = moduleFactory.makeGreenFirstModule(didTapNextButton: { [weak self] in
+        let greenFirstVC = flowFactory.makeGreenFirstModule(didTapNextButton: { [weak self] in
             self?.state = .greenSecondScreen
         }).vc
         flowNavigationController?.pushViewController(greenFirstVC, animated: false)
@@ -140,7 +140,7 @@ public final class GreenFlowCoordinator: Coordinating {
             return
         }
 
-        let greenSecondVC = moduleFactory.makeGreenSecondModule(didTapNextButton: { [weak self] in
+        let greenSecondVC = flowFactory.makeGreenSecondModule(didTapNextButton: { [weak self] in
             self?.state = .greenThirdScreen(nil)
         }).vc
         flowNavigationController?.pushViewController(greenSecondVC, animated: animated)
@@ -159,7 +159,7 @@ public final class GreenFlowCoordinator: Coordinating {
             return
         }
 
-        let greenThirdVC = moduleFactory.makeGreenThirdModule(dynamicText: dynamicText, didTapNextButton: {}).vc
+        let greenThirdVC = flowFactory.makeGreenThirdModule(dynamicText: dynamicText, didTapNextButton: {}).vc
         flowNavigationController?.pushViewController(greenThirdVC, animated: animated)
         flowNavigationController?.didPopViewControllerPublisher
             .sink { [weak self, weak greenThirdVC] popped, shown in

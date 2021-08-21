@@ -10,13 +10,13 @@ import CoordinatorApp
 
 final class MockMainFlowFactory: MainFlowFactoryProtocol {
     let redFlow: RedFlowFactoryProtocol
-    let greenFlow: GreenFlowModuleFactoryProtocol
+    let greenFlow: GreenFlowFactoryProtocol
 
     private(set) lazy var tabBarController = MockTabBarController()
 
     init(
         redFlow: RedFlowFactoryProtocol,
-        greenFlow: GreenFlowModuleFactoryProtocol
+        greenFlow: GreenFlowFactoryProtocol
     ) {
         self.redFlow = redFlow
         self.greenFlow = greenFlow

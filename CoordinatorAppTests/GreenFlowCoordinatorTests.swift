@@ -16,7 +16,7 @@ class GreenFlowCoordinatorTests: XCTestCase {
 //
 //    override func setUpWithError() throws {
 //        flowNavigationController = BaseNavigationController()
-//        coordinator = GreenFlowCoordinator(flowNavigationController: flowNavigationController, builder: GreenFlowModuleFactory())
+//        coordinator = GreenFlowCoordinator(flowNavigationController: flowNavigationController, builder: GreenFlowFactory())
 //        coordinator.animationEnabled = false
 //    }
 //

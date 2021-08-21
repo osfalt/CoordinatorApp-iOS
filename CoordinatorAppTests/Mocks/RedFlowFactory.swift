@@ -9,7 +9,7 @@ import Combine
 import UIKit
 import CoordinatorApp
 
-// MARK: - Module Factory
+// MARK: - Red Flow Factory
 
 final class RedFlowFactory: RedFlowFactoryProtocol {
     private(set) lazy var redFlowNavigationVC = BaseNavigationController()
@@ -50,7 +50,7 @@ final class RedFlowFactory: RedFlowFactoryProtocol {
     }
 }
 
-// MARK: - View Controllers
+// MARK: - Red Flow View Controllers
 
 final class MockRedFirstController: UIViewController {
     private(set) lazy var viewModel = RedFirstViewModel(didTapNextButton: didTapNextButton)
