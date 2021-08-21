@@ -16,7 +16,7 @@ public protocol MainFlowFactoryProtocol {
     func makeFlow() -> MainFlow
 }
 
-final class MainModuleFactory: MainFlowFactoryProtocol {
+final class MainFlowFactory: MainFlowFactoryProtocol {
     let redFlow: RedFlowFactoryProtocol
     let greenFlow: GreenFlowModuleFactoryProtocol
 

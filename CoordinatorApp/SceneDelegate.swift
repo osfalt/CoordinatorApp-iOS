@@ -42,8 +42,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         window.makeKeyAndVisible()
 
-        let mainModuleFactory = MainModuleFactory()
-        let (mainFlowController, mainCoordinator) = mainModuleFactory.makeFlow()
+        let mainFlowFactory = MainFlowFactory()
+        let (mainFlowController, mainCoordinator) = mainFlowFactory.makeFlow()
         rootVC.embed(mainFlowController)
         mainCoordinator.start()
         self.appCoordinator = mainCoordinator

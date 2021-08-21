@@ -48,10 +48,7 @@ public final class MainCoordinator: NSObject, Coordinating, UITabBarControllerDe
     private var currentSelectedTabIndex: Int?
 
     // MARK: - Public
-    public init(
-        flowViewController: UITabBarController,
-        flowFactory: MainFlowFactoryProtocol
-    ) {
+    public init(flowViewController: UITabBarController, flowFactory: MainFlowFactoryProtocol) {
         self.tabBarController = flowViewController
         self.flowFactory = flowFactory
     }
