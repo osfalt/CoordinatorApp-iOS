@@ -67,6 +67,7 @@ public final class RedFlowCoordinator: Coordinating {
     private func updateUIBasedOnCurrentState() {
         switch state {
         case .redFirstScreen:
+            #warning("TODO: Check current status here instead of view hierarchy")
             if flowNavigationController?.topViewController == secondViewController {
                 flowNavigationController?.popViewController(animated: animated)
             }

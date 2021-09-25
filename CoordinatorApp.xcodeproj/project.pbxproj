@@ -30,7 +30,9 @@
 		319C46F126B4BE5A00DDC21C /* GreenFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319C46F026B4BE5A00DDC21C /* GreenFirstViewController.swift */; };
 		319C46F326B4C06E00DDC21C /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319C46F226B4C06E00DDC21C /* BaseViewController.swift */; };
 		319C46F526B4C3C300DDC21C /* BasicColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319C46F426B4C3C300DDC21C /* BasicColorView.swift */; };
-		31B5078A26B9ECBE00C8F3B6 /* FlowFactories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5078926B9ECBE00C8F3B6 /* FlowFactories.swift */; };
+		31A96C4E26FFC038009AA0A1 /* MainFlowFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A96C4D26FFC038009AA0A1 /* MainFlowFactory.swift */; };
+		31A96C5026FFC0BB009AA0A1 /* RedFlowFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A96C4F26FFC0BB009AA0A1 /* RedFlowFactory.swift */; };
+		31A96C5226FFC0E3009AA0A1 /* GreenFlowFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A96C5126FFC0E3009AA0A1 /* GreenFlowFactory.swift */; };
 		31B5078C26BB427D00C8F3B6 /* GreenThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5078B26BB427D00C8F3B6 /* GreenThirdViewController.swift */; };
 		31B5078E26BF2CB600C8F3B6 /* RedFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5078D26BF2CB600C8F3B6 /* RedFlowCoordinator.swift */; };
 		31B5079026BF2CC700C8F3B6 /* GreenFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5078F26BF2CC700C8F3B6 /* GreenFlowCoordinator.swift */; };
@@ -90,7 +92,9 @@
 		319C46F026B4BE5A00DDC21C /* GreenFirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenFirstViewController.swift; sourceTree = "<group>"; };
 		319C46F226B4C06E00DDC21C /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		319C46F426B4C3C300DDC21C /* BasicColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicColorView.swift; sourceTree = "<group>"; };
-		31B5078926B9ECBE00C8F3B6 /* FlowFactories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowFactories.swift; sourceTree = "<group>"; };
+		31A96C4D26FFC038009AA0A1 /* MainFlowFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowFactory.swift; sourceTree = "<group>"; };
+		31A96C4F26FFC0BB009AA0A1 /* RedFlowFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedFlowFactory.swift; sourceTree = "<group>"; };
+		31A96C5126FFC0E3009AA0A1 /* GreenFlowFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenFlowFactory.swift; sourceTree = "<group>"; };
 		31B5078B26BB427D00C8F3B6 /* GreenThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenThirdViewController.swift; sourceTree = "<group>"; };
 		31B5078D26BF2CB600C8F3B6 /* RedFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedFlowCoordinator.swift; sourceTree = "<group>"; };
 		31B5078F26BF2CC700C8F3B6 /* GreenFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenFlowCoordinator.swift; sourceTree = "<group>"; };
@@ -148,11 +152,11 @@
 		3171B7B426B9D9360094D31B /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
+				31A96C4C26FFC020009AA0A1 /* FlowFactories */,
 				31EB70F226C7158A0090CC96 /* Coordinating.swift */,
 				3171B7B226B9D9330094D31B /* MainCoordinator.swift */,
 				31B5078D26BF2CB600C8F3B6 /* RedFlowCoordinator.swift */,
 				31B5078F26BF2CC700C8F3B6 /* GreenFlowCoordinator.swift */,
-				31B5078926B9ECBE00C8F3B6 /* FlowFactories.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -246,6 +250,16 @@
 				319C46EE26B4B66C00DDC21C /* UIViewController+Child.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		31A96C4C26FFC020009AA0A1 /* FlowFactories */ = {
+			isa = PBXGroup;
+			children = (
+				31A96C4D26FFC038009AA0A1 /* MainFlowFactory.swift */,
+				31A96C4F26FFC0BB009AA0A1 /* RedFlowFactory.swift */,
+				31A96C5126FFC0E3009AA0A1 /* GreenFlowFactory.swift */,
+			);
+			path = FlowFactories;
 			sourceTree = "<group>";
 		};
 		31B5079726C081E500C8F3B6 /* DeepLinking */ = {
@@ -410,19 +424,21 @@
 			files = (
 				3150391326C1D774009ECBEF /* RedDynamicInfoViewController.swift in Sources */,
 				319C46B926B4B1D100DDC21C /* AppDelegate.swift in Sources */,
+				31A96C5226FFC0E3009AA0A1 /* GreenFlowFactory.swift in Sources */,
 				31B5079026BF2CC700C8F3B6 /* GreenFlowCoordinator.swift in Sources */,
 				31B5079B26C1B7E900C8F3B6 /* DeepLinkPayload.swift in Sources */,
-				31B5078A26B9ECBE00C8F3B6 /* FlowFactories.swift in Sources */,
 				319C46BB26B4B1D100DDC21C /* SceneDelegate.swift in Sources */,
 				31B5079626C077AA00C8F3B6 /* DeepLinkHandling.swift in Sources */,
 				31B5079926C081FE00C8F3B6 /* DeepLinkParser.swift in Sources */,
 				31EB70F326C7158A0090CC96 /* Coordinating.swift in Sources */,
 				3171B7B326B9D9330094D31B /* MainCoordinator.swift in Sources */,
+				31A96C5026FFC0BB009AA0A1 /* RedFlowFactory.swift in Sources */,
 				31B6F72B26B75A2A00FDBDA2 /* RedSecondViewController.swift in Sources */,
 				319C46EA26B4B37C00DDC21C /* RootViewController.swift in Sources */,
 				319C46EC26B4B4BD00DDC21C /* RedFirstViewController.swift in Sources */,
 				319C46BD26B4B1D100DDC21C /* ContentView.swift in Sources */,
 				3171B7B126B9D1DF0094D31B /* GreenSecondViewController.swift in Sources */,
+				31A96C4E26FFC038009AA0A1 /* MainFlowFactory.swift in Sources */,
 				315FC87C26C47DC7006C301E /* ListCell.swift in Sources */,
 				3150391626C1E7F5009ECBEF /* DynamicItemsFetcher.swift in Sources */,
 				319C46F526B4C3C300DDC21C /* BasicColorView.swift in Sources */,
