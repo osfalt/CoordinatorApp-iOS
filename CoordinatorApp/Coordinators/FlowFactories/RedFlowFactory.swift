@@ -11,9 +11,9 @@ public protocol RedFlowFactoryProtocol {
 
     typealias RedFlow = (flowController: BaseNavigationController, coordinator: Coordinating)
 
-    typealias RedFirstModule = (vc: UIViewController, vm: RedFirstViewModel)
-    typealias RedSecondModule = (vc: UIViewController, vm: RedSecondViewModel)
-    typealias RedDynamicModule = (vc: UIViewController, vm: RedDynamicInfoViewModel)
+    typealias RedFirstModule = (vc: UIViewController & RedFlowInterfaceStateContaining, vm: RedFirstViewModel)
+    typealias RedSecondModule = (vc: UIViewController & RedFlowInterfaceStateContaining, vm: RedSecondViewModel)
+    typealias RedDynamicModule = (vc: UIViewController & RedFlowInterfaceStateContaining, vm: RedDynamicInfoViewModel)
 
     func makeFlow() -> RedFlow
     func makeRedFirstModule(didTapNextButton: @escaping () -> Void) -> RedFirstModule

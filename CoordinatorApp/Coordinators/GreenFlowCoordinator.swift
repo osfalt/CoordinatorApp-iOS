@@ -16,7 +16,7 @@ struct GreenFlowDeepLinkPayload: DeepLinkPayload {
 
 // MARK: - GreenFlowInterfaceStateContaining protocol
 
-protocol GreenFlowInterfaceStateContaining: AnyObject {
+public protocol GreenFlowInterfaceStateContaining: AnyObject {
     var state: GreenFlowCoordinator.InterfaceState { get }
 }
 

@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - RedFlowInterfaceStateContaining protocol
 
-protocol RedFlowInterfaceStateContaining: AnyObject {
+public protocol RedFlowInterfaceStateContaining: AnyObject {
     var state: RedFlowCoordinator.InterfaceState { get }
 }
 

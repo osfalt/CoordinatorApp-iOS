@@ -52,6 +52,9 @@ class RedFlowCoordinatorTests: XCTestCase {
     }
 
     func testTransitionBackFromRedSecondToFirstState() throws {
+        // without this `NavigationControllerDelegate` callbacks don't work
+        fixPopViewController()
+
         // open red second screen
         coordinator.start()
         XCTAssertEqual(coordinator.state, .redFirstScreen)
@@ -60,15 +63,16 @@ class RedFlowCoordinatorTests: XCTestCase {
         redFirstViewController.tapOnNextButton()
         XCTAssertEqual(coordinator.state, .redSecondScreen)
 
-        // without this `NavigationControllerDelegate` callbacks don't work
-        fixPopViewController()
-
         // test pop transition
-        flowNavigationVC.popViewController(animated: false)
+        flowNavigationVC.popViewController(animated: true)
+        RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .redFirstScreen)
     }
 
     func testTransitionBackFromRedDynamicToSecondState() throws {
+        // without this `NavigationControllerDelegate` callbacks don't work
+        fixPopViewController()
+
         // open red dynamic screen
         coordinator.start()
         XCTAssertEqual(coordinator.state, .redFirstScreen)
@@ -81,15 +85,16 @@ class RedFlowCoordinatorTests: XCTestCase {
         redSecondViewController.tapOnNextButton()
         XCTAssertEqual(coordinator.state, .redDynamicInfoScreen)
 
-        // without this `NavigationControllerDelegate` callbacks don't work
-        fixPopViewController()
-
         // test pop transition
-        flowNavigationVC.popViewController(animated: false)
+        flowNavigationVC.popViewController(animated: true)
+        RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .redSecondScreen)
     }
 
     func testTransitionBackFromRedDynamicToFirstState() throws {
+        // without this `NavigationControllerDelegate` callbacks don't work
+        fixPopViewController()
+
         // open red dynamic screen
         coordinator.start()
         XCTAssertEqual(coordinator.state, .redFirstScreen)
@@ -102,17 +107,14 @@ class RedFlowCoordinatorTests: XCTestCase {
         redSecondViewController.tapOnNextButton()
         XCTAssertEqual(coordinator.state, .redDynamicInfoScreen)
 
-        // without this `NavigationControllerDelegate` callbacks don't work
-        fixPopViewController()
-        
         // test pop to root transition
-        flowNavigationVC.popToRootViewController(animated: false)
-        XCTAssertEqual(coordinator.state, .redSecondScreen)
+        flowNavigationVC.popToRootViewController(animated: true)
+        RunLoop.current.run(until: Date())
+        XCTAssertEqual(coordinator.state, .redFirstScreen)
     }
 
     private func fixPopViewController() {
         UIApplication.shared.windows.first?.rootViewController = flowNavigationVC
-        RunLoop.current.run(until: Date())
     }
 
 }

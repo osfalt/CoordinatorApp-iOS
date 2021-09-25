@@ -52,7 +52,9 @@ final class MockRedFlowFactory: RedFlowFactoryProtocol {
 
 // MARK: - Red Flow View Controllers
 
-final class MockRedFirstController: UIViewController {
+final class MockRedFirstController: UIViewController, RedFlowInterfaceStateContaining {
+    let state: RedFlowCoordinator.InterfaceState = .redFirstScreen
+
     private(set) lazy var viewModel = RedFirstViewModel(didTapNextButton: didTapNextButton)
     private let didTapNextButton: () -> Void
 
@@ -70,7 +72,9 @@ final class MockRedFirstController: UIViewController {
     }
 }
 
-final class MockRedSecondController: UIViewController {
+final class MockRedSecondController: UIViewController, RedFlowInterfaceStateContaining {
+    let state: RedFlowCoordinator.InterfaceState = .redSecondScreen
+
     private(set) lazy var viewModel = RedSecondViewModel(didTapNextButton: didTapNextButton)
     private let didTapNextButton: () -> Void
 
@@ -88,7 +92,9 @@ final class MockRedSecondController: UIViewController {
     }
 }
 
-final class MockRedDynamicController: UIViewController {
+final class MockRedDynamicController: UIViewController, RedFlowInterfaceStateContaining {
+    let state: RedFlowCoordinator.InterfaceState = .redDynamicInfoScreen
+
     final class MockDynamicItemsFetcher: DynamicItemsFetchable {
         var fetchItems: AnyPublisher<[DynamicInfoItem], Error> {
             Empty<[DynamicInfoItem], Error>().eraseToAnyPublisher()

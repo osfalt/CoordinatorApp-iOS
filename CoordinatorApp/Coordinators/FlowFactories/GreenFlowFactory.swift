@@ -10,9 +10,9 @@ import UIKit
 public protocol GreenFlowFactoryProtocol {
 
     typealias GreenFlow = (flowController: BaseNavigationController, coordinator: Coordinating)
-    typealias GreenFirstModule = (vc: UIViewController, vm: GreenFirstViewModel)
-    typealias GreenSecondModule = (vc: UIViewController, vm: GreenSecondViewModel)
-    typealias GreenThirdModule = (vc: UIViewController, vm: GreenThirdViewModel)
+    typealias GreenFirstModule = (vc: UIViewController & GreenFlowInterfaceStateContaining, vm: GreenFirstViewModel)
+    typealias GreenSecondModule = (vc: UIViewController & GreenFlowInterfaceStateContaining, vm: GreenSecondViewModel)
+    typealias GreenThirdModule = (vc: UIViewController & GreenFlowInterfaceStateContaining, vm: GreenThirdViewModel)
 
     func makeFlow() -> GreenFlow
     func makeGreenFirstModule(didTapNextButton: @escaping () -> Void) -> GreenFirstModule
