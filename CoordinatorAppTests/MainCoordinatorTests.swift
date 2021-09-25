@@ -27,13 +27,13 @@ class MainCoordinatorTests: XCTestCase {
         XCTAssertEqual(coordinator.state, .redFlow)
     }
 
-    func testRedFlowScreenState() throws {
+    func testRedFlowState() throws {
         coordinator.start()
         tabBarController.selectRedFlowTab()
         XCTAssertEqual(coordinator.state, .redFlow)
     }
 
-    func testGreenFlowScreenState() throws {
+    func testGreenFlowState() throws {
         coordinator.start()
         tabBarController.selectGreenFlowTab()
         XCTAssertEqual(coordinator.state, .greenFlow)
@@ -45,6 +45,7 @@ class MainCoordinatorTests: XCTestCase {
 
 private final class DummyMainFlowFactory: MainFlowFactoryProtocol {
     let redFlow: RedFlowFactoryProtocol = MockRedFlowFactory()
+    #warning("TODO: Replace with MockGreenFlowFactory")
     let greenFlow: GreenFlowFactoryProtocol = GreenFlowFactory()
 
     func makeFlow() -> MainFlow {

@@ -52,7 +52,6 @@ open class BaseNavigationController: UINavigationController, UINavigationControl
         willShow viewController: UIViewController,
         animated: Bool
     ) {
-//        print("🦝 WILL show viewController: \(viewController), count: \(viewControllers.count)")
         proxyDelegate?.navigationController?(navigationController, willShow: viewController, animated: animated)
     }
 
@@ -61,7 +60,6 @@ open class BaseNavigationController: UINavigationController, UINavigationControl
         didShow viewController: UIViewController,
         animated: Bool
     ) {
-//        print("🦝 DID show viewController: \(viewController), count: \(viewControllers.count), storedTopViewController: \(storedTopViewController)")
         proxyDelegate?.navigationController?(navigationController, didShow: viewController, animated: animated)
 
         let isPop = viewControllers.count < storedChildsCount
