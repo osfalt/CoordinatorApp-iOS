@@ -44,7 +44,7 @@ class MainCoordinatorTests: XCTestCase {
 // MARK: - Dummy Object
 
 private final class DummyMainFlowFactory: MainFlowFactoryProtocol {
-    let redFlow: RedFlowFactoryProtocol = RedFlowFactory()
+    let redFlow: RedFlowFactoryProtocol = MockRedFlowFactory()
     let greenFlow: GreenFlowFactoryProtocol = GreenFlowFactory()
 
     func makeFlow() -> MainFlow {

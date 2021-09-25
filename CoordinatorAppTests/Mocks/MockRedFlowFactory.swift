@@ -1,5 +1,5 @@
 //
-//  RedFlowFactory.swift
+//  MockRedFlowFactory.swift
 //  CoordinatorAppTests
 //
 //  Created by Dre on 13/08/2021.
@@ -11,7 +11,7 @@ import CoordinatorApp
 
 // MARK: - Red Flow Factory
 
-final class RedFlowFactory: RedFlowFactoryProtocol {
+final class MockRedFlowFactory: RedFlowFactoryProtocol {
     private(set) lazy var redFlowNavigationVC = BaseNavigationController()
     private(set) var redFirstViewController: MockRedFirstController?
     private(set) var redSecondViewController: MockRedSecondController?
