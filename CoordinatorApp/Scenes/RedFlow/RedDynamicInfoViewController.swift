@@ -85,16 +85,23 @@ struct RedDynamicInfoView: View {
         VStack {
             ZStack {
                 List(viewModel.items) { item in
-                    ListCell(text: item.title, action: { viewModel.didSelectCell(item) })
+                    ListCell(
+                        text: item.title,
+                        action: { viewModel.didSelectCell(item) }
+                    )
                 }
+                .listStyle(.plain)
                 if viewModel.isLoading {
                     ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
                 }
             }
             Button("Reload", action: viewModel.didTapReloadButton)
+                .foregroundColor(.white)
                 .disabled(viewModel.isLoading)
                 .padding()
         }
+        .background(Color.red)
         .alert(isPresented: $viewModel.showError) {
             Alert(title: Text("Error"))
         }
