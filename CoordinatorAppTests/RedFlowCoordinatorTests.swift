@@ -11,8 +11,8 @@ import XCTest
 
 class RedFlowCoordinatorTests: XCTestCase {
 
-    private var factory: MockRedFlowFactory!
     private var coordinator: RedFlowCoordinator!
+    private var factory: MockRedFlowFactory!
     private var flowNavigationVC: UINavigationController!
 
     override func setUpWithError() throws {
