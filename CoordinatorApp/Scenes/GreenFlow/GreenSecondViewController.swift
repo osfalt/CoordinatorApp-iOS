@@ -41,7 +41,7 @@ final class GreenSecondViewController: BaseViewController<GreenSecondView>, Gree
     init(viewModel: GreenSecondViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        self.title = viewModel.title
+        self.navigationItem.title = viewModel.title
     }
 
     required init?(coder: NSCoder) {

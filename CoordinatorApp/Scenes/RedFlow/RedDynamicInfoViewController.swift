@@ -68,7 +68,7 @@ final class RedDynamicInfoViewController: BaseViewController<RedDynamicInfoView>
     init(viewModel: RedDynamicInfoViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        self.title = "Red Dynamic Info Screen"
+        self.navigationItem.title = "Red Dynamic Info Screen"
     }
 
     required init?(coder: NSCoder) {

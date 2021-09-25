@@ -55,7 +55,7 @@ final class GreenThirdViewController: BaseViewController<AnyView>, GreenFlowInte
     init(viewModel: GreenThirdViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        self.title = viewModel.title
+        self.navigationItem.title = viewModel.title
     }
 
     required init?(coder: NSCoder) {
