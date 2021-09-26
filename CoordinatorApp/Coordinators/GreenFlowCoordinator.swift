@@ -48,12 +48,10 @@ public final class GreenFlowCoordinator: Coordinating {
     public var state: InterfaceState? {
         didSet {
             guard state != oldValue else { return }
-            previousState = oldValue
             print("GreenFlow - didSet state: \(String(describing: state))")
             updateUIBasedOnCurrentState()
         }
     }
-    private var previousState: InterfaceState?
 
     public var onFinish: (() -> Void)?
     public var animationEnabled: Bool = true
