@@ -10,14 +10,14 @@ import UIKit
 public protocol GreenFlowFactoryProtocol {
 
     typealias GreenFlow = (flowController: BaseNavigationController, coordinator: Coordinating)
-    typealias GreenFirstModule = (vc: UIViewController & GreenFlowInterfaceStateContaining, vm: GreenFirstViewModel)
-    typealias GreenSecondModule = (vc: UIViewController & GreenFlowInterfaceStateContaining, vm: GreenSecondViewModel)
-    typealias GreenThirdModule = (vc: UIViewController & GreenFlowInterfaceStateContaining, vm: GreenThirdViewModel)
+    typealias GreenFirstModule = (vc: UIViewController & GreenFlowInterfaceStateContaining, output: GreenFirstModuleOutput)
+    typealias GreenSecondModule = (vc: UIViewController & GreenFlowInterfaceStateContaining, output: GreenSecondModuleOutput)
+    typealias GreenThirdModule = (vc: UIViewController & GreenFlowInterfaceStateContaining, output: GreenThirdModuleOutput)
 
     func makeFlow() -> GreenFlow
-    func makeGreenFirstModule(didTapNextButton: @escaping () -> Void) -> GreenFirstModule
-    func makeGreenSecondModule(didTapNextButton: @escaping () -> Void) -> GreenSecondModule
-    func makeGreenThirdModule(dynamicText: String?, didTapNextButton: @escaping () -> Void) -> GreenThirdModule
+    func makeGreenFirstModule() -> GreenFirstModule
+    func makeGreenSecondModule() -> GreenSecondModule
+    func makeGreenThirdModule(dynamicText: String?) -> GreenThirdModule
 
 }
 
@@ -31,20 +31,20 @@ final class GreenFlowFactory: GreenFlowFactoryProtocol {
         return (greenFlowNavigationVC, coordinator)
     }
 
-    func makeGreenFirstModule(didTapNextButton: @escaping () -> Void) -> GreenFirstModule {
-        let viewModel = GreenFirstViewModel(didTapNextButton: didTapNextButton)
+    func makeGreenFirstModule() -> GreenFirstModule {
+        let viewModel = GreenFirstViewModel()
         let viewController = GreenFirstViewController(viewModel: viewModel)
         return (viewController, viewModel)
     }
 
-    func makeGreenSecondModule(didTapNextButton: @escaping () -> Void) -> GreenSecondModule {
-        let viewModel = GreenSecondViewModel(didTapNextButton: didTapNextButton)
+    func makeGreenSecondModule() -> GreenSecondModule {
+        let viewModel = GreenSecondViewModel()
         let viewController = GreenSecondViewController(viewModel: viewModel)
         return (viewController, viewModel)
     }
 
-    func makeGreenThirdModule(dynamicText: String? = nil, didTapNextButton: @escaping () -> Void) -> GreenThirdModule {
-        let viewModel = GreenThirdViewModel(dynamicText: dynamicText, didTapNextButton: didTapNextButton)
+    func makeGreenThirdModule(dynamicText: String? = nil) -> GreenThirdModule {
+        let viewModel = GreenThirdViewModel(dynamicText: dynamicText)
         let viewController = GreenThirdViewController(viewModel: viewModel)
         return (viewController, viewModel)
     }

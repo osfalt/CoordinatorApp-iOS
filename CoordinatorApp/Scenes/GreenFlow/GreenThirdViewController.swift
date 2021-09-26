@@ -5,29 +5,44 @@
 //  Created by Dre on 04/08/2021.
 //
 
+import Combine
 import SwiftUI
 import UIKit
 
-public protocol GreenThirdViewModelProtocol: AnyObject {
-    var title: String { get }
-    var description: String { get }
-    var dynamicText: String? { get }
-    var didTapNextButton: () -> Void { get }
+// MARK: - Module Output
+
+public protocol GreenThirdModuleOutput: AnyObject {
+    var didTapNextButtonPublisher: AnyPublisher<Void, Never> { get }
 }
 
-public final class GreenThirdViewModel: GreenThirdViewModelProtocol {
-    public let title: String
-    public let description: String
-    public let dynamicText: String?
-    public let didTapNextButton: () -> Void
+// MARK: - View Model
 
-    public init(dynamicText: String? = nil, didTapNextButton: @escaping () -> Void) {
+public final class GreenThirdViewModel: GreenThirdModuleOutput {
+    // module output
+    public var didTapNextButtonPublisher: AnyPublisher<Void, Never> {
+        didTapNextButtonSubject.eraseToAnyPublisher()
+    }
+
+    // output
+    let title: String
+    let description: String
+    let dynamicText: String?
+
+    // input
+    func didTapNextButton() {
+        didTapNextButtonSubject.send(())
+    }
+
+    private let didTapNextButtonSubject = PassthroughSubject<Void, Never>()
+
+    public init(dynamicText: String? = nil) {
         self.title = "Third Green Screen"
         self.description = "This is the THIRD screen with GREEN background colour"
         self.dynamicText = dynamicText
-        self.didTapNextButton = didTapNextButton
     }
 }
+
+// MARK: - View Controller
 
 final class GreenThirdViewController: BaseViewController<AnyView>, GreenFlowInterfaceStateContaining {
 
@@ -50,9 +65,9 @@ final class GreenThirdViewController: BaseViewController<AnyView>, GreenFlowInte
         .greenThirdScreen(nil)
     }
     
-    let viewModel: GreenThirdViewModelProtocol
+    let viewModel: GreenThirdViewModel
 
-    init(viewModel: GreenThirdViewModelProtocol) {
+    init(viewModel: GreenThirdViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = viewModel.title
@@ -63,8 +78,10 @@ final class GreenThirdViewController: BaseViewController<AnyView>, GreenFlowInte
     }
 }
 
+// MARK: - View
+
 struct GreenThirdView: View {
-    let viewModel: GreenThirdViewModelProtocol
+    let viewModel: GreenThirdViewModel
 
     var body: some View {
         BasicColorView(
@@ -78,6 +95,6 @@ struct GreenThirdView: View {
 
 struct GreenThirdView_Previews: PreviewProvider {
     static var previews: some View {
-        GreenThirdView(viewModel: GreenThirdViewModel(didTapNextButton: {}))
+        GreenThirdView(viewModel: GreenThirdViewModel())
     }
 }

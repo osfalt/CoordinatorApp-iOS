@@ -125,9 +125,13 @@ public final class GreenFlowCoordinator: Coordinating {
             return
         }
 
-        let greenFirstVC = flowFactory.makeGreenFirstModule(didTapNextButton: { [weak self] in
-            self?.state = .greenSecondScreen
-        }).vc
+        let (greenFirstVC, greenFirstModuleOutput) = flowFactory.makeGreenFirstModule()
+        greenFirstModuleOutput.didTapNextButtonPublisher
+            .sink { [weak self] in
+                self?.state = .greenSecondScreen
+            }
+            .store(in: &cancellables)
+
         flowNavigationController?.pushViewController(greenFirstVC, animated: false)
 
         self.firstViewController = greenFirstVC
@@ -138,9 +142,13 @@ public final class GreenFlowCoordinator: Coordinating {
             return
         }
 
-        let greenSecondVC = flowFactory.makeGreenSecondModule(didTapNextButton: { [weak self] in
-            self?.state = .greenThirdScreen(nil)
-        }).vc
+        let (greenSecondVC, greenSecondModuleOutput) = flowFactory.makeGreenSecondModule()
+        greenSecondModuleOutput.didTapNextButtonPublisher
+            .sink { [weak self] in
+                self?.state = .greenThirdScreen(nil)
+            }
+            .store(in: &cancellables)
+
         flowNavigationController?.pushViewController(greenSecondVC, animated: animated)
         flowNavigationController?.didPopViewControllerPublisher
             .sink { [weak self, weak greenSecondVC] popped, shown in
@@ -157,7 +165,13 @@ public final class GreenFlowCoordinator: Coordinating {
             return
         }
 
-        let greenThirdVC = flowFactory.makeGreenThirdModule(dynamicText: dynamicText, didTapNextButton: {}).vc
+        let (greenThirdVC, greenThirdModuleOutput) = flowFactory.makeGreenThirdModule(dynamicText: dynamicText)
+        greenThirdModuleOutput.didTapNextButtonPublisher
+            .sink {
+                print("didTapNextButton")
+            }
+            .store(in: &cancellables)
+
         flowNavigationController?.pushViewController(greenThirdVC, animated: animated)
         flowNavigationController?.didPopViewControllerPublisher
             .sink { [weak self, weak greenThirdVC] popped, shown in

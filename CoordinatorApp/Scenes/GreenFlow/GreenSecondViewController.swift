@@ -5,24 +5,38 @@
 //  Created by Dre on 03/08/2021.
 //
 
+import Combine
 import SwiftUI
 import UIKit
 
-public protocol GreenSecondViewModelProtocol: AnyObject {
-    var title: String { get }
-    var description: String { get }
-    var didTapNextButton: () -> Void { get }
+// MARK: - Module Output
+
+public protocol GreenSecondModuleOutput: AnyObject {
+    var didTapNextButtonPublisher: AnyPublisher<Void, Never> { get }
 }
 
-public final class GreenSecondViewModel: GreenSecondViewModelProtocol {
-    public let title: String
-    public let description: String
-    public let didTapNextButton: () -> Void
+// MARK: - View Model
 
-    public init(didTapNextButton: @escaping () -> Void) {
+public final class GreenSecondViewModel: GreenSecondModuleOutput {
+    // module output
+    public var didTapNextButtonPublisher: AnyPublisher<Void, Never> {
+        didTapNextButtonSubject.eraseToAnyPublisher()
+    }
+
+    // output
+    let title: String
+    let description: String
+
+    // input
+    func didTapNextButton() {
+        didTapNextButtonSubject.send(())
+    }
+
+    private let didTapNextButtonSubject = PassthroughSubject<Void, Never>()
+
+    public init() {
         self.title = "Second Green Screen"
         self.description = "This is the SECOND screen with GREEN background colour"
-        self.didTapNextButton = didTapNextButton
     }
 }
 
@@ -36,9 +50,9 @@ final class GreenSecondViewController: BaseViewController<GreenSecondView>, Gree
         .greenSecondScreen
     }
     
-    let viewModel: GreenSecondViewModelProtocol
+    let viewModel: GreenSecondViewModel
 
-    init(viewModel: GreenSecondViewModelProtocol) {
+    init(viewModel: GreenSecondViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = viewModel.title
@@ -50,7 +64,7 @@ final class GreenSecondViewController: BaseViewController<GreenSecondView>, Gree
 }
 
 struct GreenSecondView: View {
-    let viewModel: GreenSecondViewModelProtocol
+    let viewModel: GreenSecondViewModel
 
     var body: some View {
         BasicColorView(
@@ -64,6 +78,6 @@ struct GreenSecondView: View {
 
 struct GreenSecondView_Previews: PreviewProvider {
     static var previews: some View {
-        GreenSecondView(viewModel: GreenSecondViewModel(didTapNextButton: {}))
+        GreenSecondView(viewModel: GreenSecondViewModel())
     }
 }

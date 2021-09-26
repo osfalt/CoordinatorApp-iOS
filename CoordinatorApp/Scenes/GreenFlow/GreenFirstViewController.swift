@@ -5,26 +5,42 @@
 //  Created by Dre on 31/07/2021.
 //
 
+import Combine
 import SwiftUI
 import UIKit
 
-public protocol GreenFirstViewModelProtocol: AnyObject {
-    var title: String { get }
-    var description: String { get }
-    var didTapNextButton: () -> Void { get }
+// MARK: - Module Output
+
+public protocol GreenFirstModuleOutput: AnyObject {
+    var didTapNextButtonPublisher: AnyPublisher<Void, Never> { get }
 }
 
-public final class GreenFirstViewModel: GreenFirstViewModelProtocol {
-    public let title: String
-    public let description: String
-    public let didTapNextButton: () -> Void
+// MARK: - View Model
 
-    public init(didTapNextButton: @escaping () -> Void) {
+public final class GreenFirstViewModel: GreenFirstModuleOutput {
+    // module output
+    public var didTapNextButtonPublisher: AnyPublisher<Void, Never> {
+        didTapNextButtonSubject.eraseToAnyPublisher()
+    }
+
+    // output
+    let title: String
+    let description: String
+
+    // input
+    func didTapNextButton() {
+        didTapNextButtonSubject.send(())
+    }
+
+    private let didTapNextButtonSubject = PassthroughSubject<Void, Never>()
+
+    public init() {
         self.title = "First Green Screen"
         self.description = "This is the FIRST screen with GREEN background colour"
-        self.didTapNextButton = didTapNextButton
     }
 }
+
+// MARK: - View Controller
 
 final class GreenFirstViewController: BaseViewController<GreenFirstView>, GreenFlowInterfaceStateContaining {
 
@@ -36,9 +52,9 @@ final class GreenFirstViewController: BaseViewController<GreenFirstView>, GreenF
         .greenFirstScreen
     }
 
-    let viewModel: GreenFirstViewModelProtocol
+    let viewModel: GreenFirstViewModel
 
-    init(viewModel: GreenFirstViewModelProtocol) {
+    init(viewModel: GreenFirstViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = viewModel.title
@@ -49,8 +65,10 @@ final class GreenFirstViewController: BaseViewController<GreenFirstView>, GreenF
     }
 }
 
+// MARK: - View
+
 struct GreenFirstView: View {
-    let viewModel: GreenFirstViewModelProtocol
+    let viewModel: GreenFirstViewModel
 
     var body: some View {
         BasicColorView(
@@ -64,6 +82,6 @@ struct GreenFirstView: View {
 
 struct GreenFirstView_Previews: PreviewProvider {
     static var previews: some View {
-        GreenFirstView(viewModel: GreenFirstViewModel(didTapNextButton: {}))
+        GreenFirstView(viewModel: GreenFirstViewModel())
     }
 }

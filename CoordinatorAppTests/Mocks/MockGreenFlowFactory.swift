@@ -7,7 +7,7 @@
 
 import Combine
 import UIKit
-import CoordinatorApp
+@testable import CoordinatorApp
 
 // MARK: - Green Flow Factory
 
@@ -22,29 +22,29 @@ final class MockGreenFlowFactory: GreenFlowFactoryProtocol {
         return (greenFlowNavigationVC, coordinator)
     }
 
-    func makeGreenFirstModule(didTapNextButton: @escaping () -> Void) -> GreenFirstModule {
+    func makeGreenFirstModule() -> GreenFirstModule {
         if let greenFirstViewController = greenFirstViewController {
             return  (greenFirstViewController, greenFirstViewController.viewModel)
         }
-        let greenFirstViewController = MockGreenFirstController(didTapNextButton: didTapNextButton)
+        let greenFirstViewController = MockGreenFirstController()
         self.greenFirstViewController = greenFirstViewController
         return (greenFirstViewController, greenFirstViewController.viewModel)
     }
 
-    func makeGreenSecondModule(didTapNextButton: @escaping () -> Void) -> GreenSecondModule {
+    func makeGreenSecondModule() -> GreenSecondModule {
         if let greenSecondViewController = greenSecondViewController {
             return  (greenSecondViewController, greenSecondViewController.viewModel)
         }
-        let greenSecondViewController = MockGreenSecondController(didTapNextButton: didTapNextButton)
+        let greenSecondViewController = MockGreenSecondController()
         self.greenSecondViewController = greenSecondViewController
         return (greenSecondViewController, greenSecondViewController.viewModel)
     }
 
-    func makeGreenThirdModule(dynamicText: String?, didTapNextButton: @escaping () -> Void) -> GreenThirdModule {
+    func makeGreenThirdModule(dynamicText: String?) -> GreenThirdModule {
         if let greenThirdViewController = greenThirdViewController {
             return  (greenThirdViewController, greenThirdViewController.viewModel)
         }
-        let greenThirdViewController = MockGreenThirdController(didTapNextButton: didTapNextButton)
+        let greenThirdViewController = MockGreenThirdController()
         self.greenThirdViewController = greenThirdViewController
         return (greenThirdViewController, greenThirdViewController.viewModel)
     }
@@ -55,59 +55,29 @@ final class MockGreenFlowFactory: GreenFlowFactoryProtocol {
 final class MockGreenFirstController: UIViewController, GreenFlowInterfaceStateContaining {
     let state: GreenFlowCoordinator.InterfaceState = .greenFirstScreen
 
-    private(set) lazy var viewModel = GreenFirstViewModel(didTapNextButton: didTapNextButton)
-    private let didTapNextButton: () -> Void
-
-    init(didTapNextButton: @escaping () -> Void) {
-        self.didTapNextButton = didTapNextButton
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private(set) lazy var viewModel = GreenFirstViewModel()
 
     func tapOnNextButton() {
-        didTapNextButton()
+        viewModel.didTapNextButton()
     }
 }
 
 final class MockGreenSecondController: UIViewController, GreenFlowInterfaceStateContaining {
     let state: GreenFlowCoordinator.InterfaceState = .greenSecondScreen
 
-    private(set) lazy var viewModel = GreenSecondViewModel(didTapNextButton: didTapNextButton)
-    private let didTapNextButton: () -> Void
-
-    init(didTapNextButton: @escaping () -> Void) {
-        self.didTapNextButton = didTapNextButton
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private(set) lazy var viewModel = GreenSecondViewModel()
 
     func tapOnNextButton() {
-        didTapNextButton()
+        viewModel.didTapNextButton()
     }
 }
 
 final class MockGreenThirdController: UIViewController, GreenFlowInterfaceStateContaining {
     let state: GreenFlowCoordinator.InterfaceState = .greenThirdScreen(nil)
 
-    private(set) lazy var viewModel = GreenThirdViewModel(didTapNextButton: didTapNextButton)
-    private let didTapNextButton: () -> Void
-
-    init(didTapNextButton: @escaping () -> Void) {
-        self.didTapNextButton = didTapNextButton
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private(set) lazy var viewModel = GreenThirdViewModel()
 
     func tapOnNextButton() {
-        didTapNextButton()
+        viewModel.didTapNextButton()
     }
 }
