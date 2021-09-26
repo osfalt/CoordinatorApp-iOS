@@ -9,29 +9,39 @@ import Combine
 import SwiftUI
 import UIKit
 
+public protocol RedDynamicInfoModuleOutput: AnyObject {
+    var itemDidSelect: AnyPublisher<DynamicInfoItem, Never> { get }
+}
+
 // MARK: - View Model
 
-public final class RedDynamicInfoViewModel: ObservableObject {
+public final class RedDynamicInfoViewModel: ObservableObject, RedDynamicInfoModuleOutput {
+    // module output
+    public var itemDidSelect: AnyPublisher<DynamicInfoItem, Never> {
+        itemDidSelectSubject.eraseToAnyPublisher()
+    }
+
     // output
     @Published private(set) var items: [DynamicInfoItem] = []
     @Published private(set) var isLoading = false
     @Published var showError: Bool = false
 
     // input
-    public func viewDidLoad() {
+    func viewDidLoad() {
         loadItems()
     }
 
-    public func didTapReloadButton() {
+    func didTapReloadButton() {
         loadItems()
     }
 
-    public func didSelectCell(_ item: DynamicInfoItem) {
-        print("didSelectCell -> \(item.title)")
+    func didSelectCell(_ item: DynamicInfoItem) {
+        itemDidSelectSubject.send(item)
     }
 
     private let fetcher: DynamicItemsFetchable
     private var cancellables: Set<AnyCancellable> = []
+    private var itemDidSelectSubject = PassthroughSubject<DynamicInfoItem, Never>()
 
     public init(fetcher: DynamicItemsFetchable) {
         self.fetcher = fetcher

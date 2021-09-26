@@ -104,7 +104,7 @@ public final class RedFlowCoordinator: Coordinating {
 
         let redFirstVC = flowFactory.makeRedFirstModule(didTapNextButton: { [weak self] in
             self?.state = .redSecondScreen
-        }).vc
+        }).controller
         flowNavigationController?.pushViewController(redFirstVC, animated: false)
 
         self.firstViewController = redFirstVC
@@ -117,7 +117,7 @@ public final class RedFlowCoordinator: Coordinating {
 
         let redSecondVC = flowFactory.makeRedSecondModule(didTapNextButton: { [weak self] in
             self?.state = .redDynamicInfoScreen
-        }).vc
+        }).controller
         flowNavigationController?.pushViewController(redSecondVC, animated: animated)
         flowNavigationController?.didPopViewControllerPublisher
             .sink { [weak self, weak redSecondVC] popped, shown in
@@ -134,12 +134,18 @@ public final class RedFlowCoordinator: Coordinating {
             return
         }
 
-        let dynamicInfoVC = flowFactory.makeRedDynamicModule().vc
+        let (dynamicInfoVC, moduleOutput) = flowFactory.makeRedDynamicModule()
         flowNavigationController?.pushViewController(dynamicInfoVC, animated: animated)
         flowNavigationController?.didPopViewControllerPublisher
             .sink { [weak self, weak dynamicInfoVC] popped, shown in
                 guard popped === dynamicInfoVC else { return }
                 self?.updateCurrentStateBasedOnUI()
+            }
+            .store(in: &cancellables)
+
+        moduleOutput.itemDidSelect
+            .sink { item in
+                print("itemDidSelect: \(item)")
             }
             .store(in: &cancellables)
 
