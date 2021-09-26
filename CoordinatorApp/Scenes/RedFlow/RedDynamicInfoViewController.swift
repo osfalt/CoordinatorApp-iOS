@@ -12,9 +12,15 @@ import UIKit
 // MARK: - View Model
 
 public final class RedDynamicInfoViewModel: ObservableObject {
+    // output
     @Published private(set) var items: [DynamicInfoItem] = []
     @Published private(set) var isLoading = false
     @Published var showError: Bool = false
+
+    // input
+    public func viewDidLoad() {
+        loadItems()
+    }
 
     public func didTapReloadButton() {
         loadItems()
@@ -29,7 +35,6 @@ public final class RedDynamicInfoViewModel: ObservableObject {
 
     public init(fetcher: DynamicItemsFetchable) {
         self.fetcher = fetcher
-        loadItems()
     }
 
     private func loadItems() {
@@ -80,6 +85,7 @@ final class RedDynamicInfoViewController: BaseViewController<RedDynamicInfoView>
 
 struct RedDynamicInfoView: View {
     @ObservedObject var viewModel: RedDynamicInfoViewModel
+    @State private var viewAppeared = false
 
     var body: some View {
         VStack {
@@ -102,6 +108,11 @@ struct RedDynamicInfoView: View {
                 .padding()
         }
         .background(Color.red)
+        .onAppear {
+            guard !viewAppeared else { return }
+            viewAppeared = true
+            viewModel.viewDidLoad()
+        }
         .alert(isPresented: $viewModel.showError) {
             Alert(title: Text("Error"))
         }
