@@ -30,7 +30,7 @@ class RedDynamicInfoViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.items.isEmpty)
         XCTAssertFalse(viewModel.showError)
 
-        let expectation = expectation(description: "isLoading")
+        let expectation = XCTestExpectation(description: "isLoading")
         viewModel.$isLoading
             .filter { !$0 }
             .dropFirst()
@@ -43,7 +43,7 @@ class RedDynamicInfoViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.items.isEmpty)
         XCTAssertFalse(viewModel.showError)
 
-        waitForExpectations(timeout: Spec.timeout)
+        wait(for: [expectation], timeout: Spec.timeout)
 
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertFalse(viewModel.items.isEmpty)
@@ -51,31 +51,8 @@ class RedDynamicInfoViewModelTests: XCTestCase {
     }
     
     func testSuccessfulFetchTriggeredByDidTapReloadButton() throws {
-        // call viewDidLoad()
-        XCTAssertFalse(viewModel.isLoading)
-        XCTAssertTrue(viewModel.items.isEmpty)
-        XCTAssertFalse(viewModel.showError)
+        fetchItemsAndWait()
 
-        let isLoadingForViewDidLoadExpectation = XCTestExpectation(description: "isLoading - viewDidLoad")
-        viewModel.$isLoading
-            .filter { !$0 }
-            .dropFirst()
-            .sink { _ in isLoadingForViewDidLoadExpectation.fulfill() }
-            .store(in: &cancellables)
-
-        viewModel.viewDidLoad()
-
-        XCTAssertTrue(viewModel.isLoading)
-        XCTAssertTrue(viewModel.items.isEmpty)
-        XCTAssertFalse(viewModel.showError)
-
-        wait(for: [isLoadingForViewDidLoadExpectation], timeout: Spec.timeout)
-
-        XCTAssertFalse(viewModel.isLoading)
-        XCTAssertFalse(viewModel.items.isEmpty)
-        XCTAssertFalse(viewModel.showError)
-
-        // call didTapReloadButton()
         let isLoadingForDidTapReloadButtonExpectation = XCTestExpectation(description: "isLoading - didTapReloadButton")
         viewModel.$isLoading
             .filter { !$0 }
@@ -98,25 +75,7 @@ class RedDynamicInfoViewModelTests: XCTestCase {
 
     func testFailedFetchTriggeredByViewDidLoad() throws {
         initialiseViewModel(successfulFetch: false)
-
-        XCTAssertFalse(viewModel.isLoading)
-        XCTAssertTrue(viewModel.items.isEmpty)
-        XCTAssertFalse(viewModel.showError)
-
-        let expectation = expectation(description: "isLoading")
-        viewModel.$isLoading
-            .filter { !$0 }
-            .dropFirst()
-            .sink { _ in expectation.fulfill() }
-            .store(in: &cancellables)
-
-        viewModel.viewDidLoad()
-
-        XCTAssertTrue(viewModel.isLoading)
-        XCTAssertTrue(viewModel.items.isEmpty)
-        XCTAssertFalse(viewModel.showError)
-
-        waitForExpectations(timeout: Spec.timeout)
+        fetchItemsAndWait()
 
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertTrue(viewModel.items.isEmpty)
@@ -126,7 +85,6 @@ class RedDynamicInfoViewModelTests: XCTestCase {
     func testItemDidSelect() throws {
         fetchItemsAndWait()
 
-        // test itemDidSelect
         guard let item = viewModel.items.first else {
             XCTFail()
             return
@@ -153,15 +111,15 @@ class RedDynamicInfoViewModelTests: XCTestCase {
     }
 
     private func fetchItemsAndWait() {
-        let isLoadingForViewDidLoadExpectation = XCTestExpectation(description: "isLoading - viewDidLoad")
+        let expectation = XCTestExpectation(description: "isLoading")
         viewModel.$isLoading
             .filter { !$0 }
             .dropFirst()
-            .sink { _ in isLoadingForViewDidLoadExpectation.fulfill() }
+            .sink { _ in expectation.fulfill() }
             .store(in: &cancellables)
 
         viewModel.viewDidLoad()
-        wait(for: [isLoadingForViewDidLoadExpectation], timeout: Spec.timeout)
+        wait(for: [expectation], timeout: Spec.timeout)
     }
 
 }
