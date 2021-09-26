@@ -123,11 +123,45 @@ class RedDynamicInfoViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.showError)
     }
 
+    func testItemDidSelect() throws {
+        fetchItemsAndWait()
+
+        // test itemDidSelect
+        guard let item = viewModel.items.first else {
+            XCTFail()
+            return
+        }
+
+        let itemDidSelectExpectation = XCTestExpectation(description: "itemDidSelect")
+
+        viewModel.itemDidSelect
+            .sink { selectedItem in
+                XCTAssertEqual(selectedItem.id, item.id)
+                itemDidSelectExpectation.fulfill()
+            }
+            .store(in: &cancellables)
+
+        viewModel.didSelectCell(item)
+        wait(for: [itemDidSelectExpectation], timeout: 0.01)
+    }
+
     // MARK: - Private methods
 
     private func initialiseViewModel(successfulFetch: Bool = true) {
         let fetcher = MockDynamicItemsFetcher(successfulFetch: successfulFetch)
         viewModel = RedDynamicInfoViewModel(fetcher: fetcher)
+    }
+
+    private func fetchItemsAndWait() {
+        let isLoadingForViewDidLoadExpectation = XCTestExpectation(description: "isLoading - viewDidLoad")
+        viewModel.$isLoading
+            .filter { !$0 }
+            .dropFirst()
+            .sink { _ in isLoadingForViewDidLoadExpectation.fulfill() }
+            .store(in: &cancellables)
+
+        viewModel.viewDidLoad()
+        wait(for: [isLoadingForViewDidLoadExpectation], timeout: Spec.timeout)
     }
 
 }
