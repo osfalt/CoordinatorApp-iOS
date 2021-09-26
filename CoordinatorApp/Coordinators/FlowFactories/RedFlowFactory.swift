@@ -25,7 +25,7 @@ public protocol RedFlowFactoryProtocol {
 final class RedFlowFactory: RedFlowFactoryProtocol {
 
     func makeFlow() -> RedFlow {
-        let redFlowBarItem = UITabBarItem(title: "Red Flow", image: .init(systemName: "person.crop.circle"), selectedImage: nil)
+        let redFlowBarItem = UITabBarItem(title: "Red Flow", image: .init(systemName: "house.circle.fill"), selectedImage: nil)
         let redFlowNavigationVC = BaseNavigationController()
         redFlowNavigationVC.tabBarItem = redFlowBarItem
         let coordinator = RedFlowCoordinator(flowNavigationController: redFlowNavigationVC, flowFactory: self)

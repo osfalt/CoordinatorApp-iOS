@@ -24,7 +24,7 @@ public protocol GreenFlowFactoryProtocol {
 final class GreenFlowFactory: GreenFlowFactoryProtocol {
 
     func makeFlow() -> GreenFlow {
-        let greenFlowBarItem = UITabBarItem(title: "Green Flow", image: .init(systemName: "person.2.circle"), selectedImage: nil)
+        let greenFlowBarItem = UITabBarItem(title: "Green Flow", image: .init(systemName: "book.circle.fill"), selectedImage: nil)
         let greenFlowNavigationVC = BaseNavigationController()
         greenFlowNavigationVC.tabBarItem = greenFlowBarItem
         let coordinator = GreenFlowCoordinator(flowNavigationController: greenFlowNavigationVC, flowFactory: self)
