@@ -5,26 +5,42 @@
 //  Created by Dre on 01/08/2021.
 //
 
+import Combine
 import SwiftUI
 import UIKit
 
-public protocol RedSecondViewModelProtocol: AnyObject {
-    var title: String { get }
-    var description: String { get }
-    var didTapNextButton: () -> Void { get }
+// MARK: - Module Output
+
+public protocol RedSecondModuleOutput: AnyObject {
+    var didTapNextButtonPublisher: AnyPublisher<Void, Never> { get }
 }
 
-public final class RedSecondViewModel: RedSecondViewModelProtocol {
-    public let title: String
-    public let description: String
-    public let didTapNextButton: () -> Void
-    
-    public init(didTapNextButton: @escaping () -> Void) {
+// MARK: - View Model
+
+public final class RedSecondViewModel: RedSecondModuleOutput {
+    // module output
+    public var didTapNextButtonPublisher: AnyPublisher<Void, Never> {
+        didTapNextButtonSubject.eraseToAnyPublisher()
+    }
+
+    // output
+    let title: String
+    let description: String
+
+    // input
+    func didTapNextButton() {
+        didTapNextButtonSubject.send(())
+    }
+
+    private let didTapNextButtonSubject = PassthroughSubject<Void, Never>()
+
+    public init() {
         self.title = "Second Red Screen"
         self.description = "This is the SECOND screen with RED background colour"
-        self.didTapNextButton = didTapNextButton
     }
 }
+
+// MARK: - View Controller
 
 final class RedSecondViewController: BaseViewController<RedSecondView>, RedFlowInterfaceStateContaining {
 
@@ -36,9 +52,9 @@ final class RedSecondViewController: BaseViewController<RedSecondView>, RedFlowI
         .redSecondScreen
     }
     
-    let viewModel: RedSecondViewModelProtocol
+    let viewModel: RedSecondViewModel
 
-    init(viewModel: RedSecondViewModelProtocol) {
+    init(viewModel: RedSecondViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = viewModel.title
@@ -49,8 +65,10 @@ final class RedSecondViewController: BaseViewController<RedSecondView>, RedFlowI
     }
 }
 
+// MARK: - View
+
 struct RedSecondView: View {
-    let viewModel: RedSecondViewModelProtocol
+    let viewModel: RedSecondViewModel
 
     var body: some View {
         BasicColorView(
@@ -64,6 +82,6 @@ struct RedSecondView: View {
 
 struct RedSecondView_Previews: PreviewProvider {
     static var previews: some View {
-        RedSecondView(viewModel: RedSecondViewModel(didTapNextButton: {}))
+        RedSecondView(viewModel: RedSecondViewModel())
     }
 }

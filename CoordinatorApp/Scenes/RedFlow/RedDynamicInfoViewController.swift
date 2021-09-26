@@ -9,16 +9,18 @@ import Combine
 import SwiftUI
 import UIKit
 
+// MARK: - Module Output
+
 public protocol RedDynamicInfoModuleOutput: AnyObject {
-    var itemDidSelect: AnyPublisher<DynamicInfoItem, Never> { get }
+    var didSelectItemPublisher: AnyPublisher<DynamicInfoItem, Never> { get }
 }
 
 // MARK: - View Model
 
 public final class RedDynamicInfoViewModel: ObservableObject, RedDynamicInfoModuleOutput {
     // module output
-    public var itemDidSelect: AnyPublisher<DynamicInfoItem, Never> {
-        itemDidSelectSubject.eraseToAnyPublisher()
+    public var didSelectItemPublisher: AnyPublisher<DynamicInfoItem, Never> {
+        didSelectItemSubject.eraseToAnyPublisher()
     }
 
     // output
@@ -36,12 +38,12 @@ public final class RedDynamicInfoViewModel: ObservableObject, RedDynamicInfoModu
     }
 
     func didSelectCell(_ item: DynamicInfoItem) {
-        itemDidSelectSubject.send(item)
+        didSelectItemSubject.send(item)
     }
 
     private let fetcher: DynamicItemsFetchable
     private var cancellables: Set<AnyCancellable> = []
-    private var itemDidSelectSubject = PassthroughSubject<DynamicInfoItem, Never>()
+    private let didSelectItemSubject = PassthroughSubject<DynamicInfoItem, Never>()
 
     public init(fetcher: DynamicItemsFetchable) {
         self.fetcher = fetcher

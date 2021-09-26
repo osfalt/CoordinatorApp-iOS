@@ -7,7 +7,7 @@
 
 import Combine
 import UIKit
-import CoordinatorApp
+@testable import CoordinatorApp
 
 // MARK: - Red Flow Factory
 
@@ -22,20 +22,20 @@ final class MockRedFlowFactory: RedFlowFactoryProtocol {
         return (redFlowNavigationVC, coordinator)
     }
 
-    func makeRedFirstModule(didTapNextButton: @escaping () -> Void) -> RedFirstModule {
+    func makeRedFirstModule() -> RedFirstModule {
         if let redFirstViewController = redFirstViewController {
             return  (redFirstViewController, redFirstViewController.viewModel)
         }
-        let redFirstViewController = MockRedFirstController(didTapNextButton: didTapNextButton)
+        let redFirstViewController = MockRedFirstController()
         self.redFirstViewController = redFirstViewController
         return (redFirstViewController, redFirstViewController.viewModel)
     }
 
-    func makeRedSecondModule(didTapNextButton: @escaping () -> Void) -> RedSecondModule {
+    func makeRedSecondModule() -> RedSecondModule {
         if let redSecondViewController = redSecondViewController {
             return  (redSecondViewController, redSecondViewController.viewModel)
         }
-        let redSecondViewController = MockRedSecondController(didTapNextButton: didTapNextButton)
+        let redSecondViewController = MockRedSecondController()
         self.redSecondViewController = redSecondViewController
         return (redSecondViewController, redSecondViewController.viewModel)
     }
@@ -55,40 +55,20 @@ final class MockRedFlowFactory: RedFlowFactoryProtocol {
 final class MockRedFirstController: UIViewController, RedFlowInterfaceStateContaining {
     let state: RedFlowCoordinator.InterfaceState = .redFirstScreen
 
-    private(set) lazy var viewModel = RedFirstViewModel(didTapNextButton: didTapNextButton)
-    private let didTapNextButton: () -> Void
-
-    init(didTapNextButton: @escaping () -> Void) {
-        self.didTapNextButton = didTapNextButton
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private(set) lazy var viewModel = RedFirstViewModel()
 
     func tapOnNextButton() {
-        didTapNextButton()
+        viewModel.didTapNextButton()
     }
 }
 
 final class MockRedSecondController: UIViewController, RedFlowInterfaceStateContaining {
     let state: RedFlowCoordinator.InterfaceState = .redSecondScreen
 
-    private(set) lazy var viewModel = RedSecondViewModel(didTapNextButton: didTapNextButton)
-    private let didTapNextButton: () -> Void
-
-    init(didTapNextButton: @escaping () -> Void) {
-        self.didTapNextButton = didTapNextButton
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private(set) lazy var viewModel = RedSecondViewModel()
 
     func tapOnNextButton() {
-        didTapNextButton()
+        viewModel.didTapNextButton()
     }
 }
 

@@ -102,9 +102,13 @@ public final class RedFlowCoordinator: Coordinating {
             return
         }
 
-        let redFirstVC = flowFactory.makeRedFirstModule(didTapNextButton: { [weak self] in
-            self?.state = .redSecondScreen
-        }).controller
+        let (redFirstVC, redFirstModuleOutput) = flowFactory.makeRedFirstModule()
+        redFirstModuleOutput.didTapNextButtonPublisher
+            .sink { [weak self] in
+                self?.state = .redSecondScreen
+            }
+            .store(in: &cancellables)
+
         flowNavigationController?.pushViewController(redFirstVC, animated: false)
 
         self.firstViewController = redFirstVC
@@ -115,9 +119,13 @@ public final class RedFlowCoordinator: Coordinating {
             return
         }
 
-        let redSecondVC = flowFactory.makeRedSecondModule(didTapNextButton: { [weak self] in
-            self?.state = .redDynamicInfoScreen
-        }).controller
+        let (redSecondVC, redSecondModuleOutput) = flowFactory.makeRedSecondModule()
+        redSecondModuleOutput.didTapNextButtonPublisher
+            .sink { [weak self] in
+                self?.state = .redDynamicInfoScreen
+            }
+            .store(in: &cancellables)
+
         flowNavigationController?.pushViewController(redSecondVC, animated: animated)
         flowNavigationController?.didPopViewControllerPublisher
             .sink { [weak self, weak redSecondVC] popped, shown in
@@ -135,17 +143,17 @@ public final class RedFlowCoordinator: Coordinating {
         }
 
         let (dynamicInfoVC, moduleOutput) = flowFactory.makeRedDynamicModule()
+        moduleOutput.didSelectItemPublisher
+            .sink { item in
+                print("didSelectItem: \(item)")
+            }
+            .store(in: &cancellables)
+
         flowNavigationController?.pushViewController(dynamicInfoVC, animated: animated)
         flowNavigationController?.didPopViewControllerPublisher
             .sink { [weak self, weak dynamicInfoVC] popped, shown in
                 guard popped === dynamicInfoVC else { return }
                 self?.updateCurrentStateBasedOnUI()
-            }
-            .store(in: &cancellables)
-
-        moduleOutput.itemDidSelect
-            .sink { item in
-                print("itemDidSelect: \(item)")
             }
             .store(in: &cancellables)
 

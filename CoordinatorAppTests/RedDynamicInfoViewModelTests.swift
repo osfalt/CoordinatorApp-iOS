@@ -82,7 +82,7 @@ class RedDynamicInfoViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.showError)
     }
 
-    func testItemDidSelect() throws {
+    func testDidSelectItem() throws {
         fetchItemsAndWait()
 
         guard let item = viewModel.items.first else {
@@ -90,17 +90,17 @@ class RedDynamicInfoViewModelTests: XCTestCase {
             return
         }
 
-        let itemDidSelectExpectation = XCTestExpectation(description: "itemDidSelect")
+        let didSelectItemExpectation = XCTestExpectation(description: "didSelectItem")
 
-        viewModel.itemDidSelect
+        viewModel.didSelectItemPublisher
             .sink { selectedItem in
                 XCTAssertEqual(selectedItem.id, item.id)
-                itemDidSelectExpectation.fulfill()
+                didSelectItemExpectation.fulfill()
             }
             .store(in: &cancellables)
 
         viewModel.didSelectCell(item)
-        wait(for: [itemDidSelectExpectation], timeout: 0.01)
+        wait(for: [didSelectItemExpectation], timeout: 0.01)
     }
 
     // MARK: - Private methods

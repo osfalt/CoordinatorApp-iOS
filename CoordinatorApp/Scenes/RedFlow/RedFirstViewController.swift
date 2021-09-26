@@ -5,26 +5,42 @@
 //  Created by Dre on 30/07/2021.
 //
 
+import Combine
 import SwiftUI
 import UIKit
 
-public protocol RedFirstViewModelProtocol: AnyObject {
-    var title: String { get }
-    var description: String { get }
-    var didTapNextButton: () -> Void { get }
+// MARK: - Module Output
+
+public protocol RedFirstModuleOutput: AnyObject {
+    var didTapNextButtonPublisher: AnyPublisher<Void, Never> { get }
 }
 
-public final class RedFirstViewModel: RedFirstViewModelProtocol {
-    public let title: String
-    public let description: String
-    public let didTapNextButton: () -> Void
+// MARK: - View Model
 
-    public init(didTapNextButton: @escaping () -> Void) {
+public final class RedFirstViewModel: RedFirstModuleOutput {
+    // module output
+    public var didTapNextButtonPublisher: AnyPublisher<Void, Never> {
+        didTapNextButtonSubject.eraseToAnyPublisher()
+    }
+
+    // output
+    let title: String
+    let description: String
+
+    // input
+    func didTapNextButton() {
+        didTapNextButtonSubject.send(())
+    }
+
+    private let didTapNextButtonSubject = PassthroughSubject<Void, Never>()
+
+    public init() {
         self.title = "First Red Screen"
         self.description = "This is the FIRST screen with RED background colour"
-        self.didTapNextButton = didTapNextButton
     }
 }
+
+// MARK: - View Controller
 
 final class RedFirstViewController: BaseViewController<RedFirstView>, RedFlowInterfaceStateContaining {
 
@@ -36,9 +52,9 @@ final class RedFirstViewController: BaseViewController<RedFirstView>, RedFlowInt
         .redFirstScreen
     }
 
-    let viewModel: RedFirstViewModelProtocol
+    let viewModel: RedFirstViewModel
 
-    init(viewModel: RedFirstViewModelProtocol) {
+    init(viewModel: RedFirstViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = viewModel.title
@@ -49,8 +65,10 @@ final class RedFirstViewController: BaseViewController<RedFirstView>, RedFlowInt
     }
 }
 
+// MARK: - View
+
 struct RedFirstView: View {
-    let viewModel: RedFirstViewModelProtocol
+    let viewModel: RedFirstViewModel
 
     var body: some View {
         BasicColorView(
@@ -64,6 +82,6 @@ struct RedFirstView: View {
 
 struct RedFirstView_Previews: PreviewProvider {
     static var previews: some View {
-        RedFirstView(viewModel: RedFirstViewModel(didTapNextButton: {}))
+        RedFirstView(viewModel: RedFirstViewModel())
     }
 }

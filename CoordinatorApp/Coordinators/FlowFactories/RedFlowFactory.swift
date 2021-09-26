@@ -11,13 +11,13 @@ public protocol RedFlowFactoryProtocol {
 
     typealias RedFlow = (flowController: BaseNavigationController, coordinator: Coordinating)
 
-    typealias RedFirstModule = (controller: UIViewController & RedFlowInterfaceStateContaining, vm: RedFirstViewModel)
-    typealias RedSecondModule = (controller: UIViewController & RedFlowInterfaceStateContaining, vm: RedSecondViewModel)
+    typealias RedFirstModule = (controller: UIViewController & RedFlowInterfaceStateContaining, output: RedFirstModuleOutput)
+    typealias RedSecondModule = (controller: UIViewController & RedFlowInterfaceStateContaining, output: RedSecondModuleOutput)
     typealias RedDynamicModule = (controller: UIViewController & RedFlowInterfaceStateContaining, output: RedDynamicInfoModuleOutput)
 
     func makeFlow() -> RedFlow
-    func makeRedFirstModule(didTapNextButton: @escaping () -> Void) -> RedFirstModule
-    func makeRedSecondModule(didTapNextButton: @escaping () -> Void) -> RedSecondModule
+    func makeRedFirstModule() -> RedFirstModule
+    func makeRedSecondModule() -> RedSecondModule
     func makeRedDynamicModule() -> RedDynamicModule
 
 }
@@ -32,14 +32,14 @@ final class RedFlowFactory: RedFlowFactoryProtocol {
         return (redFlowNavigationVC, coordinator)
     }
 
-    func makeRedFirstModule(didTapNextButton: @escaping () -> Void) -> RedFirstModule {
-        let viewModel = RedFirstViewModel(didTapNextButton: didTapNextButton)
+    func makeRedFirstModule() -> RedFirstModule {
+        let viewModel = RedFirstViewModel()
         let viewController = RedFirstViewController(viewModel: viewModel)
         return (viewController, viewModel)
     }
 
-    func makeRedSecondModule(didTapNextButton: @escaping () -> Void) -> RedSecondModule {
-        let viewModel = RedSecondViewModel(didTapNextButton: didTapNextButton)
+    func makeRedSecondModule() -> RedSecondModule {
+        let viewModel = RedSecondViewModel()
         let viewController = RedSecondViewController(viewModel: viewModel)
         return (viewController, viewModel)
     }
