@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		311028F1270231AB0018184C /* CoordinatorsIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311028F0270231AB0018184C /* CoordinatorsIntegrationTests.swift */; };
 		3124245D26B89C7D0074F592 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3124245C26B89C7D0074F592 /* BaseNavigationController.swift */; };
 		3124245F26B89C950074F592 /* BaseNavigationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3124245E26B89C950074F592 /* BaseNavigationControllerTests.swift */; };
 		3150391326C1D774009ECBEF /* RedDynamicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3150391226C1D774009ECBEF /* RedDynamicInfoViewController.swift */; };
@@ -64,6 +65,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		311028F0270231AB0018184C /* CoordinatorsIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorsIntegrationTests.swift; sourceTree = "<group>"; };
 		3124245C26B89C7D0074F592 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		3124245E26B89C950074F592 /* BaseNavigationControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationControllerTests.swift; sourceTree = "<group>"; };
 		3150391226C1D774009ECBEF /* RedDynamicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedDynamicInfoViewController.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				3171B7B526B9DA210094D31B /* MainCoordinatorTests.swift */,
 				31B5079126BFCB5700C8F3B6 /* RedFlowCoordinatorTests.swift */,
 				31B5079326BFCE3700C8F3B6 /* GreenFlowCoordinatorTests.swift */,
+				311028F0270231AB0018184C /* CoordinatorsIntegrationTests.swift */,
 				3124245E26B89C950074F592 /* BaseNavigationControllerTests.swift */,
 				31A96C552700A211009AA0A1 /* RedDynamicInfoViewModelTests.swift */,
 				319C46D126B4B1D400DDC21C /* Info.plist */,
@@ -462,6 +465,7 @@
 				315FC88126C67E08006C301E /* MockRedFlowFactory.swift in Sources */,
 				31A96C5426FFD7D1009AA0A1 /* MockGreenFlowFactory.swift in Sources */,
 				315FC87F26C48E91006C301E /* MockMainFlowFactory.swift in Sources */,
+				311028F1270231AB0018184C /* CoordinatorsIntegrationTests.swift in Sources */,
 				31B5079226BFCB5700C8F3B6 /* RedFlowCoordinatorTests.swift in Sources */,
 				31B5079426BFCE3700C8F3B6 /* GreenFlowCoordinatorTests.swift in Sources */,
 				3124245F26B89C950074F592 /* BaseNavigationControllerTests.swift in Sources */,

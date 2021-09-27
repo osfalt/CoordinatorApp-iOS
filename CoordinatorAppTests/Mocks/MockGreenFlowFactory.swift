@@ -17,8 +17,11 @@ final class MockGreenFlowFactory: GreenFlowFactoryProtocol {
     private(set) var greenSecondViewController: MockGreenSecondController?
     private(set) var greenThirdViewController: MockGreenThirdController?
 
+    weak var coordinator: GreenFlowCoordinator?
+
     func makeFlow() -> GreenFlow {
         let coordinator = GreenFlowCoordinator(flowNavigationController: greenFlowNavigationVC, flowFactory: self)
+        self.coordinator = coordinator
         return (greenFlowNavigationVC, coordinator)
     }
 

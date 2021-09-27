@@ -17,8 +17,11 @@ final class MockRedFlowFactory: RedFlowFactoryProtocol {
     private(set) var redSecondViewController: MockRedSecondController?
     private(set) var redDynamicController: MockRedDynamicController?
 
+    weak var coordinator: RedFlowCoordinator?
+
     func makeFlow() -> RedFlow {
         let coordinator = RedFlowCoordinator(flowNavigationController: redFlowNavigationVC, flowFactory: self)
+        self.coordinator = coordinator
         return (redFlowNavigationVC, coordinator)
     }
 
