@@ -241,9 +241,9 @@
 		319C46CE26B4B1D400DDC21C /* CoordinatorAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				315FC87D26C48E7C006C301E /* Mocks */,
 				311028F2270237D60018184C /* CoordinatorsTests */,
 				311028F3270238160018184C /* IntegrationTests */,
-				315FC87D26C48E7C006C301E /* Mocks */,
 				311028F4270238320018184C /* ViewModelsTests */,
 				3124245E26B89C950074F592 /* BaseNavigationControllerTests.swift */,
 				319C46D126B4B1D400DDC21C /* Info.plist */,

@@ -79,8 +79,8 @@ final class MockRedDynamicController: UIViewController, RedFlowInterfaceStateCon
     let state: RedFlowCoordinator.InterfaceState = .redDynamicInfoScreen
 
     final class MockDynamicItemsFetcher: DynamicItemsFetchable {
-        var fetchItems: AnyPublisher<[DynamicInfoItem], Error> {
-            Empty<[DynamicInfoItem], Error>().eraseToAnyPublisher()
+        var fetchItems: AnyPublisher<[FetchedDynamicItem], Error> {
+            Empty<[FetchedDynamicItem], Error>().eraseToAnyPublisher()
         }
     }
 

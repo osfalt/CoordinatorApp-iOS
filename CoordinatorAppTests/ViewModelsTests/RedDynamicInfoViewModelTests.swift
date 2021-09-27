@@ -13,24 +13,26 @@ import XCTest
 class RedDynamicInfoViewModelTests: XCTestCase {
 
     enum Spec {
-        static let timeout = MockDynamicItemsFetcher.Spec.fetchDuration * 2 // multiplication by 2 is fo sure
+        static let timeout = MockDynamicItemsFetcher.Spec.fetchDuration * 2 // multiplie by 2 just in case
     }
 
+    private var fetcher: MockDynamicItemsFetcher!
     private var viewModel: RedDynamicInfoViewModel!
     private var cancellables: Set<AnyCancellable> = []
 
     override func setUpWithError() throws {
-        initialiseViewModel()
+        fetcher = MockDynamicItemsFetcher()
+        viewModel = RedDynamicInfoViewModel(fetcher: fetcher)
     }
 
     // MARK: - Tests
     
     func testSuccessfulFetchTriggeredByViewDidLoad() throws {
         XCTAssertFalse(viewModel.isLoading)
-        XCTAssertTrue(viewModel.items.isEmpty)
         XCTAssertFalse(viewModel.showError)
+        XCTAssertTrue(viewModel.items.isEmpty)
 
-        let expectation = XCTestExpectation(description: "isLoading")
+        let expectation = XCTestExpectation(description: "isLoading - viewDidLoad")
         viewModel.$isLoading
             .filter { !$0 }
             .dropFirst()
@@ -40,50 +42,59 @@ class RedDynamicInfoViewModelTests: XCTestCase {
         viewModel.viewDidLoad()
 
         XCTAssertTrue(viewModel.isLoading)
-        XCTAssertTrue(viewModel.items.isEmpty)
         XCTAssertFalse(viewModel.showError)
+        XCTAssertTrue(viewModel.items.isEmpty)
 
         wait(for: [expectation], timeout: Spec.timeout)
 
         XCTAssertFalse(viewModel.isLoading)
-        XCTAssertFalse(viewModel.items.isEmpty)
         XCTAssertFalse(viewModel.showError)
+        XCTAssertEqual(viewModel.items.count, fetcher.fetchedItems.count)
+        XCTAssertEqual(viewModel.items.map(\.title), fetcher.fetchedItems.map(\.name))
+        XCTAssertEqual(viewModel.items.map(\.id), fetcher.fetchedItems.map(\.index))
     }
     
     func testSuccessfulFetchTriggeredByDidTapReloadButton() throws {
-        fetchItemsAndWait()
+        fetcher.asyncFetch = false
+        viewModel.viewDidLoad()
 
-        let isLoadingForDidTapReloadButtonExpectation = XCTestExpectation(description: "isLoading - didTapReloadButton")
+        fetcher.asyncFetch = true
+
+        let expectation = XCTestExpectation(description: "isLoading - didTapReloadButton")
         viewModel.$isLoading
             .filter { !$0 }
             .dropFirst()
-            .sink { _ in isLoadingForDidTapReloadButtonExpectation.fulfill() }
+            .sink { _ in expectation.fulfill() }
             .store(in: &cancellables)
 
         viewModel.didTapReloadButton()
 
         XCTAssertTrue(viewModel.isLoading)
-        XCTAssertTrue(viewModel.items.isEmpty)
         XCTAssertFalse(viewModel.showError)
+        XCTAssertTrue(viewModel.items.isEmpty)
 
-        wait(for: [isLoadingForDidTapReloadButtonExpectation], timeout: Spec.timeout)
+        wait(for: [expectation], timeout: Spec.timeout)
 
         XCTAssertFalse(viewModel.isLoading)
-        XCTAssertFalse(viewModel.items.isEmpty)
         XCTAssertFalse(viewModel.showError)
+        XCTAssertEqual(viewModel.items.count, fetcher.fetchedItems.count)
+        XCTAssertEqual(viewModel.items.map(\.title), fetcher.fetchedItems.map(\.name))
+        XCTAssertEqual(viewModel.items.map(\.id), fetcher.fetchedItems.map(\.index))
     }
 
     func testFailedFetchTriggeredByViewDidLoad() throws {
-        initialiseViewModel(successfulFetch: false)
-        fetchItemsAndWait()
+        fetcher.successfulFetch = false
+        fetcher.asyncFetch = false
+        viewModel.viewDidLoad()
 
         XCTAssertFalse(viewModel.isLoading)
-        XCTAssertTrue(viewModel.items.isEmpty)
         XCTAssertTrue(viewModel.showError)
+        XCTAssertTrue(viewModel.items.isEmpty)
     }
 
     func testDidSelectItem() throws {
-        fetchItemsAndWait()
+        fetcher.asyncFetch = false
+        viewModel.viewDidLoad()
 
         guard let item = viewModel.items.first else {
             XCTFail()
@@ -103,25 +114,6 @@ class RedDynamicInfoViewModelTests: XCTestCase {
         wait(for: [didSelectItemExpectation], timeout: 0.01)
     }
 
-    // MARK: - Private methods
-
-    private func initialiseViewModel(successfulFetch: Bool = true) {
-        let fetcher = MockDynamicItemsFetcher(successfulFetch: successfulFetch)
-        viewModel = RedDynamicInfoViewModel(fetcher: fetcher)
-    }
-
-    private func fetchItemsAndWait() {
-        let expectation = XCTestExpectation(description: "isLoading")
-        viewModel.$isLoading
-            .filter { !$0 }
-            .dropFirst()
-            .sink { _ in expectation.fulfill() }
-            .store(in: &cancellables)
-
-        viewModel.viewDidLoad()
-        wait(for: [expectation], timeout: Spec.timeout)
-    }
-
 }
 
 // MARK: - Mocks
@@ -132,25 +124,29 @@ private class MockDynamicItemsFetcher: DynamicItemsFetchable {
         static let fetchDuration: TimeInterval = 0.05
     }
 
-    private var successfulFetch: Bool
+    var successfulFetch: Bool = true
+    var asyncFetch: Bool = true
 
-    init(successfulFetch: Bool = true) {
-        self.successfulFetch = successfulFetch
-    }
+    let fetchedItems: [FetchedDynamicItem] = [
+        .init(index: 0, name: "First Mock Item"),
+        .init(index: 1, name: "Second Mock Item"),
+        .init(index: 2, name: "Third Mock Item"),
+    ]
 
-    var fetchItems: AnyPublisher<[DynamicInfoItem], Error> {
-        Future<[DynamicInfoItem], Error> { promise in
-            DispatchQueue.main.asyncAfter(deadline: .now() + Spec.fetchDuration) { [self] in
-                if successfulFetch {
-                    let items: [DynamicInfoItem] = [
-                        .init(id: 0, title: "First Mock Item"),
-                        .init(id: 1, title: "Second Mock Item"),
-                        .init(id: 2, title: "Third Mock Item"),
-                    ]
-                    promise(.success(items))
+    var fetchItems: AnyPublisher<[FetchedDynamicItem], Error> {
+        Future<[FetchedDynamicItem], Error> { promise in
+            let fetch = {
+                if self.successfulFetch {
+                    promise(.success(self.fetchedItems))
                 } else {
                     promise(.failure(NSError()))
                 }
+            }
+
+            if self.asyncFetch {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Spec.fetchDuration, execute: fetch)
+            } else {
+                fetch()
             }
         }.eraseToAnyPublisher()
     }

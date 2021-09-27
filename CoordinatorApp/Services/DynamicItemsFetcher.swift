@@ -8,31 +8,31 @@
 import Combine
 import Foundation
 
-public struct DynamicInfoItem: Identifiable {
-    public let id: Int
-    public let title: String
+public struct FetchedDynamicItem {
+    public let index: Int
+    public let name: String
 }
 
 public protocol DynamicItemsFetchable: AnyObject {
-    var fetchItems: AnyPublisher<[DynamicInfoItem], Error> { get }
+    var fetchItems: AnyPublisher<[FetchedDynamicItem], Error> { get }
 }
 
 final class DynamicItemsFetcher: DynamicItemsFetchable {
 
-    var fetchItems: AnyPublisher<[DynamicInfoItem], Error> {
-        Future<[DynamicInfoItem], Error> { promise in
+    var fetchItems: AnyPublisher<[FetchedDynamicItem], Error> {
+        Future<[FetchedDynamicItem], Error> { promise in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                let items: [DynamicInfoItem] = [
-                    .init(id: 0, title: "First Item"),
-                    .init(id: 1, title: "Second Item"),
-                    .init(id: 2, title: "Third Item"),
-                    .init(id: 3, title: "Fourth Item"),
-                    .init(id: 4, title: "Fifth Item"),
-                    .init(id: 5, title: "Sixth Item"),
-                    .init(id: 6, title: "Seventh Item"),
-                    .init(id: 7, title: "Eighth Item"),
-                    .init(id: 8, title: "Ninth Item"),
-                    .init(id: 9, title: "Tenth Item"),
+                let items: [FetchedDynamicItem] = [
+                    .init(index: 0, name: "First Item"),
+                    .init(index: 1, name: "Second Item"),
+                    .init(index: 2, name: "Third Item"),
+                    .init(index: 3, name: "Fourth Item"),
+                    .init(index: 4, name: "Fifth Item"),
+                    .init(index: 5, name: "Sixth Item"),
+                    .init(index: 6, name: "Seventh Item"),
+                    .init(index: 7, name: "Eighth Item"),
+                    .init(index: 8, name: "Ninth Item"),
+                    .init(index: 9, name: "Tenth Item"),
                 ]
                 promise(.success(items))
             }

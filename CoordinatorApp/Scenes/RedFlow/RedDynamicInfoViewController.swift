@@ -9,22 +9,27 @@ import Combine
 import SwiftUI
 import UIKit
 
+public struct Item: Identifiable {
+    public let id: Int
+    public let title: String
+}
+
 // MARK: - Module Output
 
 public protocol RedDynamicInfoModuleOutput: AnyObject {
-    var didSelectItemPublisher: AnyPublisher<DynamicInfoItem, Never> { get }
+    var didSelectItemPublisher: AnyPublisher<Item, Never> { get }
 }
 
 // MARK: - View Model
 
 public final class RedDynamicInfoViewModel: ObservableObject, RedDynamicInfoModuleOutput {
     // module output
-    public var didSelectItemPublisher: AnyPublisher<DynamicInfoItem, Never> {
+    public var didSelectItemPublisher: AnyPublisher<Item, Never> {
         didSelectItemSubject.eraseToAnyPublisher()
     }
 
     // output
-    @Published private(set) var items: [DynamicInfoItem] = []
+    @Published private(set) var items: [Item] = []
     @Published private(set) var isLoading = false
     @Published var showError: Bool = false
 
@@ -37,13 +42,13 @@ public final class RedDynamicInfoViewModel: ObservableObject, RedDynamicInfoModu
         loadItems()
     }
 
-    func didSelectCell(_ item: DynamicInfoItem) {
+    func didSelectCell(_ item: Item) {
         didSelectItemSubject.send(item)
     }
 
     private let fetcher: DynamicItemsFetchable
     private var cancellables: Set<AnyCancellable> = []
-    private let didSelectItemSubject = PassthroughSubject<DynamicInfoItem, Never>()
+    private let didSelectItemSubject = PassthroughSubject<Item, Never>()
 
     public init(fetcher: DynamicItemsFetchable) {
         self.fetcher = fetcher
@@ -54,6 +59,9 @@ public final class RedDynamicInfoViewModel: ObservableObject, RedDynamicInfoModu
         items = []
 
         fetcher.fetchItems
+            .map { fetchedItems in
+                fetchedItems.map { Item(id: $0.index, title: $0.name) }
+            }
             .sink(
                 receiveCompletion: { [weak self] completion in
                     self?.isLoading = false
