@@ -13,12 +13,12 @@ class GreenFlowCoordinatorTests: XCTestCase {
 
     private var coordinator: GreenFlowCoordinator!
     private var factory: MockGreenFlowFactory!
-    private var flowNavigationVC: UINavigationController!
+    private var flowNavigationVC: BaseNavigationController!
 
     override func setUpWithError() throws {
         factory = MockGreenFlowFactory()
-        coordinator = GreenFlowCoordinator(flowNavigationController: factory.greenFlowNavigationVC, flowFactory: factory)
         flowNavigationVC = factory.greenFlowNavigationVC
+        coordinator = GreenFlowCoordinator(flowNavigationController: flowNavigationVC, flowFactory: factory)
         coordinator.animationEnabled = false
     }
 
@@ -57,8 +57,6 @@ class GreenFlowCoordinatorTests: XCTestCase {
 
         // open green second screen
         coordinator.start()
-        XCTAssertEqual(coordinator.state, .greenFirstScreen)
-
         let greenFirstViewController = try XCTUnwrap(factory.greenFirstViewController)
         greenFirstViewController.tapOnNextButton()
         XCTAssertEqual(coordinator.state, .greenSecondScreen)
@@ -75,11 +73,8 @@ class GreenFlowCoordinatorTests: XCTestCase {
 
         // open green third screen
         coordinator.start()
-        XCTAssertEqual(coordinator.state, .greenFirstScreen)
-
         let greenFirstViewController = try XCTUnwrap(factory.greenFirstViewController)
         greenFirstViewController.tapOnNextButton()
-        XCTAssertEqual(coordinator.state, .greenSecondScreen)
 
         let greenSecondViewController = try XCTUnwrap(factory.greenSecondViewController)
         greenSecondViewController.tapOnNextButton()
@@ -97,11 +92,8 @@ class GreenFlowCoordinatorTests: XCTestCase {
 
         // open green third screen
         coordinator.start()
-        XCTAssertEqual(coordinator.state, .greenFirstScreen)
-
         let greenFirstViewController = try XCTUnwrap(factory.greenFirstViewController)
         greenFirstViewController.tapOnNextButton()
-        XCTAssertEqual(coordinator.state, .greenSecondScreen)
 
         let greenSecondViewController = try XCTUnwrap(factory.greenSecondViewController)
         greenSecondViewController.tapOnNextButton()

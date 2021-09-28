@@ -13,6 +13,7 @@ import UIKit
 
 public protocol SignInModuleOutput: AnyObject {
     var didTapSignInButtonPublisher: AnyPublisher<Void, Never> { get }
+    var didTapCreateAccountButtonPublisher: AnyPublisher<Void, Never> { get }
 }
 
 // MARK: - View Model
@@ -21,6 +22,9 @@ public final class SignInViewModel: SignInModuleOutput {
     // module output
     public var didTapSignInButtonPublisher: AnyPublisher<Void, Never> {
         didTapSignInButtonSubject.eraseToAnyPublisher()
+    }
+    public var didTapCreateAccountButtonPublisher: AnyPublisher<Void, Never> {
+        didTapCreateAccountButtonSubject.eraseToAnyPublisher()
     }
 
     // output
@@ -31,7 +35,12 @@ public final class SignInViewModel: SignInModuleOutput {
         didTapSignInButtonSubject.send(())
     }
 
+    func didTapCreateAccountButton() {
+        didTapCreateAccountButtonSubject.send(())
+    }
+
     private let didTapSignInButtonSubject = PassthroughSubject<Void, Never>()
+    private let didTapCreateAccountButtonSubject = PassthroughSubject<Void, Never>()
 
     public init() {
         self.title = "Sign-In Screen"
@@ -71,7 +80,11 @@ struct SignInView: View {
     var body: some View {
         VStack {
             Text(viewModel.title)
+                .font(.title)
             Button("Sign In", action: viewModel.didTapSignInButton)
+            Spacer()
+            Text("Don't have an account?")
+            Button("Create an account", action: viewModel.didTapSignInButton)
         }
     }
 }

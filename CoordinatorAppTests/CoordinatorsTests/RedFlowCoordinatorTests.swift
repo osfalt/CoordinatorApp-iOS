@@ -13,12 +13,12 @@ class RedFlowCoordinatorTests: XCTestCase {
 
     private var coordinator: RedFlowCoordinator!
     private var factory: MockRedFlowFactory!
-    private var flowNavigationVC: UINavigationController!
+    private var flowNavigationVC: BaseNavigationController!
 
     override func setUpWithError() throws {
         factory = MockRedFlowFactory()
-        coordinator = RedFlowCoordinator(flowNavigationController: factory.redFlowNavigationVC, flowFactory: factory)
         flowNavigationVC = factory.redFlowNavigationVC
+        coordinator = RedFlowCoordinator(flowNavigationController: flowNavigationVC, flowFactory: factory)
         coordinator.animationEnabled = false
     }
 
@@ -57,8 +57,6 @@ class RedFlowCoordinatorTests: XCTestCase {
 
         // open red second screen
         coordinator.start()
-        XCTAssertEqual(coordinator.state, .redFirstScreen)
-
         let redFirstViewController = try XCTUnwrap(factory.redFirstViewController)
         redFirstViewController.tapOnNextButton()
         XCTAssertEqual(coordinator.state, .redSecondScreen)
@@ -75,11 +73,8 @@ class RedFlowCoordinatorTests: XCTestCase {
 
         // open red dynamic screen
         coordinator.start()
-        XCTAssertEqual(coordinator.state, .redFirstScreen)
-
         let redFirstViewController = try XCTUnwrap(factory.redFirstViewController)
         redFirstViewController.tapOnNextButton()
-        XCTAssertEqual(coordinator.state, .redSecondScreen)
 
         let redSecondViewController = try XCTUnwrap(factory.redSecondViewController)
         redSecondViewController.tapOnNextButton()
@@ -97,11 +92,8 @@ class RedFlowCoordinatorTests: XCTestCase {
 
         // open red dynamic screen
         coordinator.start()
-        XCTAssertEqual(coordinator.state, .redFirstScreen)
-
         let redFirstViewController = try XCTUnwrap(factory.redFirstViewController)
         redFirstViewController.tapOnNextButton()
-        XCTAssertEqual(coordinator.state, .redSecondScreen)
 
         let redSecondViewController = try XCTUnwrap(factory.redSecondViewController)
         redSecondViewController.tapOnNextButton()

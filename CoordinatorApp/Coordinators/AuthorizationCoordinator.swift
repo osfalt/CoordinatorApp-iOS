@@ -104,6 +104,12 @@ public final class AuthorizationCoordinator: Coordinating {
             }
             .store(in: &cancellables)
 
+        signInModuleOutput.didTapCreateAccountButtonPublisher
+            .sink { [weak self] in
+                self?.state = .signUp
+            }
+            .store(in: &cancellables)
+
         flowNavigationController?.pushViewController(signInVC, animated: false)
         self.signInViewController = signInVC
     }
