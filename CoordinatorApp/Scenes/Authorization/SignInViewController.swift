@@ -11,13 +11,13 @@ import UIKit
 
 // MARK: - Module Output
 
-public protocol AuthorizationModuleOutput: AnyObject {
+public protocol SignInModuleOutput: AnyObject {
     var didTapSignInButtonPublisher: AnyPublisher<Void, Never> { get }
 }
 
 // MARK: - View Model
 
-public final class AuthorizationViewModel: AuthorizationModuleOutput {
+public final class SignInViewModel: SignInModuleOutput {
     // module output
     public var didTapSignInButtonPublisher: AnyPublisher<Void, Never> {
         didTapSignInButtonSubject.eraseToAnyPublisher()
@@ -34,21 +34,25 @@ public final class AuthorizationViewModel: AuthorizationModuleOutput {
     private let didTapSignInButtonSubject = PassthroughSubject<Void, Never>()
 
     public init() {
-        self.title = "Authorization Screen"
+        self.title = "Sign-In Screen"
     }
 }
 
 // MARK: - View Controller
 
-final class AuthorizationViewController: BaseViewController<AuthorizationView> {
+final class SignInViewController: BaseViewController<AuthorizationView>, AuthorizationInterfaceStateContaining {
 
     override var content: Content {
         AuthorizationView(viewModel: viewModel)
     }
 
-    let viewModel: AuthorizationViewModel
+    var state: AuthorizationCoordinator.InterfaceState {
+        .signIn
+    }
 
-    init(viewModel: AuthorizationViewModel) {
+    let viewModel: SignInViewModel
+
+    init(viewModel: SignInViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = viewModel.title
@@ -62,7 +66,7 @@ final class AuthorizationViewController: BaseViewController<AuthorizationView> {
 // MARK: - View
 
 struct AuthorizationView: View {
-    let viewModel: AuthorizationViewModel
+    let viewModel: SignInViewModel
 
     var body: some View {
         VStack {
@@ -72,8 +76,8 @@ struct AuthorizationView: View {
     }
 }
 
-struct _Previews: PreviewProvider {
+struct AuthorizationView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthorizationView(viewModel: AuthorizationViewModel())
+        AuthorizationView(viewModel: SignInViewModel())
     }
 }
