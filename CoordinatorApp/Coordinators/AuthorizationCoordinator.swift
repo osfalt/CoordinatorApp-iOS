@@ -114,11 +114,11 @@ public final class AuthorizationCoordinator: Coordinating {
         }
 
         let (signUpVC, signUpModuleOutput) = flowFactory.makeSignUpModule()
-//        redSecondModuleOutput.didTapNextButtonPublisher
-//            .sink { [weak self] in
-//                self?.state = .redDynamicInfoScreen
-//            }
-//            .store(in: &cancellables)
+        signUpModuleOutput.didTapSignUpButtonPublisher
+            .sink { [weak self] in
+                self?.onFinish?()
+            }
+            .store(in: &cancellables)
 
         flowNavigationController?.pushViewController(signUpVC, animated: animated)
         flowNavigationController?.didPopViewControllerPublisher

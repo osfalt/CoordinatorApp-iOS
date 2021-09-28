@@ -40,10 +40,10 @@ public final class SignInViewModel: SignInModuleOutput {
 
 // MARK: - View Controller
 
-final class SignInViewController: BaseViewController<AuthorizationView>, AuthorizationInterfaceStateContaining {
+final class SignInViewController: BaseViewController<SignInView>, AuthorizationInterfaceStateContaining {
 
     override var content: Content {
-        AuthorizationView(viewModel: viewModel)
+        SignInView(viewModel: viewModel)
     }
 
     var state: AuthorizationCoordinator.InterfaceState {
@@ -65,7 +65,7 @@ final class SignInViewController: BaseViewController<AuthorizationView>, Authori
 
 // MARK: - View
 
-struct AuthorizationView: View {
+struct SignInView: View {
     let viewModel: SignInViewModel
 
     var body: some View {
@@ -76,8 +76,8 @@ struct AuthorizationView: View {
     }
 }
 
-struct AuthorizationView_Previews: PreviewProvider {
+struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthorizationView(viewModel: SignInViewModel())
+        SignInView(viewModel: SignInViewModel())
     }
 }

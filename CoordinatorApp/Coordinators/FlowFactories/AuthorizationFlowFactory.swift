@@ -12,7 +12,7 @@ public protocol AuthorizationFlowFactoryProtocol {
     typealias AuthorizationFlow = (flowController: BaseNavigationController, coordinator: Coordinating)
 
     typealias SignInModule = (controller: UIViewController & AuthorizationInterfaceStateContaining, output: SignInModuleOutput)
-    typealias SignUpModule = (controller: UIViewController & AuthorizationInterfaceStateContaining, output: SignInModuleOutput)
+    typealias SignUpModule = (controller: UIViewController & AuthorizationInterfaceStateContaining, output: SignUpModuleOutput)
 
     func makeFlow() -> AuthorizationFlow
     func makeSignInModule() -> SignInModule
@@ -35,8 +35,8 @@ final class AuthorizationFlowFactory: AuthorizationFlowFactoryProtocol {
     }
 
     func makeSignUpModule() -> SignUpModule {
-        let viewModel = SignInViewModel()
-        let viewController = SignInViewController(viewModel: viewModel)
+        let viewModel = SignUpViewModel()
+        let viewController = SignUpViewController(viewModel: viewModel)
         return (viewController, viewModel)
     }
 
