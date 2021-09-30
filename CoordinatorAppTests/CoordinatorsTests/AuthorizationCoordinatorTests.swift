@@ -41,22 +41,23 @@ class AuthorizationCoordinatorTests: XCTestCase {
     }
 
     func testTransitionBackFromSignUpToSignInState() throws {
-        // without this `NavigationControllerDelegate` callbacks don't work
         fixPopViewController()
 
         // open sign-in screen
         coordinator.start()
         let signInViewController = try XCTUnwrap(factory.signInViewController)
         signInViewController.tapOnCreateAccountButton()
+        RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .signUp)
         XCTAssertNotNil(factory.signUpViewController)
         
         // test pop transition
-        flowNavigationVC.popViewController(animated: true)
+        flowNavigationVC.popViewController(animated: false)
         RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .signIn)
     }
 
+    /// This method fixes callbacks of `NavigationControllerDelegate`
     private func fixPopViewController() {
         UIApplication.shared.windows.first?.rootViewController = flowNavigationVC
     }

@@ -52,59 +52,63 @@ class RedFlowCoordinatorTests: XCTestCase {
     }
 
     func testTransitionBackFromRedSecondToFirstState() throws {
-        // without this `NavigationControllerDelegate` callbacks don't work
         fixPopViewController()
 
         // open red second screen
         coordinator.start()
         let redFirstViewController = try XCTUnwrap(factory.redFirstViewController)
         redFirstViewController.tapOnNextButton()
+        RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .redSecondScreen)
 
         // test pop transition
-        flowNavigationVC.popViewController(animated: true)
+        flowNavigationVC.popViewController(animated: false)
         RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .redFirstScreen)
     }
 
     func testTransitionBackFromRedDynamicToSecondState() throws {
-        // without this `NavigationControllerDelegate` callbacks don't work
         fixPopViewController()
 
         // open red dynamic screen
         coordinator.start()
         let redFirstViewController = try XCTUnwrap(factory.redFirstViewController)
         redFirstViewController.tapOnNextButton()
+        RunLoop.current.run(until: Date())
 
         let redSecondViewController = try XCTUnwrap(factory.redSecondViewController)
         redSecondViewController.tapOnNextButton()
+        RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .redDynamicInfoScreen)
 
         // test pop transition
-        flowNavigationVC.popViewController(animated: true)
+        flowNavigationVC.popViewController(animated: false)
         RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .redSecondScreen)
     }
 
     func testTransitionBackFromRedDynamicToFirstState() throws {
-        // without this `NavigationControllerDelegate` callbacks don't work
         fixPopViewController()
 
         // open red dynamic screen
         coordinator.start()
         let redFirstViewController = try XCTUnwrap(factory.redFirstViewController)
         redFirstViewController.tapOnNextButton()
+        RunLoop.current.run(until: Date())
 
         let redSecondViewController = try XCTUnwrap(factory.redSecondViewController)
         redSecondViewController.tapOnNextButton()
+        RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .redDynamicInfoScreen)
 
         // test pop to root transition
-        flowNavigationVC.popToRootViewController(animated: true)
+        flowNavigationVC.popToRootViewController(animated: false)
         RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .redFirstScreen)
     }
 
+
+    /// This method fixes callbacks of `NavigationControllerDelegate`
     private func fixPopViewController() {
         UIApplication.shared.windows.first?.rootViewController = flowNavigationVC
     }

@@ -52,13 +52,13 @@ class GreenFlowCoordinatorTests: XCTestCase {
     }
 
     func testTransitionBackFromGreenSecondToFirstState() throws {
-        // without this `NavigationControllerDelegate` callbacks don't work
         fixPopViewController()
 
         // open green second screen
         coordinator.start()
         let greenFirstViewController = try XCTUnwrap(factory.greenFirstViewController)
         greenFirstViewController.tapOnNextButton()
+        RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .greenSecondScreen)
 
         // test pop transition
@@ -68,16 +68,17 @@ class GreenFlowCoordinatorTests: XCTestCase {
     }
 
     func testTransitionBackFromGreenThirdToSecondState() throws {
-        // without this `NavigationControllerDelegate` callbacks don't work
         fixPopViewController()
 
         // open green third screen
         coordinator.start()
         let greenFirstViewController = try XCTUnwrap(factory.greenFirstViewController)
         greenFirstViewController.tapOnNextButton()
+        RunLoop.current.run(until: Date())
 
         let greenSecondViewController = try XCTUnwrap(factory.greenSecondViewController)
         greenSecondViewController.tapOnNextButton()
+        RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .greenThirdScreen(nil))
 
         // test pop transition
@@ -87,16 +88,17 @@ class GreenFlowCoordinatorTests: XCTestCase {
     }
 
     func testTransitionBackFromGreenThirdToFirstState() throws {
-        // without this `NavigationControllerDelegate` callbacks don't work
         fixPopViewController()
 
         // open green third screen
         coordinator.start()
         let greenFirstViewController = try XCTUnwrap(factory.greenFirstViewController)
         greenFirstViewController.tapOnNextButton()
+        RunLoop.current.run(until: Date())
 
         let greenSecondViewController = try XCTUnwrap(factory.greenSecondViewController)
         greenSecondViewController.tapOnNextButton()
+        RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .greenThirdScreen(nil))
 
         // test pop to root transition
@@ -105,6 +107,7 @@ class GreenFlowCoordinatorTests: XCTestCase {
         XCTAssertEqual(coordinator.state, .greenFirstScreen)
     }
 
+    /// This method fixes callbacks of `NavigationControllerDelegate`
     private func fixPopViewController() {
         UIApplication.shared.windows.first?.rootViewController = flowNavigationVC
     }
