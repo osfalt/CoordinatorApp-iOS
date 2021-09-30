@@ -37,10 +37,6 @@ public final class MainCoordinator: NSObject, Coordinating, UITabBarControllerDe
 
     // MARK: - Private
 
-    private var animated: Bool {
-        animationEnabled && !UIAccessibility.isReduceMotionEnabled
-    }
-
     private let flowFactory: MainFlowFactoryProtocol
     private weak var tabBarController: UITabBarController?
     private var childCoordinators: [Coordinating] = []

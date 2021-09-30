@@ -10,6 +10,8 @@ import UIKit
 
 open class BaseNavigationController: UINavigationController, UINavigationControllerDelegate {
 
+    // MARK: - Public
+
     public var didPopViewControllerPublisher: AnyPublisher<(popped: UIViewController, shown: UIViewController), Never> {
         didPopViewControllerSubject.eraseToAnyPublisher()
     }
@@ -19,10 +21,16 @@ open class BaseNavigationController: UINavigationController, UINavigationControl
         set { proxyDelegate = newValue }
     }
 
+    public var animationEnabled: Bool?
+
+    // MARK: - Private
+
     private weak var proxyDelegate: UINavigationControllerDelegate?
     private lazy var storedChildsCount = viewControllers.count
     private weak var storedTopViewController: UIViewController?
     private let didPopViewControllerSubject = PassthroughSubject<(popped: UIViewController, shown: UIViewController), Never>()
+
+    // MARK: - Init
 
     public init() {
         super.init(nibName: nil, bundle: nil)
@@ -46,6 +54,24 @@ open class BaseNavigationController: UINavigationController, UINavigationControl
     private func commonInit() {
         super.delegate = self
     }
+
+    // MARK: - Overrides
+
+    @discardableResult
+    open override func popViewController(animated: Bool) -> UIViewController? {
+        return super.popViewController(animated: animationEnabled ?? animated)
+    }
+
+    open override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
+        return super.popToViewController(viewController, animated: animationEnabled ?? animated)
+    }
+
+    @discardableResult
+    open override func popToRootViewController(animated: Bool) -> [UIViewController]? {
+        return super.popToRootViewController(animated: animationEnabled ?? animated)
+    }
+
+    // MARK: - UINavigationControllerDelegate
 
     public func navigationController(
         _ navigationController: UINavigationController,

@@ -10,7 +10,7 @@ import Foundation
 public protocol Coordinating: DeepLinkHandling {
 
     var onFinish: (() -> Void)? { get set }
-    var animationEnabled: Bool { get }
+    var animationEnabled: Bool { get set }
 
     func start()
 

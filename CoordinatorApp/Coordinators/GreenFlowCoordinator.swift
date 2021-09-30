@@ -54,14 +54,13 @@ public final class GreenFlowCoordinator: Coordinating {
     }
 
     public var onFinish: (() -> Void)?
-    public var animationEnabled: Bool = true
-    private var animated: Bool {
-        animationEnabled && !UIAccessibility.isReduceMotionEnabled
+    public var animationEnabled: Bool = true {
+        didSet { updateAnimatedValue() }
     }
+    private var animated: Bool = true
 
     private let flowFactory: GreenFlowFactoryProtocol
     private weak var flowNavigationController: BaseNavigationController?
-    #warning("Use array of weak references")
     private weak var firstViewController: UIViewController?
     private weak var secondViewController: UIViewController?
     private weak var thirdViewController: UIViewController?
@@ -73,6 +72,7 @@ public final class GreenFlowCoordinator: Coordinating {
     public init(flowNavigationController: BaseNavigationController, flowFactory: GreenFlowFactoryProtocol) {
         self.flowNavigationController = flowNavigationController
         self.flowFactory = flowFactory
+        updateAnimatedValue()
     }
 
     // MARK: - Methods
@@ -181,6 +181,13 @@ public final class GreenFlowCoordinator: Coordinating {
             .store(in: &cancellables)
 
         self.thirdViewController = greenThirdVC
+    }
+
+    // MARK: - Private methods
+
+    private func updateAnimatedValue() {
+        animated = animationEnabled && !UIAccessibility.isReduceMotionEnabled
+        flowNavigationController?.animationEnabled = animated
     }
 
 }

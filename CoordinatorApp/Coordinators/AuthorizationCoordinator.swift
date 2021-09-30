@@ -35,16 +35,13 @@ public final class AuthorizationCoordinator: Coordinating {
         }
     }
 
-    // MARK: - Public
+    // MARK: - Properties
 
     public var onFinish: (() -> Void)?
-    public var animationEnabled: Bool = true
-
-    // MARK: - Private
-
-    private var animated: Bool {
-        animationEnabled && !UIAccessibility.isReduceMotionEnabled
+    public var animationEnabled: Bool = true {
+        didSet { updateAnimatedValue() }
     }
+    private var animated: Bool = true
 
     private let flowFactory: AuthorizationFlowFactoryProtocol
     private weak var flowNavigationController: BaseNavigationController?
@@ -57,6 +54,7 @@ public final class AuthorizationCoordinator: Coordinating {
     public init(flowNavigationController: BaseNavigationController, flowFactory: AuthorizationFlowFactoryProtocol) {
         self.flowNavigationController = flowNavigationController
         self.flowFactory = flowFactory
+        updateAnimatedValue()
     }
 
     public func start() {
@@ -135,6 +133,13 @@ public final class AuthorizationCoordinator: Coordinating {
             .store(in: &cancellables)
 
         self.signUpViewController = signUpVC
+    }
+
+    // MARK: - Private methods
+
+    private func updateAnimatedValue() {
+        animated = animationEnabled && !UIAccessibility.isReduceMotionEnabled
+        flowNavigationController?.animationEnabled = animated
     }
 
 }

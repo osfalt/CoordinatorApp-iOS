@@ -37,14 +37,13 @@ public final class RedFlowCoordinator: Coordinating {
     }
 
     public var onFinish: (() -> Void)?
-    public var animationEnabled: Bool = true
-    private var animated: Bool {
-        animationEnabled && !UIAccessibility.isReduceMotionEnabled
+    public var animationEnabled: Bool = true {
+        didSet { updateAnimatedValue() }
     }
+    private var animated: Bool = true
 
     private let flowFactory: RedFlowFactoryProtocol
     private weak var flowNavigationController: BaseNavigationController?
-    #warning("Use array of weak references")
     private weak var firstViewController: UIViewController?
     private weak var secondViewController: UIViewController?
     private weak var dynamicInfoViewController: UIViewController?
@@ -56,6 +55,7 @@ public final class RedFlowCoordinator: Coordinating {
     public init(flowNavigationController: BaseNavigationController, flowFactory: RedFlowFactoryProtocol) {
         self.flowNavigationController = flowNavigationController
         self.flowFactory = flowFactory
+        updateAnimatedValue()
     }
 
     // MARK: - Methods
@@ -158,6 +158,13 @@ public final class RedFlowCoordinator: Coordinating {
             .store(in: &cancellables)
 
         self.dynamicInfoViewController = dynamicInfoVC
+    }
+
+    // MARK: - Private methods
+
+    private func updateAnimatedValue() {
+        animated = animationEnabled && !UIAccessibility.isReduceMotionEnabled
+        flowNavigationController?.animationEnabled = animated
     }
 
 }
