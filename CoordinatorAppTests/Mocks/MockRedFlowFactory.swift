@@ -27,7 +27,7 @@ final class MockRedFlowFactory: RedFlowFactoryProtocol {
 
     func makeRedFirstModule() -> RedFirstModule {
         if let redFirstViewController = redFirstViewController {
-            return  (redFirstViewController, redFirstViewController.viewModel)
+            return (redFirstViewController, redFirstViewController.viewModel)
         }
         let redFirstViewController = MockRedFirstController()
         self.redFirstViewController = redFirstViewController
@@ -36,7 +36,7 @@ final class MockRedFlowFactory: RedFlowFactoryProtocol {
 
     func makeRedSecondModule() -> RedSecondModule {
         if let redSecondViewController = redSecondViewController {
-            return  (redSecondViewController, redSecondViewController.viewModel)
+            return (redSecondViewController, redSecondViewController.viewModel)
         }
         let redSecondViewController = MockRedSecondController()
         self.redSecondViewController = redSecondViewController
@@ -45,7 +45,7 @@ final class MockRedFlowFactory: RedFlowFactoryProtocol {
 
     func makeRedDynamicModule() -> RedDynamicModule {
         if let redDynamicController = redDynamicController {
-            return  (redDynamicController, redDynamicController.viewModel)
+            return (redDynamicController, redDynamicController.viewModel)
         }
         let redDynamicController = MockRedDynamicController()
         self.redDynamicController = redDynamicController

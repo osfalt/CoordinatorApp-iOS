@@ -27,15 +27,18 @@ class GreenFlowCoordinatorTests: XCTestCase {
     func testStateAfterStart() throws {
         coordinator.start()
         XCTAssertEqual(coordinator.state, .greenFirstScreen)
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.greenFirstViewController)
     }
 
     func testTransitionForwardFromGreenFirstToSecondState() throws {
         coordinator.start()
         XCTAssertEqual(coordinator.state, .greenFirstScreen)
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.greenFirstViewController)
 
         let greenFirstViewController = try XCTUnwrap(factory.greenFirstViewController)
         greenFirstViewController.tapOnNextButton()
         XCTAssertEqual(coordinator.state, .greenSecondScreen)
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.greenSecondViewController)
     }
 
     func testTransitionForwardFromGreenSecondToThirdState() throws {
@@ -45,10 +48,12 @@ class GreenFlowCoordinatorTests: XCTestCase {
         let greenFirstViewController = try XCTUnwrap(factory.greenFirstViewController)
         greenFirstViewController.tapOnNextButton()
         XCTAssertEqual(coordinator.state, .greenSecondScreen)
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.greenSecondViewController)
 
         let greenSecondViewController = try XCTUnwrap(factory.greenSecondViewController)
         greenSecondViewController.tapOnNextButton()
         XCTAssertEqual(coordinator.state, .greenThirdScreen(nil))
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.greenThirdViewController)
     }
 
     func testTransitionBackFromGreenSecondToFirstState() throws {
@@ -60,11 +65,13 @@ class GreenFlowCoordinatorTests: XCTestCase {
         greenFirstViewController.tapOnNextButton()
         RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .greenSecondScreen)
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.greenSecondViewController)
 
         // test pop transition
         flowNavigationVC.popViewController(animated: true)
         RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .greenFirstScreen)
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.greenFirstViewController)
     }
 
     func testTransitionBackFromGreenThirdToSecondState() throws {
@@ -80,11 +87,13 @@ class GreenFlowCoordinatorTests: XCTestCase {
         greenSecondViewController.tapOnNextButton()
         RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .greenThirdScreen(nil))
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.greenThirdViewController)
 
         // test pop transition
         flowNavigationVC.popViewController(animated: true)
         RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .greenSecondScreen)
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.greenSecondViewController)
     }
 
     func testTransitionBackFromGreenThirdToFirstState() throws {
@@ -100,11 +109,13 @@ class GreenFlowCoordinatorTests: XCTestCase {
         greenSecondViewController.tapOnNextButton()
         RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .greenThirdScreen(nil))
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.greenThirdViewController)
 
         // test pop to root transition
         flowNavigationVC.popToRootViewController(animated: true)
         RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .greenFirstScreen)
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.greenFirstViewController)
     }
 
     /// This method fixes callbacks of `NavigationControllerDelegate`

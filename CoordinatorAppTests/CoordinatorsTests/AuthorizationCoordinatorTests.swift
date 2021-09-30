@@ -32,12 +32,12 @@ class AuthorizationCoordinatorTests: XCTestCase {
     func testTransitionForwardFromSignInToSignUpState() throws {
         coordinator.start()
         XCTAssertEqual(coordinator.state, .signIn)
-        XCTAssertNotNil(factory.signInViewController)
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.signInViewController)
 
         let signInViewController = try XCTUnwrap(factory.signInViewController)
         signInViewController.tapOnCreateAccountButton()
         XCTAssertEqual(coordinator.state, .signUp)
-        XCTAssertNotNil(factory.signUpViewController)
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.signUpViewController)
     }
 
     func testTransitionBackFromSignUpToSignInState() throws {
@@ -49,12 +49,13 @@ class AuthorizationCoordinatorTests: XCTestCase {
         signInViewController.tapOnCreateAccountButton()
         RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .signUp)
-        XCTAssertNotNil(factory.signUpViewController)
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.signUpViewController)
         
         // test pop transition
         flowNavigationVC.popViewController(animated: false)
         RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .signIn)
+        XCTAssertTrue(flowNavigationVC.topViewController === factory.signInViewController)
     }
 
     /// This method fixes callbacks of `NavigationControllerDelegate`
