@@ -13,20 +13,23 @@ import XCTest
 class BaseNavigationControllerTests: XCTestCase {
 
     private enum Spec {
-        static let timeout: TimeInterval = 0.35
+        static let timeout: TimeInterval = 0.01
     }
 
     private var navigationController: BaseNavigationController!
+    private var rootViewController: UIViewController!
     private var delegate: NavigationControllerDelegate!
     private var cancellables: Set<AnyCancellable> = []
 
-    func testSetupNavigationControllerDelegate() throws {
-        let rootViewController = UIViewController()
+    override func setUpWithError() throws {
+        rootViewController = UIViewController()
         navigationController = BaseNavigationController(rootViewController: rootViewController)
-
+        navigationController.animationEnabled = false
         // without this `NavigationControllerDelegate` callbacks don't work
         UIApplication.shared.windows.first?.rootViewController = navigationController
+    }
 
+    func testSetupNavigationControllerDelegate() throws {
         delegate = NavigationControllerDelegate()
         navigationController.delegate = delegate
         XCTAssert(navigationController.delegate === delegate)
@@ -35,8 +38,7 @@ class BaseNavigationControllerTests: XCTestCase {
         XCTAssertNil(delegate.didShownViewController)
 
         let pushedViewController = UIViewController()
-        navigationController.pushViewController(pushedViewController, animated: true)
-
+        navigationController.pushViewController(pushedViewController, animated: false)
         RunLoop.current.run(until: Date())
 
         XCTAssertEqual(navigationController.viewControllers.count, 2)
@@ -51,13 +53,8 @@ class BaseNavigationControllerTests: XCTestCase {
     }
 
     func testDidPopViewControllerWithTwoControllersInStack() throws {
-        let rootViewController = UIViewController()
-        navigationController = BaseNavigationController(rootViewController: rootViewController)
-        UIApplication.shared.windows.first?.rootViewController = navigationController
-
         let pushedViewController = UIViewController()
-        navigationController.pushViewController(pushedViewController, animated: true)
-
+        navigationController.pushViewController(pushedViewController, animated: false)
         RunLoop.current.run(until: Date())
 
         XCTAssertEqual(navigationController.viewControllers.count, 2)
@@ -65,14 +62,14 @@ class BaseNavigationControllerTests: XCTestCase {
 
         let expectation = expectation(description: "didPopViewController")
         navigationController.didPopViewControllerPublisher
-            .sink { popped, shown in
+            .sink { [unowned self] popped, shown in
                 XCTAssertTrue(popped === pushedViewController)
                 XCTAssertTrue(shown === rootViewController)
                 expectation.fulfill()
             }
             .store(in: &cancellables)
 
-        navigationController.popViewController(animated: true)
+        navigationController.popViewController(animated: false)
         waitForExpectations(timeout: Spec.timeout)
 
         XCTAssertEqual(navigationController.viewControllers.count, 1)
@@ -80,16 +77,12 @@ class BaseNavigationControllerTests: XCTestCase {
     }
 
     func testDidPopViewControllerWithThreeControllersInStack() throws {
-        let rootViewController = UIViewController()
-        navigationController = BaseNavigationController(rootViewController: rootViewController)
-        UIApplication.shared.windows.first?.rootViewController = navigationController
-
         let firstPushedVC = UIViewController()
-        navigationController.pushViewController(firstPushedVC, animated: true)
-
+        navigationController.pushViewController(firstPushedVC, animated: false)
+        RunLoop.current.run(until: Date())
+        
         let secondPushedVC = UIViewController()
-        navigationController.pushViewController(secondPushedVC, animated: true)
-
+        navigationController.pushViewController(secondPushedVC, animated: false)
         RunLoop.current.run(until: Date())
 
         XCTAssertEqual(navigationController.viewControllers.count, 3)
@@ -100,7 +93,7 @@ class BaseNavigationControllerTests: XCTestCase {
         navigationController.didPopViewControllerPublisher
             .filter { $0.popped === firstPushedVC }
             .first()
-            .sink { popped, shown in
+            .sink { [unowned self] popped, shown in
                 XCTAssertTrue(popped === firstPushedVC)
                 XCTAssertTrue(shown === rootViewController)
                 didPopFirstVCExpectation.fulfill()
@@ -119,29 +112,25 @@ class BaseNavigationControllerTests: XCTestCase {
             .store(in: &cancellables)
 
         // pop `secondPushedVC`
-        navigationController.popViewController(animated: true)
+        navigationController.popViewController(animated: false)
         wait(for: [didPopSecondVCExpectation], timeout: Spec.timeout)
         XCTAssertEqual(navigationController.viewControllers.count, 2)
         XCTAssertTrue(navigationController.topViewController === firstPushedVC)
 
         // pop `firstPushedVC`
-        navigationController.popViewController(animated: true)
+        navigationController.popViewController(animated: false)
         wait(for: [didPopFirstVCExpectation], timeout: Spec.timeout)
         XCTAssertEqual(navigationController.viewControllers.count, 1)
         XCTAssertTrue(navigationController.topViewController === rootViewController)
     }
 
     func testDidPopViewControllerWhenPopToRootViewControllerHappens() throws {
-        let rootViewController = UIViewController()
-        navigationController = BaseNavigationController(rootViewController: rootViewController)
-        UIApplication.shared.windows.first?.rootViewController = navigationController
-
         let firstPushedVC = UIViewController()
-        navigationController.pushViewController(firstPushedVC, animated: true)
+        navigationController.pushViewController(firstPushedVC, animated: false)
+        RunLoop.current.run(until: Date())
 
         let secondPushedVC = UIViewController()
-        navigationController.pushViewController(secondPushedVC, animated: true)
-
+        navigationController.pushViewController(secondPushedVC, animated: false)
         RunLoop.current.run(until: Date())
 
         XCTAssertEqual(navigationController.viewControllers.count, 3)
@@ -162,7 +151,7 @@ class BaseNavigationControllerTests: XCTestCase {
         navigationController.didPopViewControllerPublisher
             .filter { $0.popped === secondPushedVC }
             .first()
-            .sink { popped, shown in
+            .sink { [unowned self] popped, shown in
                 XCTAssertTrue(popped === secondPushedVC)
                 XCTAssertTrue(shown === rootViewController)
                 didPopSecondVCExpectation.fulfill()
@@ -170,7 +159,7 @@ class BaseNavigationControllerTests: XCTestCase {
             .store(in: &cancellables)
 
         // pop to root VC
-        navigationController.popToRootViewController(animated: true)
+        navigationController.popToRootViewController(animated: false)
         waitForExpectations(timeout: Spec.timeout)
         XCTAssertEqual(navigationController.viewControllers.count, 1)
         XCTAssertTrue(navigationController.topViewController === rootViewController)
