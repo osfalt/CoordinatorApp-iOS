@@ -13,8 +13,8 @@ import UIKit
 
 final class MockAuthorizationFlowFactory: AuthorizationFlowFactoryProtocol {
     private(set) lazy var flowNavigationVC = BaseNavigationController()
-    private(set) var signInViewController: MockSignInViewController?
-    private(set) var signUpViewController: MockSignUpViewController?
+    private(set) weak var signInViewController: MockSignInViewController?
+    private(set) weak var signUpViewController: MockSignUpViewController?
 
     weak var coordinator: AuthorizationCoordinator?
 

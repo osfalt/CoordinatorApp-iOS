@@ -13,9 +13,9 @@ import UIKit
 
 final class MockGreenFlowFactory: GreenFlowFactoryProtocol {
     private(set) lazy var greenFlowNavigationVC = BaseNavigationController()
-    private(set) var greenFirstViewController: MockGreenFirstController?
-    private(set) var greenSecondViewController: MockGreenSecondController?
-    private(set) var greenThirdViewController: MockGreenThirdController?
+    private(set) weak var greenFirstViewController: MockGreenFirstController?
+    private(set) weak var greenSecondViewController: MockGreenSecondController?
+    private(set) weak var greenThirdViewController: MockGreenThirdController?
 
     weak var coordinator: GreenFlowCoordinator?
 

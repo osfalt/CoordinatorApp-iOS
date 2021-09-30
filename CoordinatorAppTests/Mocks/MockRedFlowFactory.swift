@@ -13,9 +13,9 @@ import UIKit
 
 final class MockRedFlowFactory: RedFlowFactoryProtocol {
     private(set) lazy var redFlowNavigationVC = BaseNavigationController()
-    private(set) var redFirstViewController: MockRedFirstController?
-    private(set) var redSecondViewController: MockRedSecondController?
-    private(set) var redDynamicController: MockRedDynamicController?
+    private(set) weak var redFirstViewController: MockRedFirstController?
+    private(set) weak var redSecondViewController: MockRedSecondController?
+    private(set) weak var redDynamicController: MockRedDynamicController?
 
     weak var coordinator: RedFlowCoordinator?
 
