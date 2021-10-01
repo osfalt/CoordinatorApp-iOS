@@ -78,13 +78,14 @@ struct SignInView: View {
     let viewModel: SignInViewModel
 
     var body: some View {
-        VStack {
-            Text(viewModel.title)
-                .font(.title)
+        VStack(spacing: 16) {
+            Text(viewModel.title).font(.title)
             Button("Sign In", action: viewModel.didTapSignInButton)
-            Spacer()
+
+            Spacer(minLength: 32).fixedSize()
+
             Text("Don't have an account?")
-            Button("Create an account", action: viewModel.didTapSignInButton)
+            Button("Create account", action: viewModel.didTapCreateAccountButton)
         }
     }
 }

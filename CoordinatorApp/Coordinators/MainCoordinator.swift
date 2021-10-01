@@ -40,8 +40,6 @@ public final class MainCoordinator: NSObject, Coordinating, UITabBarControllerDe
     private let flowFactory: MainFlowFactoryProtocol
     private weak var tabBarController: UITabBarController?
     private var childCoordinators: [Coordinating] = []
-    private var cancellables: Set<AnyCancellable> = []
-    private var currentSelectedTabIndex: Int?
 
     // MARK: - Public
     public init(flowViewController: UITabBarController, flowFactory: MainFlowFactoryProtocol) {
@@ -107,7 +105,7 @@ public final class MainCoordinator: NSObject, Coordinating, UITabBarControllerDe
         }
     }
 
-    // MARK: - Show Screens
+    // MARK: - Private methods
 
     private func configureTabBarController() {
         tabBarController?.delegate = self

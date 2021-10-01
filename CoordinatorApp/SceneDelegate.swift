@@ -20,17 +20,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
 
-        let rootVC = RootViewController()
+        let appFlowFactory = AppFlowFactory()
+        let (rootViewController, appCoordinator) = appFlowFactory.makeFlow()
+
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = rootVC
+        window.rootViewController = rootViewController
         self.window = window
         window.makeKeyAndVisible()
 
-        let mainFlowFactory = MainFlowFactory()
-        let (mainFlowController, mainCoordinator) = mainFlowFactory.makeFlow()
-        rootVC.embed(mainFlowController)
-        mainCoordinator.start()
-        self.appCoordinator = mainCoordinator
+        appCoordinator.start()
+        self.appCoordinator = appCoordinator
 
         // HANDLE URL
         if let urlContext = connectionOptions.urlContexts.first {

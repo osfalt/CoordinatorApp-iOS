@@ -10,6 +10,8 @@
 		311028F1270231AB0018184C /* CoordinatorsIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311028F0270231AB0018184C /* CoordinatorsIntegrationTests.swift */; };
 		3124245D26B89C7D0074F592 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3124245C26B89C7D0074F592 /* BaseNavigationController.swift */; };
 		3124245F26B89C950074F592 /* BaseNavigationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3124245E26B89C950074F592 /* BaseNavigationControllerTests.swift */; };
+		31289ABF27067CBF00D297D9 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31289ABE27067CBF00D297D9 /* AppCoordinator.swift */; };
+		31289AC127067D8E00D297D9 /* AppFlowFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31289AC027067D8E00D297D9 /* AppFlowFactory.swift */; };
 		3150391326C1D774009ECBEF /* RedDynamicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3150391226C1D774009ECBEF /* RedDynamicInfoViewController.swift */; };
 		3150391626C1E7F5009ECBEF /* DynamicItemsFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3150391526C1E7F5009ECBEF /* DynamicItemsFetcher.swift */; };
 		315FC87C26C47DC7006C301E /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315FC87B26C47DC6006C301E /* ListCell.swift */; };
@@ -74,6 +76,8 @@
 		311028F0270231AB0018184C /* CoordinatorsIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorsIntegrationTests.swift; sourceTree = "<group>"; };
 		3124245C26B89C7D0074F592 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		3124245E26B89C950074F592 /* BaseNavigationControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationControllerTests.swift; sourceTree = "<group>"; };
+		31289ABE27067CBF00D297D9 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		31289AC027067D8E00D297D9 /* AppFlowFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowFactory.swift; sourceTree = "<group>"; };
 		3150391226C1D774009ECBEF /* RedDynamicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedDynamicInfoViewController.swift; sourceTree = "<group>"; };
 		3150391526C1E7F5009ECBEF /* DynamicItemsFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicItemsFetcher.swift; sourceTree = "<group>"; };
 		315FC87B26C47DC6006C301E /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
@@ -207,6 +211,7 @@
 			children = (
 				31A96C4C26FFC020009AA0A1 /* FlowFactories */,
 				31EB70F226C7158A0090CC96 /* Coordinating.swift */,
+				31289ABE27067CBF00D297D9 /* AppCoordinator.swift */,
 				319387AD2703C1AC0084F1D7 /* AuthorizationCoordinator.swift */,
 				3171B7B226B9D9330094D31B /* MainCoordinator.swift */,
 				31B5078D26BF2CB600C8F3B6 /* RedFlowCoordinator.swift */,
@@ -318,6 +323,7 @@
 		31A96C4C26FFC020009AA0A1 /* FlowFactories */ = {
 			isa = PBXGroup;
 			children = (
+				31289AC027067D8E00D297D9 /* AppFlowFactory.swift */,
 				319387AF2703C61F0084F1D7 /* AuthorizationFlowFactory.swift */,
 				31A96C4D26FFC038009AA0A1 /* MainFlowFactory.swift */,
 				31A96C4F26FFC0BB009AA0A1 /* RedFlowFactory.swift */,
@@ -491,6 +497,7 @@
 				319387B02703C61F0084F1D7 /* AuthorizationFlowFactory.swift in Sources */,
 				31A96C5226FFC0E3009AA0A1 /* GreenFlowFactory.swift in Sources */,
 				31B5079026BF2CC700C8F3B6 /* GreenFlowCoordinator.swift in Sources */,
+				31289AC127067D8E00D297D9 /* AppFlowFactory.swift in Sources */,
 				31B5079B26C1B7E900C8F3B6 /* DeepLinkPayload.swift in Sources */,
 				319C46BB26B4B1D100DDC21C /* SceneDelegate.swift in Sources */,
 				31B5079626C077AA00C8F3B6 /* DeepLinkHandling.swift in Sources */,
@@ -498,6 +505,7 @@
 				31B5079926C081FE00C8F3B6 /* DeepLinkParser.swift in Sources */,
 				31EB70F326C7158A0090CC96 /* Coordinating.swift in Sources */,
 				3171B7B326B9D9330094D31B /* MainCoordinator.swift in Sources */,
+				31289ABF27067CBF00D297D9 /* AppCoordinator.swift in Sources */,
 				31A96C5026FFC0BB009AA0A1 /* RedFlowFactory.swift in Sources */,
 				31B6F72B26B75A2A00FDBDA2 /* RedSecondViewController.swift in Sources */,
 				319C46EA26B4B37C00DDC21C /* RootViewController.swift in Sources */,

@@ -34,7 +34,7 @@ public final class SignUpViewModel: SignUpModuleOutput {
     private let didTapSignUpButtonSubject = PassthroughSubject<Void, Never>()
 
     public init() {
-        self.title = "Sign-In Screen"
+        self.title = "Sign-Up Screen"
     }
 }
 
@@ -69,8 +69,8 @@ struct SignUpView: View {
     let viewModel: SignUpViewModel
 
     var body: some View {
-        VStack {
-            Text(viewModel.title)
+        VStack(spacing: 16) {
+            Text(viewModel.title).font(.title)
             Button("Sign Up", action: viewModel.didTapSignUpButton)
         }
     }
