@@ -20,6 +20,8 @@
 		3171B7B126B9D1DF0094D31B /* GreenSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171B7B026B9D1DF0094D31B /* GreenSecondViewController.swift */; };
 		3171B7B326B9D9330094D31B /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171B7B226B9D9330094D31B /* MainCoordinator.swift */; };
 		3171B7B626B9DA210094D31B /* MainCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171B7B526B9DA210094D31B /* MainCoordinatorTests.swift */; };
+		3175D87327090B6E00DCBE43 /* KeyValueStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3175D87227090B6E00DCBE43 /* KeyValueStoring.swift */; };
+		3175D87527090D4C00DCBE43 /* AuthorizationTokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3175D87427090D4C00DCBE43 /* AuthorizationTokenStore.swift */; };
 		319387AC270362DB0084F1D7 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319387AB270362DB0084F1D7 /* SignInViewController.swift */; };
 		319387AE2703C1AC0084F1D7 /* AuthorizationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319387AD2703C1AC0084F1D7 /* AuthorizationCoordinator.swift */; };
 		319387B02703C61F0084F1D7 /* AuthorizationFlowFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319387AF2703C61F0084F1D7 /* AuthorizationFlowFactory.swift */; };
@@ -86,6 +88,8 @@
 		3171B7B026B9D1DF0094D31B /* GreenSecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenSecondViewController.swift; sourceTree = "<group>"; };
 		3171B7B226B9D9330094D31B /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		3171B7B526B9DA210094D31B /* MainCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorTests.swift; sourceTree = "<group>"; };
+		3175D87227090B6E00DCBE43 /* KeyValueStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStoring.swift; sourceTree = "<group>"; };
+		3175D87427090D4C00DCBE43 /* AuthorizationTokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationTokenStore.swift; sourceTree = "<group>"; };
 		319387AB270362DB0084F1D7 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		319387AD2703C1AC0084F1D7 /* AuthorizationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationCoordinator.swift; sourceTree = "<group>"; };
 		319387AF2703C61F0084F1D7 /* AuthorizationFlowFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFlowFactory.swift; sourceTree = "<group>"; };
@@ -191,6 +195,8 @@
 			isa = PBXGroup;
 			children = (
 				3150391526C1E7F5009ECBEF /* DynamicItemsFetcher.swift */,
+				3175D87227090B6E00DCBE43 /* KeyValueStoring.swift */,
+				3175D87427090D4C00DCBE43 /* AuthorizationTokenStore.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -511,6 +517,8 @@
 				319C46EA26B4B37C00DDC21C /* RootViewController.swift in Sources */,
 				319C46EC26B4B4BD00DDC21C /* RedFirstViewController.swift in Sources */,
 				319387B22703C9420084F1D7 /* SignUpViewController.swift in Sources */,
+				3175D87527090D4C00DCBE43 /* AuthorizationTokenStore.swift in Sources */,
+				3175D87327090B6E00DCBE43 /* KeyValueStoring.swift in Sources */,
 				3171B7B126B9D1DF0094D31B /* GreenSecondViewController.swift in Sources */,
 				31A96C4E26FFC038009AA0A1 /* MainFlowFactory.swift in Sources */,
 				315FC87C26C47DC7006C301E /* ListCell.swift in Sources */,
