@@ -22,6 +22,7 @@
 		3171B7B626B9DA210094D31B /* MainCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171B7B526B9DA210094D31B /* MainCoordinatorTests.swift */; };
 		3175D87327090B6E00DCBE43 /* KeyValueStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3175D87227090B6E00DCBE43 /* KeyValueStoring.swift */; };
 		3175D87527090D4C00DCBE43 /* AuthorizationTokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3175D87427090D4C00DCBE43 /* AuthorizationTokenStore.swift */; };
+		318C29BA270B944F00F965CA /* AuthorizationTokenStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318C29B9270B944F00F965CA /* AuthorizationTokenStoreTests.swift */; };
 		319387AC270362DB0084F1D7 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319387AB270362DB0084F1D7 /* SignInViewController.swift */; };
 		319387AE2703C1AC0084F1D7 /* AuthorizationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319387AD2703C1AC0084F1D7 /* AuthorizationCoordinator.swift */; };
 		319387B02703C61F0084F1D7 /* AuthorizationFlowFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319387AF2703C61F0084F1D7 /* AuthorizationFlowFactory.swift */; };
@@ -90,6 +91,7 @@
 		3171B7B526B9DA210094D31B /* MainCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorTests.swift; sourceTree = "<group>"; };
 		3175D87227090B6E00DCBE43 /* KeyValueStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStoring.swift; sourceTree = "<group>"; };
 		3175D87427090D4C00DCBE43 /* AuthorizationTokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationTokenStore.swift; sourceTree = "<group>"; };
+		318C29B9270B944F00F965CA /* AuthorizationTokenStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationTokenStoreTests.swift; sourceTree = "<group>"; };
 		319387AB270362DB0084F1D7 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		319387AD2703C1AC0084F1D7 /* AuthorizationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationCoordinator.swift; sourceTree = "<group>"; };
 		319387AF2703C61F0084F1D7 /* AuthorizationFlowFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFlowFactory.swift; sourceTree = "<group>"; };
@@ -226,6 +228,14 @@
 			path = Coordinators;
 			sourceTree = "<group>";
 		};
+		318C29B8270B943600F965CA /* ServicesTests */ = {
+			isa = PBXGroup;
+			children = (
+				318C29B9270B944F00F965CA /* AuthorizationTokenStoreTests.swift */,
+			);
+			path = ServicesTests;
+			sourceTree = "<group>";
+		};
 		319387AA270362B20084F1D7 /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,6 +297,7 @@
 				315FC87D26C48E7C006C301E /* Mocks */,
 				311028F2270237D60018184C /* CoordinatorsTests */,
 				311028F3270238160018184C /* IntegrationTests */,
+				318C29B8270B943600F965CA /* ServicesTests */,
 				312125D02703CEEB00CA2CCF /* ViewComponentsTests */,
 				311028F4270238320018184C /* ViewModelsTests */,
 				319C46D126B4B1D400DDC21C /* Info.plist */,
@@ -545,6 +556,7 @@
 				31A96C5426FFD7D1009AA0A1 /* MockGreenFlowFactory.swift in Sources */,
 				315FC87F26C48E91006C301E /* MockMainFlowFactory.swift in Sources */,
 				311028F1270231AB0018184C /* CoordinatorsIntegrationTests.swift in Sources */,
+				318C29BA270B944F00F965CA /* AuthorizationTokenStoreTests.swift in Sources */,
 				31B5079226BFCB5700C8F3B6 /* RedFlowCoordinatorTests.swift in Sources */,
 				31B5079426BFCE3700C8F3B6 /* GreenFlowCoordinatorTests.swift in Sources */,
 				319387B42703CAC40084F1D7 /* AuthorizationCoordinatorTests.swift in Sources */,

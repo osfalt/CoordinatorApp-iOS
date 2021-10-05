@@ -10,7 +10,7 @@ import Foundation
 
 public final class AuthorizationTokenStore: ObservableObject {
 
-    private enum Key {
+    enum Key {
         static let token = "authorization_token"
     }
 

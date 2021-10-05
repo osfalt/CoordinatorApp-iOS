@@ -21,7 +21,7 @@ public protocol KeyValueStoring {
 extension UserDefaults: KeyValueStoring {
 
     public func getValue<Value>(forKey key: String) -> Value? {
-        return object(forKey: key) as? Value
+        object(forKey: key) as? Value
     }
 
     public func save<Value>(value: Value, forKey key: String) {
@@ -33,7 +33,7 @@ extension UserDefaults: KeyValueStoring {
     }
 
     public func valueDidChangePublisher<Value: Equatable>(for key: String) -> AnyPublisher<Value?, Never> {
-        return NotificationCenter.default
+        NotificationCenter.default
            .publisher(for: UserDefaults.didChangeNotification, object: nil)
            .map { [weak self] _ in self?.getValue(forKey: key) }
            .removeDuplicates()
