@@ -24,7 +24,12 @@ final class AuthorizationFlowFactory: AuthorizationFlowFactoryProtocol {
 
     func makeFlow() -> AuthorizationFlow {
         let navigationVC = BaseNavigationController()
-        let coordinator = AuthorizationCoordinator(flowNavigationController: navigationVC, flowFactory: self)
+        let coordinator = AuthorizationCoordinator(
+            flowNavigationController: navigationVC,
+            flowFactory: self,
+            authorizationTokenStore: AuthorizationTokenStore(store: UserDefaults.standard)
+        )
+        #warning("Create init for `AuthorizationFlowFactory` and inject AuthorizationTokenStore(store: UserDefaults.standard)")
         return (navigationVC, coordinator)
     }
 

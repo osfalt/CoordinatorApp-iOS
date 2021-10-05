@@ -45,15 +45,21 @@ public final class AuthorizationCoordinator: Coordinating {
 
     private let flowFactory: AuthorizationFlowFactoryProtocol
     private weak var flowNavigationController: BaseNavigationController?
+    private let authorizationTokenStore: AuthorizationTokenStore
     private weak var signInViewController: UIViewController?
     private weak var signUpViewController: UIViewController?
     private var cancellables: Set<AnyCancellable> = []
 
     // MARK: - Init
 
-    public init(flowNavigationController: BaseNavigationController, flowFactory: AuthorizationFlowFactoryProtocol) {
+    public init(
+        flowNavigationController: BaseNavigationController,
+        flowFactory: AuthorizationFlowFactoryProtocol,
+        authorizationTokenStore: AuthorizationTokenStore
+    ) {
         self.flowNavigationController = flowNavigationController
         self.flowFactory = flowFactory
+        self.authorizationTokenStore = authorizationTokenStore
         updateAnimatedValue()
     }
 
@@ -98,7 +104,7 @@ public final class AuthorizationCoordinator: Coordinating {
         let (signInVC, signInModuleOutput) = flowFactory.makeSignInModule()
         signInModuleOutput.didTapSignInButtonPublisher
             .sink { [weak self] in
-                self?.onFinish?()
+                self?.authorize()
             }
             .store(in: &cancellables)
 
@@ -120,7 +126,7 @@ public final class AuthorizationCoordinator: Coordinating {
         let (signUpVC, signUpModuleOutput) = flowFactory.makeSignUpModule()
         signUpModuleOutput.didTapSignUpButtonPublisher
             .sink { [weak self] in
-                self?.onFinish?()
+                self?.authorize()
             }
             .store(in: &cancellables)
 
@@ -136,6 +142,11 @@ public final class AuthorizationCoordinator: Coordinating {
     }
 
     // MARK: - Private methods
+
+    private func authorize() {
+        authorizationTokenStore.token = UUID().uuidString
+        onFinish?()
+    }
 
     private func updateAnimatedValue() {
         animated = animationEnabled && !UIAccessibility.isReduceMotionEnabled

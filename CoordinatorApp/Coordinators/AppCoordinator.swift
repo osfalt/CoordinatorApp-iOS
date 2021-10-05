@@ -37,19 +37,24 @@ public final class AppCoordinator: Coordinating {
 
     private let flowFactory: AppFlowFactoryProtocol
     private weak var rootViewController: UIViewController?
+    private let authorizationTokenStore: AuthorizationTokenStore
     private var childCoordinators: [Coordinating] = []
 
     // MARK: - Init
 
-    public init(rootViewController: UIViewController, flowFactory: AppFlowFactoryProtocol) {
+    public init(
+        rootViewController: UIViewController,
+        flowFactory: AppFlowFactoryProtocol,
+        authorizationTokenStore: AuthorizationTokenStore
+    ) {
         self.rootViewController = rootViewController
         self.flowFactory = flowFactory
+        self.authorizationTokenStore = authorizationTokenStore
         updateAnimatedValue()
     }
 
     public func start() {
-        #warning("Store and read the flag from storage")
-        let authorized = Bool.random()
+        let authorized = authorizationTokenStore.token != nil
         if authorized {
             state = .mainFlow
         } else {
@@ -63,7 +68,11 @@ public final class AppCoordinator: Coordinating {
         let (authorizationFlowController, authorizationCoordinator) = flowFactory.authorizationFlow.makeFlow()
 
         authorizationCoordinator.onFinish = { [weak self] in
-            #warning("Update state based on 'authorized' flag value")
+            let authorized = self?.authorizationTokenStore.token != nil
+            guard authorized else {
+                assertionFailure("Wrong autorization state")
+                return
+            }
             self?.state = .mainFlow
         }
 

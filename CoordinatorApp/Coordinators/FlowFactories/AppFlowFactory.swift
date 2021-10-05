@@ -33,7 +33,12 @@ final class AppFlowFactory: AppFlowFactoryProtocol {
 
     func makeFlow() -> AppFlow {
         let rootVC = RootViewController()
-        let coordinator = AppCoordinator(rootViewController: rootVC, flowFactory: self)
+        let coordinator = AppCoordinator(
+            rootViewController: rootVC,
+            flowFactory: self,
+            authorizationTokenStore: AuthorizationTokenStore(store: UserDefaults.standard)
+        )
+        #warning("Create init for `AppFlowFactory` and inject AuthorizationTokenStore(store: UserDefaults.standard)")
         return (rootVC, coordinator)
     }
 
