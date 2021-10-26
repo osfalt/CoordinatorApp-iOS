@@ -11,6 +11,7 @@ import SwiftUI
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    private lazy var dependencies = AppDependencies()
     private var appCoordinator: Coordinating?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -20,7 +21,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
 
-        let appFlowFactory = AppFlowFactory()
+        let authFlowFactory = AuthorizationFlowFactory(dependencies: dependencies)
+        let mainFlowFactory = MainFlowFactory()
+        
+        let appFlowFactory = AppFlowFactory(
+            authorizationFlow: authFlowFactory,
+            mainFlow: mainFlowFactory,
+            dependencies: dependencies
+        )
         let (rootViewController, appCoordinator) = appFlowFactory.makeFlow()
 
         let window = UIWindow(windowScene: windowScene)

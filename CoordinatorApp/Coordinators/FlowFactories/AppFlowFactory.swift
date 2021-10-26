@@ -22,13 +22,16 @@ final class AppFlowFactory: AppFlowFactoryProtocol {
 
     let authorizationFlow: AuthorizationFlowFactoryProtocol
     let mainFlow: MainFlowFactoryProtocol
+    private let dependencies: Dependencies
 
     init(
-        authorizationFlow: AuthorizationFlowFactoryProtocol = AuthorizationFlowFactory(),
-        mainFlow: MainFlowFactoryProtocol = MainFlowFactory()
+        authorizationFlow: AuthorizationFlowFactoryProtocol,
+        mainFlow: MainFlowFactoryProtocol,
+        dependencies: Dependencies
     ) {
         self.authorizationFlow = authorizationFlow
         self.mainFlow = mainFlow
+        self.dependencies = dependencies
     }
 
     func makeFlow() -> AppFlow {
@@ -36,9 +39,8 @@ final class AppFlowFactory: AppFlowFactoryProtocol {
         let coordinator = AppCoordinator(
             rootViewController: rootVC,
             flowFactory: self,
-            authorizationTokenStore: AuthorizationTokenStore(store: UserDefaults.standard)
+            authorizationTokenStore: dependencies.authorizationTokenStore
         )
-        #warning("Create init for `AppFlowFactory` and inject AuthorizationTokenStore(store: UserDefaults.standard)")
         return (rootVC, coordinator)
     }
 

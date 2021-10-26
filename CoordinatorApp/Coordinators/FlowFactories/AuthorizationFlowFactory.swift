@@ -22,14 +22,19 @@ public protocol AuthorizationFlowFactoryProtocol {
 
 final class AuthorizationFlowFactory: AuthorizationFlowFactoryProtocol {
 
+    private let dependencies: Dependencies
+
+    init(dependencies: Dependencies) {
+        self.dependencies = dependencies
+    }
+
     func makeFlow() -> AuthorizationFlow {
         let navigationVC = BaseNavigationController()
         let coordinator = AuthorizationCoordinator(
             flowNavigationController: navigationVC,
             flowFactory: self,
-            authorizationTokenStore: AuthorizationTokenStore(store: UserDefaults.standard)
+            authorizationTokenStore: dependencies.authorizationTokenStore
         )
-        #warning("Create init for `AuthorizationFlowFactory` and inject AuthorizationTokenStore(store: UserDefaults.standard)")
         return (navigationVC, coordinator)
     }
 

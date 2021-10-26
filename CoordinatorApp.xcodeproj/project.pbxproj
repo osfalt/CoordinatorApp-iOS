@@ -56,6 +56,7 @@
 		31B5079926C081FE00C8F3B6 /* DeepLinkParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5079826C081FE00C8F3B6 /* DeepLinkParser.swift */; };
 		31B5079B26C1B7E900C8F3B6 /* DeepLinkPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5079A26C1B7E900C8F3B6 /* DeepLinkPayload.swift */; };
 		31B6F72B26B75A2A00FDBDA2 /* RedSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B6F72A26B75A2A00FDBDA2 /* RedSecondViewController.swift */; };
+		31D86E592728A4AB00664C97 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D86E582728A4AB00664C97 /* Dependencies.swift */; };
 		31EB70F326C7158A0090CC96 /* Coordinating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EB70F226C7158A0090CC96 /* Coordinating.swift */; };
 /* End PBXBuildFile section */
 
@@ -132,6 +133,7 @@
 		31B5079826C081FE00C8F3B6 /* DeepLinkParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkParser.swift; sourceTree = "<group>"; };
 		31B5079A26C1B7E900C8F3B6 /* DeepLinkPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkPayload.swift; sourceTree = "<group>"; };
 		31B6F72A26B75A2A00FDBDA2 /* RedSecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedSecondViewController.swift; sourceTree = "<group>"; };
+		31D86E582728A4AB00664C97 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		31EB70F226C7158A0090CC96 /* Coordinating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinating.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -198,6 +200,7 @@
 		3150391426C1D891009ECBEF /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				31D86E582728A4AB00664C97 /* Dependencies.swift */,
 				3150391526C1E7F5009ECBEF /* DynamicItemsFetcher.swift */,
 				3175D87227090B6E00DCBE43 /* KeyValueStoring.swift */,
 				3175D87427090D4C00DCBE43 /* AuthorizationTokenStore.swift */,
@@ -540,6 +543,7 @@
 				319C46EC26B4B4BD00DDC21C /* RedFirstViewController.swift in Sources */,
 				319387B22703C9420084F1D7 /* SignUpViewController.swift in Sources */,
 				3175D87527090D4C00DCBE43 /* AuthorizationTokenStore.swift in Sources */,
+				31D86E592728A4AB00664C97 /* Dependencies.swift in Sources */,
 				3175D87327090B6E00DCBE43 /* KeyValueStoring.swift in Sources */,
 				3171B7B126B9D1DF0094D31B /* GreenSecondViewController.swift in Sources */,
 				31A96C4E26FFC038009AA0A1 /* MainFlowFactory.swift in Sources */,
