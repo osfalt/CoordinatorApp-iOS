@@ -19,7 +19,11 @@ final class MockAuthorizationFlowFactory: AuthorizationFlowFactoryProtocol {
     weak var coordinator: AuthorizationCoordinator?
 
     func makeFlow() -> AuthorizationFlow {
-        let coordinator = AuthorizationCoordinator(flowNavigationController: flowNavigationVC, flowFactory: self)
+        let coordinator = AuthorizationCoordinator(
+            flowNavigationController: flowNavigationVC,
+            flowFactory: self,
+            authorizationTokenStore: AuthorizationTokenStore(store: UserDefaults.standard)
+        )
         self.coordinator = coordinator
         return (flowNavigationVC, coordinator)
     }

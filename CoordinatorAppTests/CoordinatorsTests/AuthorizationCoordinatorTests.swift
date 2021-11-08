@@ -18,7 +18,11 @@ class AuthorizationCoordinatorTests: XCTestCase {
     override func setUpWithError() throws {
         factory = MockAuthorizationFlowFactory()
         flowNavigationVC = factory.flowNavigationVC
-        coordinator = AuthorizationCoordinator(flowNavigationController: flowNavigationVC, flowFactory: factory)
+        coordinator = AuthorizationCoordinator(
+            flowNavigationController: flowNavigationVC,
+            flowFactory: factory,
+            authorizationTokenStore: AuthorizationTokenStore(store: UserDefaults.standard)
+        )
         coordinator.animationEnabled = false
     }
 
