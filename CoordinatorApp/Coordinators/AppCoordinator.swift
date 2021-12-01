@@ -76,7 +76,7 @@ public final class AppCoordinator: Coordinating {
             self?.state = .mainFlow
         }
 
-        rootViewController?.embed(authorizationFlowController)
+        rootViewController?.embed(authorizationFlowController as! UINavigationController)
         authorizationCoordinator.start()
         childCoordinators.append(authorizationCoordinator)
     }

@@ -9,7 +9,7 @@ import UIKit
 
 public protocol AuthorizationFlowFactoryProtocol {
 
-    typealias AuthorizationFlow = (flowController: BaseNavigationController, coordinator: Coordinating)
+    typealias AuthorizationFlow = (flowController: NavigationRoutable, coordinator: Coordinating)
 
     typealias SignInModule = (controller: UIViewController & AuthorizationInterfaceStateContaining, output: SignInModuleOutput)
     typealias SignUpModule = (controller: UIViewController & AuthorizationInterfaceStateContaining, output: SignUpModuleOutput)
@@ -31,7 +31,7 @@ final class AuthorizationFlowFactory: AuthorizationFlowFactoryProtocol {
     func makeFlow() -> AuthorizationFlow {
         let navigationVC = BaseNavigationController()
         let coordinator = AuthorizationCoordinator(
-            flowNavigationController: navigationVC,
+            flowNavigationRouter: navigationVC,
             flowFactory: self,
             authorizationTokenStore: dependencies.authorizationTokenStore
         )

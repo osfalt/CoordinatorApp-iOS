@@ -13,17 +13,16 @@ class AuthorizationCoordinatorTests: XCTestCase {
 
     private var coordinator: AuthorizationCoordinator!
     private var factory: MockAuthorizationFlowFactory!
-    private var flowNavigationVC: BaseNavigationController!
+    private var flowNavigationRouter: MockNavigationRouter!
 
     override func setUpWithError() throws {
         factory = MockAuthorizationFlowFactory()
-        flowNavigationVC = factory.flowNavigationVC
+        flowNavigationRouter = factory.flowNavigationRouter
         coordinator = AuthorizationCoordinator(
-            flowNavigationController: flowNavigationVC,
+            flowNavigationRouter: flowNavigationRouter,
             flowFactory: factory,
             authorizationTokenStore: AuthorizationTokenStore(store: UserDefaults.standard)
         )
-        coordinator.animationEnabled = false
     }
 
     // MARK: - Flow Tests
@@ -36,35 +35,26 @@ class AuthorizationCoordinatorTests: XCTestCase {
     func testTransitionForwardFromSignInToSignUpState() throws {
         coordinator.start()
         XCTAssertEqual(coordinator.state, .signIn)
-        XCTAssertTrue(flowNavigationVC.topViewController === factory.signInViewController)
+        XCTAssertTrue(flowNavigationRouter.top === factory.signInViewController)
 
         let signInViewController = try XCTUnwrap(factory.signInViewController)
         signInViewController.tapOnCreateAccountButton()
         XCTAssertEqual(coordinator.state, .signUp)
-        XCTAssertTrue(flowNavigationVC.topViewController === factory.signUpViewController)
+        XCTAssertTrue(flowNavigationRouter.top === factory.signUpViewController)
     }
 
     func testTransitionBackFromSignUpToSignInState() throws {
-        fixPopViewController()
-
         // open sign-in screen
         coordinator.start()
         let signInViewController = try XCTUnwrap(factory.signInViewController)
         signInViewController.tapOnCreateAccountButton()
-        RunLoop.current.run(until: Date())
         XCTAssertEqual(coordinator.state, .signUp)
-        XCTAssertTrue(flowNavigationVC.topViewController === factory.signUpViewController)
+        XCTAssertTrue(flowNavigationRouter.top === factory.signUpViewController)
         
         // test pop transition
-        flowNavigationVC.popViewController(animated: false)
-        RunLoop.current.run(until: Date())
+        flowNavigationRouter.pop()
         XCTAssertEqual(coordinator.state, .signIn)
-        XCTAssertTrue(flowNavigationVC.topViewController === factory.signInViewController)
-    }
-
-    /// This method fixes callbacks of `NavigationControllerDelegate`
-    private func fixPopViewController() {
-        UIApplication.shared.windows.first?.rootViewController = flowNavigationVC
+        XCTAssertTrue(flowNavigationRouter.top === factory.signInViewController)
     }
 
 }

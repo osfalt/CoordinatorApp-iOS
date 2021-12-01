@@ -23,6 +23,7 @@
 		3175D87327090B6E00DCBE43 /* KeyValueStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3175D87227090B6E00DCBE43 /* KeyValueStoring.swift */; };
 		3175D87527090D4C00DCBE43 /* AuthorizationTokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3175D87427090D4C00DCBE43 /* AuthorizationTokenStore.swift */; };
 		318C29BA270B944F00F965CA /* AuthorizationTokenStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318C29B9270B944F00F965CA /* AuthorizationTokenStoreTests.swift */; };
+		3192409E2739D78C0046082D /* Routable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3192409D2739D78C0046082D /* Routable.swift */; };
 		319387AC270362DB0084F1D7 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319387AB270362DB0084F1D7 /* SignInViewController.swift */; };
 		319387AE2703C1AC0084F1D7 /* AuthorizationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319387AD2703C1AC0084F1D7 /* AuthorizationCoordinator.swift */; };
 		319387B02703C61F0084F1D7 /* AuthorizationFlowFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319387AF2703C61F0084F1D7 /* AuthorizationFlowFactory.swift */; };
@@ -56,6 +57,7 @@
 		31B5079926C081FE00C8F3B6 /* DeepLinkParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5079826C081FE00C8F3B6 /* DeepLinkParser.swift */; };
 		31B5079B26C1B7E900C8F3B6 /* DeepLinkPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5079A26C1B7E900C8F3B6 /* DeepLinkPayload.swift */; };
 		31B6F72B26B75A2A00FDBDA2 /* RedSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B6F72A26B75A2A00FDBDA2 /* RedSecondViewController.swift */; };
+		31D20EA82758356100AF9DE7 /* MockRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D20EA72758356100AF9DE7 /* MockRouter.swift */; };
 		31D86E592728A4AB00664C97 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D86E582728A4AB00664C97 /* Dependencies.swift */; };
 		31EB70F326C7158A0090CC96 /* Coordinating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EB70F226C7158A0090CC96 /* Coordinating.swift */; };
 /* End PBXBuildFile section */
@@ -94,6 +96,7 @@
 		3175D87227090B6E00DCBE43 /* KeyValueStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStoring.swift; sourceTree = "<group>"; };
 		3175D87427090D4C00DCBE43 /* AuthorizationTokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationTokenStore.swift; sourceTree = "<group>"; };
 		318C29B9270B944F00F965CA /* AuthorizationTokenStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationTokenStoreTests.swift; sourceTree = "<group>"; };
+		3192409D2739D78C0046082D /* Routable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routable.swift; sourceTree = "<group>"; };
 		319387AB270362DB0084F1D7 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		319387AD2703C1AC0084F1D7 /* AuthorizationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationCoordinator.swift; sourceTree = "<group>"; };
 		319387AF2703C61F0084F1D7 /* AuthorizationFlowFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationFlowFactory.swift; sourceTree = "<group>"; };
@@ -133,6 +136,7 @@
 		31B5079826C081FE00C8F3B6 /* DeepLinkParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkParser.swift; sourceTree = "<group>"; };
 		31B5079A26C1B7E900C8F3B6 /* DeepLinkPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkPayload.swift; sourceTree = "<group>"; };
 		31B6F72A26B75A2A00FDBDA2 /* RedSecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedSecondViewController.swift; sourceTree = "<group>"; };
+		31D20EA72758356100AF9DE7 /* MockRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRouter.swift; sourceTree = "<group>"; };
 		31D86E582728A4AB00664C97 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		31EB70F226C7158A0090CC96 /* Coordinating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinating.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -215,6 +219,7 @@
 				315FC87E26C48E91006C301E /* MockMainFlowFactory.swift */,
 				315FC88026C67E08006C301E /* MockRedFlowFactory.swift */,
 				31A96C5326FFD7D1009AA0A1 /* MockGreenFlowFactory.swift */,
+				31D20EA72758356100AF9DE7 /* MockRouter.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -229,6 +234,7 @@
 				3171B7B226B9D9330094D31B /* MainCoordinator.swift */,
 				31B5078D26BF2CB600C8F3B6 /* RedFlowCoordinator.swift */,
 				31B5078F26BF2CC700C8F3B6 /* GreenFlowCoordinator.swift */,
+				3192409D2739D78C0046082D /* Routable.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -552,6 +558,7 @@
 				319387AC270362DB0084F1D7 /* SignInViewController.swift in Sources */,
 				319C46F526B4C3C300DDC21C /* BasicColorView.swift in Sources */,
 				31B5078E26BF2CB600C8F3B6 /* RedFlowCoordinator.swift in Sources */,
+				3192409E2739D78C0046082D /* Routable.swift in Sources */,
 				31B5078C26BB427D00C8F3B6 /* GreenThirdViewController.swift in Sources */,
 				3124245D26B89C7D0074F592 /* BaseNavigationController.swift in Sources */,
 				319C46F326B4C06E00DDC21C /* BaseViewController.swift in Sources */,
@@ -576,6 +583,7 @@
 				31B5079226BFCB5700C8F3B6 /* RedFlowCoordinatorTests.swift in Sources */,
 				31B5079426BFCE3700C8F3B6 /* GreenFlowCoordinatorTests.swift in Sources */,
 				319387B42703CAC40084F1D7 /* AuthorizationCoordinatorTests.swift in Sources */,
+				31D20EA82758356100AF9DE7 /* MockRouter.swift in Sources */,
 				3124245F26B89C950074F592 /* BaseNavigationControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

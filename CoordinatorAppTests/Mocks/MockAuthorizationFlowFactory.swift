@@ -12,7 +12,7 @@ import UIKit
 // MARK: - Authorization Flow Factory
 
 final class MockAuthorizationFlowFactory: AuthorizationFlowFactoryProtocol {
-    private(set) lazy var flowNavigationVC = BaseNavigationController()
+    private(set) lazy var flowNavigationRouter = MockNavigationRouter()
     private(set) weak var signInViewController: MockSignInViewController?
     private(set) weak var signUpViewController: MockSignUpViewController?
 
@@ -20,12 +20,12 @@ final class MockAuthorizationFlowFactory: AuthorizationFlowFactoryProtocol {
 
     func makeFlow() -> AuthorizationFlow {
         let coordinator = AuthorizationCoordinator(
-            flowNavigationController: flowNavigationVC,
+            flowNavigationRouter: flowNavigationRouter,
             flowFactory: self,
             authorizationTokenStore: AuthorizationTokenStore(store: UserDefaults.standard)
         )
         self.coordinator = coordinator
-        return (flowNavigationVC, coordinator)
+        return (flowNavigationRouter, coordinator)
     }
 
     func makeSignInModule() -> SignInModule {

@@ -38,29 +38,24 @@ public final class AuthorizationCoordinator: Coordinating {
     // MARK: - Properties
 
     public var onFinish: (() -> Void)?
-    public var animationEnabled: Bool = true {
-        didSet { updateAnimatedValue() }
-    }
-    private var animated: Bool = true
 
     private let flowFactory: AuthorizationFlowFactoryProtocol
-    private weak var flowNavigationController: BaseNavigationController?
+    private weak var flowNavigationRouter: NavigationRoutable?
     private let authorizationTokenStore: AuthorizationTokenStore
-    private weak var signInViewController: UIViewController?
-    private weak var signUpViewController: UIViewController?
+    private weak var signInViewController: Routable?
+    private weak var signUpViewController: Routable?
     private var cancellables: Set<AnyCancellable> = []
 
     // MARK: - Init
 
     public init(
-        flowNavigationController: BaseNavigationController,
+        flowNavigationRouter: NavigationRoutable,
         flowFactory: AuthorizationFlowFactoryProtocol,
         authorizationTokenStore: AuthorizationTokenStore
     ) {
-        self.flowNavigationController = flowNavigationController
+        self.flowNavigationRouter = flowNavigationRouter
         self.flowFactory = flowFactory
         self.authorizationTokenStore = authorizationTokenStore
-        updateAnimatedValue()
     }
 
     public func start() {
@@ -83,11 +78,11 @@ public final class AuthorizationCoordinator: Coordinating {
     }
 
     private func updateCurrentStateBasedOnUI() {
-        guard let flowNavigationController = flowNavigationController else {
+        guard let flowNavigationRouter = flowNavigationRouter else {
             assertionFailure("Invalid UI state")
             return
         }
-        guard let authorizationFlowState = (flowNavigationController.topViewController as? AuthorizationInterfaceStateContaining)?.state else {
+        guard let authorizationFlowState = (flowNavigationRouter.top as? AuthorizationInterfaceStateContaining)?.state else {
             assertionFailure("Can't cast to AuthorizationFlowInterfaceStateContaining")
             return
         }
@@ -114,7 +109,7 @@ public final class AuthorizationCoordinator: Coordinating {
             }
             .store(in: &cancellables)
 
-        flowNavigationController?.pushViewController(signInVC, animated: false)
+        flowNavigationRouter?.push(signInVC)
         self.signInViewController = signInVC
     }
 
@@ -130,8 +125,8 @@ public final class AuthorizationCoordinator: Coordinating {
             }
             .store(in: &cancellables)
 
-        flowNavigationController?.pushViewController(signUpVC, animated: animated)
-        flowNavigationController?.didPopViewControllerPublisher
+        flowNavigationRouter?.push(signUpVC)
+        flowNavigationRouter?.didPopPublisher
             .sink { [weak self, weak signUpVC] popped, shown in
                 guard popped === signUpVC else { return }
                 self?.updateCurrentStateBasedOnUI()
@@ -146,11 +141,6 @@ public final class AuthorizationCoordinator: Coordinating {
     private func authorize() {
         authorizationTokenStore.token = UUID().uuidString
         onFinish?()
-    }
-
-    private func updateAnimatedValue() {
-        animated = animationEnabled && !UIAccessibility.isReduceMotionEnabled
-        flowNavigationController?.animationEnabled = animated
     }
 
 }
