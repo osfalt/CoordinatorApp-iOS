@@ -18,7 +18,7 @@ public protocol SwiftUIContentRendering: UIViewController {
 open class BaseViewController<Content: View>: UIViewController, SwiftUIContentRendering {
 
     open var content: Content {
-        fatalError("Should be implemented in childs")
+        fatalError("Should be implemented in children view controllers")
     }
 
     open override func viewDidLoad() {
