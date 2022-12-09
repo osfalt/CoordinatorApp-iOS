@@ -14,6 +14,13 @@ public struct Item: Identifiable {
     public let title: String
 }
 
+// MARK: - Scene Output
+
+public protocol RedDynamicInfoSceneOutputDelegate: AnyObject {
+    func redDynamicInfoSceneDidSelectItem(_ item: Item)
+    func redDynamicInfoSceneDidTapBackButton()
+}
+
 // MARK: - Module Output
 
 public protocol RedDynamicInfoModuleOutput: AnyObject {
@@ -44,14 +51,21 @@ public final class RedDynamicInfoViewModel: ObservableObject, RedDynamicInfoModu
 
     func didSelectCell(_ item: Item) {
         didSelectItemSubject.send(item)
+        outputDelegate?.redDynamicInfoSceneDidSelectItem(item)
+    }
+    
+    func didTapBackButton() {
+        outputDelegate?.redDynamicInfoSceneDidTapBackButton()
     }
 
     private let fetcher: DynamicItemsFetchable
     private var cancellables: Set<AnyCancellable> = []
     private let didSelectItemSubject = PassthroughSubject<Item, Never>()
-
-    public init(fetcher: DynamicItemsFetchable) {
+    private weak var outputDelegate: RedDynamicInfoSceneOutputDelegate?
+    
+    public init(fetcher: DynamicItemsFetchable, outputDelegate: RedDynamicInfoSceneOutputDelegate?) {
         self.fetcher = fetcher
+        self.outputDelegate = outputDelegate
     }
 
     private func loadItems() {
@@ -89,7 +103,8 @@ final class RedDynamicInfoViewController: BaseViewController<RedDynamicInfoView>
     }
 
     private let viewModel: RedDynamicInfoViewModel
-
+    private var cancellables: Set<AnyCancellable> = []
+    
     init(viewModel: RedDynamicInfoViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -98,6 +113,21 @@ final class RedDynamicInfoViewController: BaseViewController<RedDynamicInfoView>
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        guard let baseNavigationController = navigationController as? BaseNavigationController else {
+            return
+        }
+        
+        baseNavigationController.didPopViewControllerPublisher
+            .filter { [weak self] in $0.popped == self }
+            .sink { [weak self] _, _ in
+                self?.viewModel.didTapBackButton()
+            }
+            .store(in: &cancellables)
     }
 }
 
@@ -141,6 +171,6 @@ struct RedDynamicInfoView: View {
 
 struct RedDynamicInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        RedDynamicInfoView(viewModel: RedDynamicInfoViewModel(fetcher: DynamicItemsFetcher()))
+        RedDynamicInfoView(viewModel: RedDynamicInfoViewModel(fetcher: DynamicItemsFetcher(), outputDelegate: nil))
     }
 }

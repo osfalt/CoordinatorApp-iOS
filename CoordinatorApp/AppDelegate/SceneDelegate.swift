@@ -12,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     private lazy var dependencies = AppDependencies()
-    private var appCoordinator: Coordinating?
+    private var coordinator: Coordinator<UIViewController>?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
@@ -20,24 +20,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             assertionFailure()
             return
         }
-
-        let authFlowFactory = AuthorizationFlowFactory(dependencies: dependencies)
-        let mainFlowFactory = MainFlowFactory()
         
-        let appFlowFactory = AppFlowFactory(
-            authorizationFlow: authFlowFactory,
-            mainFlow: mainFlowFactory,
-            dependencies: dependencies
-        )
-        let (rootViewController, appCoordinator) = appFlowFactory.makeFlow()
+        let navigator = Navigator<UIViewController>.make()
+        let sceneFactory = SceneFactory<UIViewController>.make()
+        let coordinator = Coordinator(navigator: navigator, factory: sceneFactory)
+        let rootScene = coordinator.start()
 
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = rootViewController
+        window.rootViewController = rootScene
         self.window = window
         window.makeKeyAndVisible()
-
-        appCoordinator.start()
-        self.appCoordinator = appCoordinator
+        
+        self.coordinator = coordinator
 
         // HANDLE URL
         if let urlContext = connectionOptions.urlContexts.first {
@@ -63,7 +57,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let deepLink = DeepLinkParser().parseURL(url: url) else {
             return
         }
-        appCoordinator?.handleDeepLink(deepLink)
+//        appCoordinator?.handleDeepLink(deepLink)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

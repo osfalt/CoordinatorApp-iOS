@@ -33,19 +33,19 @@ final class RedFlowFactory: RedFlowFactoryProtocol {
     }
 
     func makeRedFirstModule() -> RedFirstModule {
-        let viewModel = RedFirstViewModel()
+        let viewModel = RedFirstViewModel(outputDelegate: nil)
         let viewController = RedFirstViewController(viewModel: viewModel)
         return (viewController, viewModel)
     }
 
     func makeRedSecondModule() -> RedSecondModule {
-        let viewModel = RedSecondViewModel()
+        let viewModel = RedSecondViewModel(outputDelegate: nil)
         let viewController = RedSecondViewController(viewModel: viewModel)
         return (viewController, viewModel)
     }
 
     func makeRedDynamicModule() -> RedDynamicModule {
-        let viewModel = RedDynamicInfoViewModel(fetcher: DynamicItemsFetcher())
+        let viewModel = RedDynamicInfoViewModel(fetcher: DynamicItemsFetcher(), outputDelegate: nil)
         let viewController = RedDynamicInfoViewController(viewModel: viewModel)
         return (viewController, viewModel)
     }

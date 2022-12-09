@@ -9,6 +9,12 @@ import Combine
 import SwiftUI
 import UIKit
 
+// MARK: - Scene Output
+
+public protocol RedFirstSceneOutputDelegate: AnyObject {
+    func redFirstSceneDidTapNextButton()
+}
+
 // MARK: - Module Output
 
 public protocol RedFirstModuleOutput: AnyObject {
@@ -30,11 +36,14 @@ public final class RedFirstViewModel: RedFirstModuleOutput {
     // input
     func didTapNextButton() {
         didTapNextButtonSubject.send(())
+        outputDelegate?.redFirstSceneDidTapNextButton()
     }
 
     private let didTapNextButtonSubject = PassthroughSubject<Void, Never>()
+    private weak var outputDelegate: RedFirstSceneOutputDelegate?
 
-    public init() {
+    public init(outputDelegate: RedFirstSceneOutputDelegate?) {
+        self.outputDelegate = outputDelegate
         self.title = "First Red Screen"
         self.description = "This is the FIRST screen with RED background colour"
     }
@@ -52,7 +61,7 @@ final class RedFirstViewController: BaseViewController<RedFirstView>, RedFlowInt
         .redFirstScreen
     }
 
-    let viewModel: RedFirstViewModel
+    private let viewModel: RedFirstViewModel
 
     init(viewModel: RedFirstViewModel) {
         self.viewModel = viewModel
@@ -82,6 +91,6 @@ struct RedFirstView: View {
 
 struct RedFirstView_Previews: PreviewProvider {
     static var previews: some View {
-        RedFirstView(viewModel: RedFirstViewModel())
+        RedFirstView(viewModel: RedFirstViewModel(outputDelegate: nil))
     }
 }

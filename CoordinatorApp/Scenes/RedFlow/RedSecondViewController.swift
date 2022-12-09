@@ -9,6 +9,13 @@ import Combine
 import SwiftUI
 import UIKit
 
+// MARK: - Scene Output
+
+public protocol RedSecondSceneOutputDelegate: AnyObject {
+    func redSecondSceneDidTapNextButton()
+    func redSecondSceneDidTapBackButton()
+}
+
 // MARK: - Module Output
 
 public protocol RedSecondModuleOutput: AnyObject {
@@ -30,11 +37,18 @@ public final class RedSecondViewModel: RedSecondModuleOutput {
     // input
     func didTapNextButton() {
         didTapNextButtonSubject.send(())
+        outputDelegate?.redSecondSceneDidTapNextButton()
+    }
+    
+    func didTapBackButton() {
+        outputDelegate?.redSecondSceneDidTapBackButton()
     }
 
     private let didTapNextButtonSubject = PassthroughSubject<Void, Never>()
+    private weak var outputDelegate: RedSecondSceneOutputDelegate?
 
-    public init() {
+    public init(outputDelegate: RedSecondSceneOutputDelegate?) {
+        self.outputDelegate = outputDelegate
         self.title = "Second Red Screen"
         self.description = "This is the SECOND screen with RED background colour"
     }
@@ -52,7 +66,8 @@ final class RedSecondViewController: BaseViewController<RedSecondView>, RedFlowI
         .redSecondScreen
     }
     
-    let viewModel: RedSecondViewModel
+    private let viewModel: RedSecondViewModel
+    private var cancellables: Set<AnyCancellable> = []
 
     init(viewModel: RedSecondViewModel) {
         self.viewModel = viewModel
@@ -62,6 +77,21 @@ final class RedSecondViewController: BaseViewController<RedSecondView>, RedFlowI
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        guard let baseNavigationController = navigationController as? BaseNavigationController else {
+            return
+        }
+        
+        baseNavigationController.didPopViewControllerPublisher
+            .filter { [weak self] in $0.popped == self }
+            .sink { [weak self] _, _ in
+                self?.viewModel.didTapBackButton()
+            }
+            .store(in: &cancellables)
     }
 }
 
@@ -82,6 +112,6 @@ struct RedSecondView: View {
 
 struct RedSecondView_Previews: PreviewProvider {
     static var previews: some View {
-        RedSecondView(viewModel: RedSecondViewModel())
+        RedSecondView(viewModel: RedSecondViewModel(outputDelegate: nil))
     }
 }
