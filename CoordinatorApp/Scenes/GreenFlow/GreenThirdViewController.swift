@@ -9,6 +9,13 @@ import Combine
 import SwiftUI
 import UIKit
 
+// MARK: - Scene Output
+
+public protocol GreenThirdSceneOutputDelegate: AnyObject {
+    func greenThirdSceneDidTapNextButton()
+    func greenThirdSceneDidTapBackButton()
+}
+
 // MARK: - Module Output
 
 public protocol GreenThirdModuleOutput: AnyObject {
@@ -31,14 +38,21 @@ public final class GreenThirdViewModel: GreenThirdModuleOutput {
     // input
     func didTapNextButton() {
         didTapNextButtonSubject.send(())
+        outputDelegate?.greenThirdSceneDidTapNextButton()
+    }
+    
+    func didTapBackButton() {
+        outputDelegate?.greenThirdSceneDidTapBackButton()
     }
 
     private let didTapNextButtonSubject = PassthroughSubject<Void, Never>()
+    private weak var outputDelegate: GreenThirdSceneOutputDelegate?
 
-    public init(dynamicText: String? = nil) {
+    public init(dynamicText: String? = nil, outputDelegate: GreenThirdSceneOutputDelegate?) {
         self.title = "Third Green Screen"
         self.description = "This is the THIRD screen with GREEN background colour"
         self.dynamicText = dynamicText
+        self.outputDelegate = outputDelegate
     }
 }
 
@@ -76,6 +90,10 @@ final class GreenThirdViewController: BaseViewController<AnyView>, GreenFlowInte
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func didTapBackButton() {
+        viewModel.didTapBackButton()
+    }
 }
 
 // MARK: - View
@@ -95,6 +113,6 @@ struct GreenThirdView: View {
 
 struct GreenThirdView_Previews: PreviewProvider {
     static var previews: some View {
-        GreenThirdView(viewModel: GreenThirdViewModel())
+        GreenThirdView(viewModel: GreenThirdViewModel(outputDelegate: nil))
     }
 }

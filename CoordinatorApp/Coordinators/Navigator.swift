@@ -8,6 +8,11 @@
 import Foundation
 import UIKit
 
+struct TabBarItem {
+    let title: String
+    let imageName: String
+}
+
 enum NewFlowNavigationStyle {
     
     enum Mode {
@@ -17,7 +22,7 @@ enum NewFlowNavigationStyle {
     
     case modal(mode: Mode)
     case embed(mode: Mode)
-    case tabBar
+    case tabBar(TabBarItem)
 }
 
 struct Navigator<Scene> {
@@ -77,8 +82,12 @@ extension Navigator {
                     }
                     source.embed(embededScene)
                     
-                case .tabBar where source is UITabBarController:
+                case .tabBar(let item) where source is UITabBarController:
                     let navigationController = BaseNavigationController(rootViewController: destination)
+
+                    let image: UIImage? = .init(systemName: item.imageName) ?? .init(named: item.imageName)
+                    navigationController.tabBarItem = UITabBarItem(title: item.title, image: image, selectedImage: nil)
+
                     source.addChild(navigationController)
                     
                 default:

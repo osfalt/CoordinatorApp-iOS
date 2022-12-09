@@ -35,15 +35,50 @@ class Coordinator<Scene> {
     func start() -> Scene {
         let rootScene = factory.rootScene()
         let tabBarScene = factory.mainTabBarScene()
-        let redFirstScene = factory.redFirstScene(self)
-        
         navigator.newFlow(from: rootScene, to: tabBarScene, style: .embed(mode: .single))
-        navigator.newFlow(from: tabBarScene, to: redFirstScene, style: .tabBar)
-                        
         rootScenes += [rootScene, tabBarScene]
+        
+        let redFirstScene = factory.redFirstScene(self)
+        navigator.newFlow(
+            from: tabBarScene,
+            to: redFirstScene,
+            style: .tabBar(.init(title: "Red Flow", imageName: "house.circle.fill"))
+        )
         redFlowScenes.append(redFirstScene)
         
+        let greenFirstScene = factory.greenFirstScene(self)
+        navigator.newFlow(
+            from: tabBarScene,
+            to: greenFirstScene,
+            style: .tabBar(.init(title: "Green Flow", imageName: "book.circle.fill"))
+        )
+        greenFlowScenes.append(greenFirstScene)
+        
         return rootScene
+    }
+    
+    private func pushSceneInRedFlow(_ scene: Scene) {
+        guard let currentRedFlowScene = currentRedFlowScene else { return }
+        navigator.continueFlow(from: currentRedFlowScene, to: scene)
+        redFlowScenes.append(scene)
+    }
+    
+    private func popSceneInRedFlow() {
+        guard let currentRedFlowScene = currentRedFlowScene else { return }
+        navigator.goBackInFlow(to: nil, from: currentRedFlowScene)
+        redFlowScenes.removeLast()
+    }
+    
+    private func pushSceneInGreenFlow(_ scene: Scene) {
+        guard let currentGreenFlowScene = currentGreenFlowScene else { return }
+        navigator.continueFlow(from: currentGreenFlowScene, to: scene)
+        greenFlowScenes.append(scene)
+    }
+    
+    private func popSceneInGreenFlow() {
+        guard let currentGreenFlowScene = currentGreenFlowScene else { return }
+        navigator.goBackInFlow(to: nil, from: currentGreenFlowScene)
+        greenFlowScenes.removeLast()
     }
     
 }
@@ -53,30 +88,19 @@ class Coordinator<Scene> {
 extension Coordinator: RedFirstSceneOutputDelegate {
     
     func redFirstSceneDidTapNextButton() {
-        guard let currentRedFlowScene = currentRedFlowScene else { return }
-        
-        let redSecondScene = factory.redSecondScene(self)
-        navigator.continueFlow(from: currentRedFlowScene, to: redSecondScene)
-        redFlowScenes.append(redSecondScene)
+        pushSceneInRedFlow(factory.redSecondScene(self))
     }
-
+    
 }
 
 extension Coordinator: RedSecondSceneOutputDelegate {
     
     func redSecondSceneDidTapNextButton() {
-        guard let currentRedFlowScene = currentRedFlowScene else { return }
-        
-        let redDynamicInfoScene = factory.redDynamicInfoScene(self)
-        navigator.continueFlow(from: currentRedFlowScene, to: redDynamicInfoScene)
-        redFlowScenes.append(redDynamicInfoScene)
+        pushSceneInRedFlow(factory.redDynamicInfoScene(self))
     }
     
     func redSecondSceneDidTapBackButton() {
-        guard let currentRedFlowScene = currentRedFlowScene else { return }
-        
-        navigator.goBackInFlow(to: nil, from: currentRedFlowScene)
-        redFlowScenes.removeLast()
+        popSceneInRedFlow()
     }
     
 }
@@ -88,10 +112,39 @@ extension Coordinator: RedDynamicInfoSceneOutputDelegate {
     }
     
     func redDynamicInfoSceneDidTapBackButton() {
-        guard let currentRedFlowScene = currentRedFlowScene else { return }
-        
-        navigator.goBackInFlow(to: nil, from: currentRedFlowScene)
-        redFlowScenes.removeLast()
+        popSceneInRedFlow()
+    }
+    
+}
+
+extension Coordinator: GreenFirstSceneOutputDelegate {
+    
+    func greenFirstSceneDidTapNextButton() {
+        pushSceneInGreenFlow(factory.greenSecondScene(self))
+    }
+    
+}
+
+extension Coordinator: GreenSecondSceneOutputDelegate {
+    
+    func greenSecondSceneDidTapNextButton() {
+        pushSceneInGreenFlow(factory.greenThirdScene(nil, self))
+    }
+    
+    func greenSecondSceneDidTapBackButton() {
+        popSceneInGreenFlow()
+    }
+    
+}
+
+extension Coordinator: GreenThirdSceneOutputDelegate {
+    
+    func greenThirdSceneDidTapNextButton() {
+        print("👀 greenThirdSceneDidTapBackButton")
+    }
+    
+    func greenThirdSceneDidTapBackButton() {
+        popSceneInGreenFlow()
     }
     
 }

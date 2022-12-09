@@ -32,19 +32,19 @@ final class GreenFlowFactory: GreenFlowFactoryProtocol {
     }
 
     func makeGreenFirstModule() -> GreenFirstModule {
-        let viewModel = GreenFirstViewModel()
+        let viewModel = GreenFirstViewModel(outputDelegate: nil)
         let viewController = GreenFirstViewController(viewModel: viewModel)
         return (viewController, viewModel)
     }
 
     func makeGreenSecondModule() -> GreenSecondModule {
-        let viewModel = GreenSecondViewModel()
+        let viewModel = GreenSecondViewModel(outputDelegate: nil)
         let viewController = GreenSecondViewController(viewModel: viewModel)
         return (viewController, viewModel)
     }
 
     func makeGreenThirdModule(dynamicText: String? = nil) -> GreenThirdModule {
-        let viewModel = GreenThirdViewModel(dynamicText: dynamicText)
+        let viewModel = GreenThirdViewModel(dynamicText: dynamicText, outputDelegate: nil)
         let viewController = GreenThirdViewController(viewModel: viewModel)
         return (viewController, viewModel)
     }

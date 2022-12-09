@@ -9,6 +9,13 @@ import Combine
 import SwiftUI
 import UIKit
 
+// MARK: - Scene Output
+
+public protocol GreenSecondSceneOutputDelegate: AnyObject {
+    func greenSecondSceneDidTapNextButton()
+    func greenSecondSceneDidTapBackButton()
+}
+
 // MARK: - Module Output
 
 public protocol GreenSecondModuleOutput: AnyObject {
@@ -30,13 +37,20 @@ public final class GreenSecondViewModel: GreenSecondModuleOutput {
     // input
     func didTapNextButton() {
         didTapNextButtonSubject.send(())
+        outputDelegate?.greenSecondSceneDidTapNextButton()
+    }
+    
+    func didTapBackButton() {
+        outputDelegate?.greenSecondSceneDidTapBackButton()
     }
 
     private let didTapNextButtonSubject = PassthroughSubject<Void, Never>()
-
-    public init() {
+    private weak var outputDelegate: GreenSecondSceneOutputDelegate?
+    
+    public init(outputDelegate: GreenSecondSceneOutputDelegate?) {
         self.title = "Second Green Screen"
         self.description = "This is the SECOND screen with GREEN background colour"
+        self.outputDelegate = outputDelegate
     }
 }
 
@@ -61,6 +75,10 @@ final class GreenSecondViewController: BaseViewController<GreenSecondView>, Gree
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func didTapBackButton() {
+        viewModel.didTapBackButton()
+    }
 }
 
 struct GreenSecondView: View {
@@ -78,6 +96,6 @@ struct GreenSecondView: View {
 
 struct GreenSecondView_Previews: PreviewProvider {
     static var previews: some View {
-        GreenSecondView(viewModel: GreenSecondViewModel())
+        GreenSecondView(viewModel: GreenSecondViewModel(outputDelegate: nil))
     }
 }

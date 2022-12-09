@@ -9,6 +9,12 @@ import Combine
 import SwiftUI
 import UIKit
 
+// MARK: - Scene Output
+
+public protocol GreenFirstSceneOutputDelegate: AnyObject {
+    func greenFirstSceneDidTapNextButton()
+}
+
 // MARK: - Module Output
 
 public protocol GreenFirstModuleOutput: AnyObject {
@@ -30,13 +36,16 @@ public final class GreenFirstViewModel: GreenFirstModuleOutput {
     // input
     func didTapNextButton() {
         didTapNextButtonSubject.send(())
+        outputDelegate?.greenFirstSceneDidTapNextButton()
     }
 
     private let didTapNextButtonSubject = PassthroughSubject<Void, Never>()
-
-    public init() {
+    private weak var outputDelegate: GreenFirstSceneOutputDelegate?
+    
+    public init(outputDelegate: GreenFirstSceneOutputDelegate?) {
         self.title = "First Green Screen"
         self.description = "This is the FIRST screen with GREEN background colour"
+        self.outputDelegate = outputDelegate
     }
 }
 
@@ -82,6 +91,6 @@ struct GreenFirstView: View {
 
 struct GreenFirstView_Previews: PreviewProvider {
     static var previews: some View {
-        GreenFirstView(viewModel: GreenFirstViewModel())
+        GreenFirstView(viewModel: GreenFirstViewModel(outputDelegate: nil))
     }
 }

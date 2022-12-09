@@ -103,7 +103,6 @@ final class RedDynamicInfoViewController: BaseViewController<RedDynamicInfoView>
     }
 
     private let viewModel: RedDynamicInfoViewModel
-    private var cancellables: Set<AnyCancellable> = []
     
     init(viewModel: RedDynamicInfoViewModel) {
         self.viewModel = viewModel
@@ -115,19 +114,8 @@ final class RedDynamicInfoViewController: BaseViewController<RedDynamicInfoView>
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        guard let baseNavigationController = navigationController as? BaseNavigationController else {
-            return
-        }
-        
-        baseNavigationController.didPopViewControllerPublisher
-            .filter { [weak self] in $0.popped == self }
-            .sink { [weak self] _, _ in
-                self?.viewModel.didTapBackButton()
-            }
-            .store(in: &cancellables)
+    override func didTapBackButton() {
+        viewModel.didTapBackButton()
     }
 }
 
