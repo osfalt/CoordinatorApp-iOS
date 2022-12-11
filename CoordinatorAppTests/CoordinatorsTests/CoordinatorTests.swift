@@ -8,17 +8,6 @@
 import XCTest
 @testable import CoordinatorApp
 
-enum MockScene: Equatable {
-    case rootScene
-    case mainTabBarScene
-    case redFirstScene
-    case redSecondScene
-    case redDynamicInfoScene
-    case greenFirstScene
-    case greenSecondScene
-    case greenThirdScene
-}
-
 final class CoordinatorTests: XCTestCase {
     
     private var mockNavigatorWrapper: MockNavigatorWrapper!
@@ -158,10 +147,123 @@ final class CoordinatorTests: XCTestCase {
             ]
         )
     }
+    
+    // MARK: - Green Flow Tests
+    
+    func testGreenFirstSceneDidTapNextButton_NavigatesToGreenSecondScene() {
+        sut.start()
+        sut.greenFirstSceneDidTapNextButton()
+        
+        XCTAssertEqual(sut.rootScenes, [.rootScene, .mainTabBarScene])
+        XCTAssertEqual(sut.redFlowScenes, [.redFirstScene])
+        XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene, .greenSecondScene])
+        
+        XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
+        XCTAssertEqual(sut.currentRedFlowScene, .redFirstScene)
+        XCTAssertEqual(sut.currentGreenFlowScene, .greenSecondScene)
+        
+        XCTAssertEqual(
+            mockNavigatorWrapper.log,
+            [
+                .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
+                .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .continueFlow(source: .greenFirstScene, destination: .greenSecondScene)
+            ]
+        )
+    }
+    
+    func testGreenSecondSceneDidTapNextButton_NavigatesToGreenThirdScene() {
+        sut.start()
+        sut.greenFirstSceneDidTapNextButton()
+        sut.greenSecondSceneDidTapNextButton()
+        
+        XCTAssertEqual(sut.rootScenes, [.rootScene, .mainTabBarScene])
+        XCTAssertEqual(sut.redFlowScenes, [.redFirstScene])
+        XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene, .greenSecondScene, .greenThirdScene])
+        
+        XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
+        XCTAssertEqual(sut.currentRedFlowScene, .redFirstScene)
+        XCTAssertEqual(sut.currentGreenFlowScene, .greenThirdScene)
+        
+        XCTAssertEqual(
+            mockNavigatorWrapper.log,
+            [
+                .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
+                .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .continueFlow(source: .greenFirstScene, destination: .greenSecondScene),
+                .continueFlow(source: .greenSecondScene, destination: .greenThirdScene)
+            ]
+        )
+    }
+    
+    func testGreenSecondSceneDidTapBackButton_NavigatesToGreenFirstScene() {
+        sut.start()
+        sut.greenFirstSceneDidTapNextButton()
+        sut.greenSecondSceneDidTapBackButton()
+        
+        XCTAssertEqual(sut.rootScenes, [.rootScene, .mainTabBarScene])
+        XCTAssertEqual(sut.redFlowScenes, [.redFirstScene])
+        XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene])
+        
+        XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
+        XCTAssertEqual(sut.currentRedFlowScene, .redFirstScene)
+        XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
+        
+        XCTAssertEqual(
+            mockNavigatorWrapper.log,
+            [
+                .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
+                .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .continueFlow(source: .greenFirstScene, destination: .greenSecondScene),
+                .goBackInFlow(source: .greenSecondScene, destination: nil)
+            ]
+        )
+    }
+    
+    func testGreenThirdSceneDidTapBackButton_NavigatesToGreenSecondScene() {
+        sut.start()
+        sut.greenFirstSceneDidTapNextButton()
+        sut.greenSecondSceneDidTapNextButton()
+        sut.greenThirdSceneDidTapBackButton()
+        
+        XCTAssertEqual(sut.rootScenes, [.rootScene, .mainTabBarScene])
+        XCTAssertEqual(sut.redFlowScenes, [.redFirstScene])
+        XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene, .greenSecondScene])
+        
+        XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
+        XCTAssertEqual(sut.currentRedFlowScene, .redFirstScene)
+        XCTAssertEqual(sut.currentGreenFlowScene, .greenSecondScene)
+        
+        XCTAssertEqual(
+            mockNavigatorWrapper.log,
+            [
+                .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
+                .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .continueFlow(source: .greenFirstScene, destination: .greenSecondScene),
+                .continueFlow(source: .greenSecondScene, destination: .greenThirdScene),
+                .goBackInFlow(source: .greenThirdScene, destination: nil)
+            ]
+        )
+    }
 
 }
 
 // MARK: - Mocks
+
+enum MockScene: Equatable {
+    case rootScene
+    case mainTabBarScene
+    case redFirstScene
+    case redSecondScene
+    case redDynamicInfoScene
+    case greenFirstScene
+    case greenSecondScene
+    case greenThirdScene
+}
 
 class MockNavigatorWrapper {
     

@@ -192,10 +192,7 @@
 		311028F2270237D60018184C /* CoordinatorsTests */ = {
 			isa = PBXGroup;
 			children = (
-				319387B32703CAC40084F1D7 /* AuthorizationCoordinatorTests.swift */,
-				3171B7B526B9DA210094D31B /* MainCoordinatorTests.swift */,
-				31B5079126BFCB5700C8F3B6 /* RedFlowCoordinatorTests.swift */,
-				31B5079326BFCE3700C8F3B6 /* GreenFlowCoordinatorTests.swift */,
+				31D7CDC12945F4C1003C027F /* LegacyTests */,
 				31B0C70D29450B63000996A5 /* CoordinatorTests.swift */,
 			);
 			path = CoordinatorsTests;
@@ -417,6 +414,17 @@
 				31B5078B26BB427D00C8F3B6 /* GreenThirdViewController.swift */,
 			);
 			path = GreenFlow;
+			sourceTree = "<group>";
+		};
+		31D7CDC12945F4C1003C027F /* LegacyTests */ = {
+			isa = PBXGroup;
+			children = (
+				319387B32703CAC40084F1D7 /* AuthorizationCoordinatorTests.swift */,
+				3171B7B526B9DA210094D31B /* MainCoordinatorTests.swift */,
+				31B5079126BFCB5700C8F3B6 /* RedFlowCoordinatorTests.swift */,
+				31B5079326BFCE3700C8F3B6 /* GreenFlowCoordinatorTests.swift */,
+			);
+			path = LegacyTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
