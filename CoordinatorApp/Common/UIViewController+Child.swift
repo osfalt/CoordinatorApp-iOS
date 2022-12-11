@@ -17,10 +17,10 @@ extension UIViewController {
         child.didMove(toParent: self)
     }
 
-    public func unembed(_ child: UIViewController) {
-        child.willMove(toParent: nil)
-        child.view.removeFromSuperview()
-        child.removeFromParent()
+    public func unembed() {
+        willMove(toParent: nil)
+        view.removeFromSuperview()
+        removeFromParent()
     }
 
     public func embed<Content: View>(_ content: Content) {

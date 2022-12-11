@@ -8,7 +8,16 @@
 import Combine
 import Foundation
 
-public final class AuthorizationTokenStore: ObservableObject {
+public protocol HasAuthorizationTokenStore {
+    var authorizationTokenStore: AuthorizationTokenStoring { get }
+}
+
+public protocol AuthorizationTokenStoring: AnyObject {
+    var token: String? { get set }
+    var tokenPublisher: Published<String?>.Publisher { get }
+}
+
+public final class AuthorizationTokenStore: ObservableObject, AuthorizationTokenStoring {
 
     enum Key {
         static let token = "authorization_token"
@@ -20,6 +29,8 @@ public final class AuthorizationTokenStore: ObservableObject {
             store.save(value: token, forKey: Key.token)
         }
     }
+    
+    public var tokenPublisher: Published<String?>.Publisher { $token }
 
     private let store: KeyValueStoring
     private var cancellables: Set<AnyCancellable> = []

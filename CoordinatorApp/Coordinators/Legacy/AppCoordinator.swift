@@ -37,7 +37,7 @@ public final class AppCoordinator: Coordinating {
 
     private let flowFactory: AppFlowFactoryProtocol
     private weak var rootViewController: UIViewController?
-    private let authorizationTokenStore: AuthorizationTokenStore
+    private let authorizationTokenStore: AuthorizationTokenStoring
     private var childCoordinators: [Coordinating] = []
 
     // MARK: - Init
@@ -45,7 +45,7 @@ public final class AppCoordinator: Coordinating {
     public init(
         rootViewController: UIViewController,
         flowFactory: AppFlowFactoryProtocol,
-        authorizationTokenStore: AuthorizationTokenStore
+        authorizationTokenStore: AuthorizationTokenStoring
     ) {
         self.rootViewController = rootViewController
         self.flowFactory = flowFactory

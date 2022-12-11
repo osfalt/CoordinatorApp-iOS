@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let navigator = Navigator<UIViewController>.make()
         let sceneFactory = SceneFactory<UIViewController>.make()
-        let coordinator = Coordinator(navigator: navigator, factory: sceneFactory)
+        let coordinator = Coordinator(navigator: navigator, factory: sceneFactory, dependencies: dependencies)
         let rootScene = coordinator.start()
 
         let window = UIWindow(windowScene: windowScene)

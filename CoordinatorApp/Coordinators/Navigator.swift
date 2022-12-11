@@ -27,19 +27,24 @@ enum NewFlowNavigationStyle: Equatable {
     case tabBar(TabBarItem)
 }
 
+enum CompleteFlowNavigationStyle: Equatable {
+    case dismissModal
+    case unembed
+}
+
 // MARK: - Interface
 
 struct Navigator<Scene> {
     
     let newFlow: (_ source: Scene, _ destination: Scene, _ style: NewFlowNavigationStyle) -> Void
     let continueFlow: (_ source: Scene, _ destination: Scene) -> Void
-    let completeFlow: (_ scene: Scene) -> Void
+    let completeFlow: (_ scene: Scene, _ style: CompleteFlowNavigationStyle) -> Void
     let goBackInFlow: (_ source: Scene, _ destination: Scene?) -> Void
     
     init(
         newFlow: @escaping (_ source: Scene, _ destination: Scene, _ style: NewFlowNavigationStyle) -> Void,
         continueFlow: @escaping (_ source: Scene, _ destination: Scene) -> Void,
-        completeFlow: @escaping (_ scene: Scene) -> Void,
+        completeFlow: @escaping (_ scene: Scene, _ style: CompleteFlowNavigationStyle) -> Void,
         goBackInFlow: @escaping (_ source: Scene, _ destination: Scene?) -> Void
     ) {
         self.newFlow = newFlow
@@ -56,8 +61,8 @@ struct Navigator<Scene> {
         continueFlow(source, destination)
     }
 
-    func completeFlow(on scene: Scene) {
-        completeFlow(scene)
+    func completeFlow(on scene: Scene, style: CompleteFlowNavigationStyle) {
+        completeFlow(scene, style)
     }
     
     func goBackInFlow(to destination: Scene?, from source: Scene) {
@@ -103,8 +108,13 @@ extension Navigator {
             continueFlow: { source, destination in
                 source.navigationController?.pushViewController(destination, animated: animatedTransitions)
             },
-            completeFlow: { scene in
-                scene.dismiss(animated: animatedTransitions)
+            completeFlow: { scene, style in
+                switch style {
+                case .dismissModal:
+                    scene.dismiss(animated: animatedTransitions)
+                case .unembed:
+                    scene.unembed()
+                }
             },
             goBackInFlow: { source, destination in
                 if let destination = destination {

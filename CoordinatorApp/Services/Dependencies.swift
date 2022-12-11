@@ -7,10 +7,11 @@
 
 import Foundation
 
-public protocol Dependencies: AnyObject {
+public protocol Dependencies: HasAuthorizationTokenStore, HasAuthorizationService {
 
     var dynamicItemsFetcher: DynamicItemsFetchable { get }
-    var authorizationTokenStore: AuthorizationTokenStore { get }
+    var authorizationTokenStore: AuthorizationTokenStoring { get }
+    var authorizationService: AuthorizationServicing { get }
 
 }
 
@@ -18,7 +19,8 @@ final class AppDependencies: Dependencies {
 
     // MARK: - Dependencies
     private(set) lazy var dynamicItemsFetcher: DynamicItemsFetchable = DynamicItemsFetcher()
-    private(set) lazy var authorizationTokenStore = AuthorizationTokenStore(store: keyValueStore)
+    private(set) lazy var authorizationTokenStore: AuthorizationTokenStoring = AuthorizationTokenStore(store: keyValueStore)
+    private(set) lazy var authorizationService: AuthorizationServicing = AuthorizationService(store: authorizationTokenStore)
 
     // MARK: - Private
     private let keyValueStore: KeyValueStoring

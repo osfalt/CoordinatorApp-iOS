@@ -41,7 +41,7 @@ public final class AuthorizationCoordinator: Coordinating {
 
     private let flowFactory: AuthorizationFlowFactoryProtocol
     private weak var flowNavigationRouter: NavigationRoutable?
-    private let authorizationTokenStore: AuthorizationTokenStore
+    private let authorizationTokenStore: AuthorizationTokenStoring
     private weak var signInViewController: Routable?
     private weak var signUpViewController: Routable?
     private var cancellables: Set<AnyCancellable> = []
@@ -51,7 +51,7 @@ public final class AuthorizationCoordinator: Coordinating {
     public init(
         flowNavigationRouter: NavigationRoutable,
         flowFactory: AuthorizationFlowFactoryProtocol,
-        authorizationTokenStore: AuthorizationTokenStore
+        authorizationTokenStore: AuthorizationTokenStoring
     ) {
         self.flowNavigationRouter = flowNavigationRouter
         self.flowFactory = flowFactory

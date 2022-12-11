@@ -13,6 +13,8 @@ import UIKit
 class SceneFactory<Scene> {
     
     let rootScene: () -> Scene
+    let signInScene: (SignInSceneOutputDelegate) -> Scene
+    let signUpScene: (SignUpSceneOutputDelegate) -> Scene
     let mainTabBarScene: () -> Scene
     
     let redFirstScene: (RedFirstSceneOutputDelegate) -> Scene
@@ -25,6 +27,8 @@ class SceneFactory<Scene> {
     
     init(
         rootScene: @escaping () -> Scene,
+        signInScene: @escaping (SignInSceneOutputDelegate) -> Scene,
+        signUpScene: @escaping (SignUpSceneOutputDelegate) -> Scene,
         mainTabBarScene: @escaping () -> Scene,
         redFirstScene: @escaping (RedFirstSceneOutputDelegate) -> Scene,
         redSecondScene: @escaping (RedSecondSceneOutputDelegate) -> Scene,
@@ -34,6 +38,8 @@ class SceneFactory<Scene> {
         greenThirdScene: @escaping (String?, GreenThirdSceneOutputDelegate) -> Scene
     ) {
         self.rootScene = rootScene
+        self.signInScene = signInScene
+        self.signUpScene = signUpScene
         self.mainTabBarScene = mainTabBarScene
         self.redFirstScene = redFirstScene
         self.redSecondScene = redSecondScene
@@ -54,6 +60,16 @@ extension SceneFactory {
             rootScene: {
                 let rootViewController = RootViewController()
                 return rootViewController
+            },
+            signInScene: { outputDelegate in
+                let viewModel = SignInViewModel(outputDelegate: outputDelegate)
+                let viewController = SignInViewController(viewModel: viewModel)
+                return viewController
+            },
+            signUpScene: { outputDelegate in
+                let viewModel = SignUpViewModel(outputDelegate: outputDelegate)
+                let viewController = SignUpViewController(viewModel: viewModel)
+                return viewController
             },
             mainTabBarScene: {
                 let tabBarController = UITabBarController()

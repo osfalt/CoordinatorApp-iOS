@@ -9,6 +9,13 @@ import Combine
 import SwiftUI
 import UIKit
 
+// MARK: - Scene Output
+
+public protocol SignInSceneOutputDelegate: AnyObject {
+    func signInSceneDidTapSignInButton()
+    func signInSceneDidTapCreateAccountButton()
+}
+
 // MARK: - Module Output
 
 public protocol SignInModuleOutput: AnyObject {
@@ -33,17 +40,21 @@ public final class SignInViewModel: SignInModuleOutput {
     // input
     func didTapSignInButton() {
         didTapSignInButtonSubject.send(())
+        outputDelegate?.signInSceneDidTapSignInButton()
     }
 
     func didTapCreateAccountButton() {
         didTapCreateAccountButtonSubject.send(())
+        outputDelegate?.signInSceneDidTapCreateAccountButton()
     }
 
     private let didTapSignInButtonSubject = PassthroughSubject<Void, Never>()
     private let didTapCreateAccountButtonSubject = PassthroughSubject<Void, Never>()
-
-    public init() {
+    private weak var outputDelegate: SignInSceneOutputDelegate?
+    
+    public init(outputDelegate: SignInSceneOutputDelegate?) {
         self.title = "Sign-In Screen"
+        self.outputDelegate = outputDelegate
     }
 }
 
@@ -92,6 +103,6 @@ struct SignInView: View {
 
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        SignInView(viewModel: SignInViewModel())
+        SignInView(viewModel: SignInViewModel(outputDelegate: nil))
     }
 }

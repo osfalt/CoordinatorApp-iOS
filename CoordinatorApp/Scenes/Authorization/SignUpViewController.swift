@@ -9,6 +9,13 @@ import Combine
 import SwiftUI
 import UIKit
 
+// MARK: - Scene Output
+
+public protocol SignUpSceneOutputDelegate: AnyObject {
+    func signUpSceneDidTapSignUpButton()
+    func signUpSceneDidTapBackButton()
+}
+
 // MARK: - Module Output
 
 public protocol SignUpModuleOutput: AnyObject {
@@ -29,12 +36,19 @@ public final class SignUpViewModel: SignUpModuleOutput {
     // input
     func didTapSignUpButton() {
         didTapSignUpButtonSubject.send(())
+        outputDelegate?.signUpSceneDidTapSignUpButton()
+    }
+    
+    func didTapBackButton() {
+        outputDelegate?.signUpSceneDidTapBackButton()
     }
 
     private let didTapSignUpButtonSubject = PassthroughSubject<Void, Never>()
-
-    public init() {
+    private weak var outputDelegate: SignUpSceneOutputDelegate?
+    
+    public init(outputDelegate: SignUpSceneOutputDelegate?) {
         self.title = "Sign-Up Screen"
+        self.outputDelegate = outputDelegate
     }
 }
 
@@ -61,6 +75,10 @@ final class SignUpViewController: BaseViewController<SignUpView>, AuthorizationI
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func didTapBackButton() {
+        viewModel.didTapBackButton()
+    }
 }
 
 // MARK: - View
@@ -78,6 +96,6 @@ struct SignUpView: View {
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        SignUpView(viewModel: SignUpViewModel())
+        SignUpView(viewModel: SignUpViewModel(outputDelegate: nil))
     }
 }
