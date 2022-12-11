@@ -8,14 +8,14 @@
 import Foundation
 import UIKit
 
-struct TabBarItem {
+struct TabBarItem: Equatable {
     let title: String
     let imageName: String
 }
 
-enum NewFlowNavigationStyle {
+enum NewFlowNavigationStyle: Equatable {
     
-    enum Mode {
+    enum Mode: Equatable {
         case flow
         case single
     }

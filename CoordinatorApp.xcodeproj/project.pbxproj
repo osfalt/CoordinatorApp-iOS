@@ -51,6 +51,7 @@
 		31A96C5226FFC0E3009AA0A1 /* GreenFlowFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A96C5126FFC0E3009AA0A1 /* GreenFlowFactory.swift */; };
 		31A96C5426FFD7D1009AA0A1 /* MockGreenFlowFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A96C5326FFD7D1009AA0A1 /* MockGreenFlowFactory.swift */; };
 		31A96C562700A211009AA0A1 /* RedDynamicInfoViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A96C552700A211009AA0A1 /* RedDynamicInfoViewModelTests.swift */; };
+		31B0C70E29450B63000996A5 /* CoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0C70D29450B63000996A5 /* CoordinatorTests.swift */; };
 		31B5078C26BB427D00C8F3B6 /* GreenThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5078B26BB427D00C8F3B6 /* GreenThirdViewController.swift */; };
 		31B5078E26BF2CB600C8F3B6 /* RedFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5078D26BF2CB600C8F3B6 /* RedFlowCoordinator.swift */; };
 		31B5079026BF2CC700C8F3B6 /* GreenFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5078F26BF2CC700C8F3B6 /* GreenFlowCoordinator.swift */; };
@@ -133,6 +134,7 @@
 		31A96C5126FFC0E3009AA0A1 /* GreenFlowFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenFlowFactory.swift; sourceTree = "<group>"; };
 		31A96C5326FFD7D1009AA0A1 /* MockGreenFlowFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGreenFlowFactory.swift; sourceTree = "<group>"; };
 		31A96C552700A211009AA0A1 /* RedDynamicInfoViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedDynamicInfoViewModelTests.swift; sourceTree = "<group>"; };
+		31B0C70D29450B63000996A5 /* CoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorTests.swift; sourceTree = "<group>"; };
 		31B5078B26BB427D00C8F3B6 /* GreenThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenThirdViewController.swift; sourceTree = "<group>"; };
 		31B5078D26BF2CB600C8F3B6 /* RedFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedFlowCoordinator.swift; sourceTree = "<group>"; };
 		31B5078F26BF2CC700C8F3B6 /* GreenFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenFlowCoordinator.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				3171B7B526B9DA210094D31B /* MainCoordinatorTests.swift */,
 				31B5079126BFCB5700C8F3B6 /* RedFlowCoordinatorTests.swift */,
 				31B5079326BFCE3700C8F3B6 /* GreenFlowCoordinatorTests.swift */,
+				31B0C70D29450B63000996A5 /* CoordinatorTests.swift */,
 			);
 			path = CoordinatorsTests;
 			sourceTree = "<group>";
@@ -602,6 +605,7 @@
 				31990760270CFA8500D25183 /* KeyValueStoringImplementationTests.swift in Sources */,
 				31B5079226BFCB5700C8F3B6 /* RedFlowCoordinatorTests.swift in Sources */,
 				31B5079426BFCE3700C8F3B6 /* GreenFlowCoordinatorTests.swift in Sources */,
+				31B0C70E29450B63000996A5 /* CoordinatorTests.swift in Sources */,
 				319387B42703CAC40084F1D7 /* AuthorizationCoordinatorTests.swift in Sources */,
 				31D20EA82758356100AF9DE7 /* MockRouter.swift in Sources */,
 				3124245F26B89C950074F592 /* BaseNavigationControllerTests.swift in Sources */,

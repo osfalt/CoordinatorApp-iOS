@@ -58,7 +58,7 @@ final class MockGreenFlowFactory: GreenFlowFactoryProtocol {
 final class MockGreenFirstController: UIViewController, GreenFlowInterfaceStateContaining {
     let state: GreenFlowCoordinator.InterfaceState = .greenFirstScreen
 
-    private(set) lazy var viewModel = GreenFirstViewModel()
+    private(set) lazy var viewModel = GreenFirstViewModel(outputDelegate: nil)
 
     func tapOnNextButton() {
         viewModel.didTapNextButton()
@@ -68,7 +68,7 @@ final class MockGreenFirstController: UIViewController, GreenFlowInterfaceStateC
 final class MockGreenSecondController: UIViewController, GreenFlowInterfaceStateContaining {
     let state: GreenFlowCoordinator.InterfaceState = .greenSecondScreen
 
-    private(set) lazy var viewModel = GreenSecondViewModel()
+    private(set) lazy var viewModel = GreenSecondViewModel(outputDelegate: nil)
 
     func tapOnNextButton() {
         viewModel.didTapNextButton()
@@ -78,7 +78,7 @@ final class MockGreenSecondController: UIViewController, GreenFlowInterfaceState
 final class MockGreenThirdController: UIViewController, GreenFlowInterfaceStateContaining {
     let state: GreenFlowCoordinator.InterfaceState = .greenThirdScreen(nil)
 
-    private(set) lazy var viewModel = GreenThirdViewModel()
+    private(set) lazy var viewModel = GreenThirdViewModel(outputDelegate: nil)
 
     func tapOnNextButton() {
         viewModel.didTapNextButton()

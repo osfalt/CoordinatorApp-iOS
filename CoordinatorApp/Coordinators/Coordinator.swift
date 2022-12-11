@@ -8,6 +8,13 @@
 import Foundation
 import UIKit
 
+extension TabBarItem {
+    
+    static let redFlowItem = TabBarItem(title: "Red Flow", imageName: "house.circle.fill")
+    static let greenFlowItem = TabBarItem(title: "Green Flow", imageName: "book.circle.fill")
+    
+}
+
 class Coordinator<Scene> {
     
     // MARK: - Public
@@ -32,6 +39,7 @@ class Coordinator<Scene> {
         self.factory = factory
     }
     
+    @discardableResult
     func start() -> Scene {
         let rootScene = factory.rootScene()
         let tabBarScene = factory.mainTabBarScene()
@@ -39,19 +47,11 @@ class Coordinator<Scene> {
         rootScenes += [rootScene, tabBarScene]
         
         let redFirstScene = factory.redFirstScene(self)
-        navigator.newFlow(
-            from: tabBarScene,
-            to: redFirstScene,
-            style: .tabBar(.init(title: "Red Flow", imageName: "house.circle.fill"))
-        )
+        navigator.newFlow(from: tabBarScene, to: redFirstScene, style: .tabBar(.redFlowItem))
         redFlowScenes.append(redFirstScene)
         
         let greenFirstScene = factory.greenFirstScene(self)
-        navigator.newFlow(
-            from: tabBarScene,
-            to: greenFirstScene,
-            style: .tabBar(.init(title: "Green Flow", imageName: "book.circle.fill"))
-        )
+        navigator.newFlow(from: tabBarScene, to: greenFirstScene, style: .tabBar(.greenFlowItem))
         greenFlowScenes.append(greenFirstScene)
         
         return rootScene

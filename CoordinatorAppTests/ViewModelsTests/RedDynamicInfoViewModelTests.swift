@@ -18,7 +18,7 @@ class RedDynamicInfoViewModelTests: XCTestCase {
 
     override func setUpWithError() throws {
         fetcher = MockDynamicItemsFetcher()
-        sut = RedDynamicInfoViewModel(fetcher: fetcher)
+        sut = RedDynamicInfoViewModel(fetcher: fetcher, outputDelegate: nil)
     }
 
     // MARK: - Tests

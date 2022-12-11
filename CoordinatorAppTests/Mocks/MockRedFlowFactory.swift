@@ -58,7 +58,7 @@ final class MockRedFlowFactory: RedFlowFactoryProtocol {
 final class MockRedFirstController: UIViewController, RedFlowInterfaceStateContaining {
     let state: RedFlowCoordinator.InterfaceState = .redFirstScreen
 
-    private(set) lazy var viewModel = RedFirstViewModel()
+    private(set) lazy var viewModel = RedFirstViewModel(outputDelegate: nil)
 
     func tapOnNextButton() {
         viewModel.didTapNextButton()
@@ -68,7 +68,7 @@ final class MockRedFirstController: UIViewController, RedFlowInterfaceStateConta
 final class MockRedSecondController: UIViewController, RedFlowInterfaceStateContaining {
     let state: RedFlowCoordinator.InterfaceState = .redSecondScreen
 
-    private(set) lazy var viewModel = RedSecondViewModel()
+    private(set) lazy var viewModel = RedSecondViewModel(outputDelegate: nil)
 
     func tapOnNextButton() {
         viewModel.didTapNextButton()
@@ -84,5 +84,5 @@ final class MockRedDynamicController: UIViewController, RedFlowInterfaceStateCon
         }
     }
 
-    private(set) lazy var viewModel = RedDynamicInfoViewModel(fetcher: MockDynamicItemsFetcher())
+    private(set) lazy var viewModel = RedDynamicInfoViewModel(fetcher: MockDynamicItemsFetcher(), outputDelegate: nil)
 }
