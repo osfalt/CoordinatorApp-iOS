@@ -12,7 +12,7 @@ import UIKit
 // MARK: - Scene Output
 
 public protocol SignInSceneOutputDelegate: AnyObject {
-    func signInSceneDidTapSignInButton()
+    func signInSceneDidLogInSuccessfully()
     func signInSceneDidTapCreateAccountButton()
 }
 
@@ -26,6 +26,9 @@ public protocol SignInModuleOutput: AnyObject {
 // MARK: - View Model
 
 public final class SignInViewModel: SignInModuleOutput {
+    
+    public typealias Interactor = HasAuthorizationService
+    
     // module output
     public var didTapSignInButtonPublisher: AnyPublisher<Void, Never> {
         didTapSignInButtonSubject.eraseToAnyPublisher()
@@ -40,7 +43,16 @@ public final class SignInViewModel: SignInModuleOutput {
     // input
     func didTapSignInButton() {
         didTapSignInButtonSubject.send(())
-        outputDelegate?.signInSceneDidTapSignInButton()
+        
+        interactor.authorizationService.logInUser { [weak self] result in
+            switch result {
+            case .success:
+                self?.outputDelegate?.signInSceneDidLogInSuccessfully()
+            case .failure:
+                // show error
+                break
+            }
+        }
     }
 
     func didTapCreateAccountButton() {
@@ -50,10 +62,13 @@ public final class SignInViewModel: SignInModuleOutput {
 
     private let didTapSignInButtonSubject = PassthroughSubject<Void, Never>()
     private let didTapCreateAccountButtonSubject = PassthroughSubject<Void, Never>()
+    
+    private let interactor: Interactor
     private weak var outputDelegate: SignInSceneOutputDelegate?
     
-    public init(outputDelegate: SignInSceneOutputDelegate?) {
+    public init(interactor: Interactor, outputDelegate: SignInSceneOutputDelegate?) {
         self.title = "Sign-In Screen"
+        self.interactor = interactor
         self.outputDelegate = outputDelegate
     }
 }
@@ -103,6 +118,6 @@ struct SignInView: View {
 
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        SignInView(viewModel: SignInViewModel(outputDelegate: nil))
+        SignInView(viewModel: SignInViewModel(interactor: AppDependencies(), outputDelegate: nil))
     }
 }

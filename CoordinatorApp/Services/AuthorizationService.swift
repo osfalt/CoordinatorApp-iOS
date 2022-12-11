@@ -13,8 +13,8 @@ public protocol HasAuthorizationService {
 }
 
 public protocol AuthorizationServicing: AnyObject {
-    func registerUser()
-    func logInUser()
+    func registerUser(completion: @escaping (Result<Void, Error>) -> Void)
+    func logInUser(completion: @escaping (Result<Void, Error>) -> Void)
 }
 
 public final class AuthorizationService: AuthorizationServicing {
@@ -25,12 +25,18 @@ public final class AuthorizationService: AuthorizationServicing {
         self.store = store
     }
     
-    public func registerUser() {
-        store.token = UUID().uuidString
+    public func registerUser(completion: @escaping (Result<Void, Error>) -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.store.token = UUID().uuidString
+            completion(.success(()))
+        }
     }
     
-    public func logInUser() {
-        store.token = UUID().uuidString
+    public func logInUser(completion: @escaping (Result<Void, Error>) -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.store.token = UUID().uuidString
+            completion(.success(()))
+        }
     }
     
 }

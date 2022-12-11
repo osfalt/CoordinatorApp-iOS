@@ -36,10 +36,10 @@ enum CompleteFlowNavigationStyle: Equatable {
 
 struct Navigator<Scene> {
     
-    let newFlow: (_ source: Scene, _ destination: Scene, _ style: NewFlowNavigationStyle) -> Void
-    let continueFlow: (_ source: Scene, _ destination: Scene) -> Void
-    let completeFlow: (_ scene: Scene, _ style: CompleteFlowNavigationStyle) -> Void
-    let goBackInFlow: (_ source: Scene, _ destination: Scene?) -> Void
+    private let newFlow: (_ source: Scene, _ destination: Scene, _ style: NewFlowNavigationStyle) -> Void
+    private let continueFlow: (_ source: Scene, _ destination: Scene) -> Void
+    private let completeFlow: (_ scene: Scene, _ style: CompleteFlowNavigationStyle) -> Void
+    private let goBackInFlow: (_ source: Scene, _ destination: Scene?) -> Void
     
     init(
         newFlow: @escaping (_ source: Scene, _ destination: Scene, _ style: NewFlowNavigationStyle) -> Void,

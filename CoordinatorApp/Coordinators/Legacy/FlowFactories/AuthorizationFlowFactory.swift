@@ -39,13 +39,13 @@ final class AuthorizationFlowFactory: AuthorizationFlowFactoryProtocol {
     }
 
     func makeSignInModule() -> SignInModule {
-        let viewModel = SignInViewModel(outputDelegate: nil)
+        let viewModel = SignInViewModel(interactor: AppDependencies(), outputDelegate: nil)
         let viewController = SignInViewController(viewModel: viewModel)
         return (viewController, viewModel)
     }
 
     func makeSignUpModule() -> SignUpModule {
-        let viewModel = SignUpViewModel(outputDelegate: nil)
+        let viewModel = SignUpViewModel(interactor: AppDependencies(), outputDelegate: nil)
         let viewController = SignUpViewController(viewModel: viewModel)
         return (viewController, viewModel)
     }

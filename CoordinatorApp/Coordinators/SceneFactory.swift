@@ -55,19 +55,19 @@ class SceneFactory<Scene> {
 
 extension SceneFactory {
     
-    static func make() -> SceneFactory<UIViewController> {
+    static func make(with dependencies: Dependencies) -> SceneFactory<UIViewController> {
         SceneFactory<UIViewController>(
             rootScene: {
                 let rootViewController = RootViewController()
                 return rootViewController
             },
             signInScene: { outputDelegate in
-                let viewModel = SignInViewModel(outputDelegate: outputDelegate)
+                let viewModel = SignInViewModel(interactor: dependencies, outputDelegate: outputDelegate)
                 let viewController = SignInViewController(viewModel: viewModel)
                 return viewController
             },
             signUpScene: { outputDelegate in
-                let viewModel = SignUpViewModel(outputDelegate: outputDelegate)
+                let viewModel = SignUpViewModel(interactor: dependencies, outputDelegate: outputDelegate)
                 let viewController = SignUpViewController(viewModel: viewModel)
                 return viewController
             },

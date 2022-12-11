@@ -12,7 +12,7 @@ import UIKit
 // MARK: - Scene Output
 
 public protocol SignUpSceneOutputDelegate: AnyObject {
-    func signUpSceneDidTapSignUpButton()
+    func signInSceneDidRegisterSuccessfully()
     func signUpSceneDidTapBackButton()
 }
 
@@ -25,6 +25,9 @@ public protocol SignUpModuleOutput: AnyObject {
 // MARK: - View Model
 
 public final class SignUpViewModel: SignUpModuleOutput {
+    
+    public typealias Interactor = HasAuthorizationService
+    
     // module output
     public var didTapSignUpButtonPublisher: AnyPublisher<Void, Never> {
         didTapSignUpButtonSubject.eraseToAnyPublisher()
@@ -36,7 +39,16 @@ public final class SignUpViewModel: SignUpModuleOutput {
     // input
     func didTapSignUpButton() {
         didTapSignUpButtonSubject.send(())
-        outputDelegate?.signUpSceneDidTapSignUpButton()
+                
+        interactor.authorizationService.registerUser { [weak self] result in
+            switch result {
+            case .success:
+                self?.outputDelegate?.signInSceneDidRegisterSuccessfully()
+            case .failure:
+                // show error
+                break
+            }
+        }
     }
     
     func didTapBackButton() {
@@ -44,10 +56,13 @@ public final class SignUpViewModel: SignUpModuleOutput {
     }
 
     private let didTapSignUpButtonSubject = PassthroughSubject<Void, Never>()
+    
+    private let interactor: Interactor
     private weak var outputDelegate: SignUpSceneOutputDelegate?
     
-    public init(outputDelegate: SignUpSceneOutputDelegate?) {
+    public init(interactor: Interactor, outputDelegate: SignUpSceneOutputDelegate?) {
         self.title = "Sign-Up Screen"
+        self.interactor = interactor
         self.outputDelegate = outputDelegate
     }
 }
@@ -96,6 +111,6 @@ struct SignUpView: View {
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        SignUpView(viewModel: SignUpViewModel(outputDelegate: nil))
+        SignUpView(viewModel: SignUpViewModel(interactor: AppDependencies(), outputDelegate: nil))
     }
 }

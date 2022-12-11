@@ -15,6 +15,8 @@ extension TabBarItem {
 
 class Coordinator<Scene> {
     
+    typealias Interactor = HasAuthorizationTokenStore
+    
     // MARK: - Public Properties
     
     private(set) var rootScenes: [Scene] = []
@@ -31,14 +33,14 @@ class Coordinator<Scene> {
     
     private let navigator: Navigator<Scene>
     private let factory: SceneFactory<Scene>
-    private let dependencies: Dependencies
+    private let interactor: Interactor
     
     // MARK: - Init
     
-    init(navigator: Navigator<Scene>, factory: SceneFactory<Scene>, dependencies: Dependencies) {
+    init(navigator: Navigator<Scene>, factory: SceneFactory<Scene>, interactor: Interactor) {
         self.navigator = navigator
         self.factory = factory
-        self.dependencies = dependencies
+        self.interactor = interactor
     }
     
     // MARK: - Public Methods
@@ -48,7 +50,7 @@ class Coordinator<Scene> {
         let rootScene = factory.rootScene()
         rootScenes.append(rootScene)
         
-        if dependencies.authorizationTokenStore.token == nil {
+        if interactor.authorizationTokenStore.token == nil {
             startAuthorizationFlow(on: rootScene)
         } else {
             startMainFlow(on: rootScene)
@@ -117,17 +119,7 @@ class Coordinator<Scene> {
 
 extension Coordinator: SignInSceneOutputDelegate {
     
-    func signInSceneDidTapSignInButton() {
-        #warning("(1) Move registration/login logic into ViewModels")
-        // ------>
-        dependencies.authorizationService.logInUser()
-        
-        guard dependencies.authorizationTokenStore.token != nil else {
-            assertionFailure("User should be authorized")
-            return
-        }
-        // <------
-        
+    func signInSceneDidLogInSuccessfully() {
         completeAuthorizationFlow()
         
         guard let rootScene = currentRootScene else { return }
@@ -145,17 +137,7 @@ extension Coordinator: SignInSceneOutputDelegate {
 
 extension Coordinator: SignUpSceneOutputDelegate {
     
-    func signUpSceneDidTapSignUpButton() {
-        #warning("(2) Move registration/login logic into ViewModels")
-        // ------>
-        dependencies.authorizationService.logInUser()
-        
-        guard dependencies.authorizationTokenStore.token != nil else {
-            assertionFailure("User should be authorized")
-            return
-        }
-        // <------
-        
+    func signInSceneDidRegisterSuccessfully() {
         completeAuthorizationFlow()
         
         guard let rootScene = currentRootScene else { return }
