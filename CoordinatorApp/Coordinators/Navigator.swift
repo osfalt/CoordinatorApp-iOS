@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+// MARK: - Models
+
 struct TabBarItem: Equatable {
     let title: String
     let imageName: String
@@ -24,6 +26,8 @@ enum NewFlowNavigationStyle: Equatable {
     case embed(mode: Mode)
     case tabBar(TabBarItem)
 }
+
+// MARK: - Interface
 
 struct Navigator<Scene> {
     
@@ -61,6 +65,8 @@ struct Navigator<Scene> {
     }
     
 }
+
+// MARK: - Implementation
 
 extension Navigator {
     

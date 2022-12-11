@@ -10,16 +10,16 @@ import XCTest
 
 final class CoordinatorTests: XCTestCase {
     
-    private var mockNavigatorWrapper: MockNavigatorWrapper!
+    private var navigatorSpy: NavigatorSpy!
     private var factory: SceneFactory<MockScene>!
     private var sut: Coordinator<MockScene>!
 
     override func setUp() {
         super.setUp()
         
-        mockNavigatorWrapper = MockNavigatorWrapper()
+        navigatorSpy = NavigatorSpy()
         factory = SceneFactory<MockScene>.mock()
-        sut = Coordinator(navigator: mockNavigatorWrapper.navigator, factory: factory)
+        sut = Coordinator(navigator: navigatorSpy.navigator, factory: factory)
     }
     
     // MARK: - Start Tests
@@ -37,7 +37,7 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
         
         XCTAssertEqual(
-            mockNavigatorWrapper.log,
+            navigatorSpy.log,
             [
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
@@ -61,7 +61,7 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
         
         XCTAssertEqual(
-            mockNavigatorWrapper.log,
+            navigatorSpy.log,
             [
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
@@ -85,7 +85,7 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
         
         XCTAssertEqual(
-            mockNavigatorWrapper.log,
+            navigatorSpy.log,
             [
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
@@ -110,7 +110,7 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
         
         XCTAssertEqual(
-            mockNavigatorWrapper.log,
+            navigatorSpy.log,
             [
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
@@ -136,7 +136,7 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
         
         XCTAssertEqual(
-            mockNavigatorWrapper.log,
+            navigatorSpy.log,
             [
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
@@ -163,7 +163,7 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.currentGreenFlowScene, .greenSecondScene)
         
         XCTAssertEqual(
-            mockNavigatorWrapper.log,
+            navigatorSpy.log,
             [
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
@@ -187,7 +187,7 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.currentGreenFlowScene, .greenThirdScene)
         
         XCTAssertEqual(
-            mockNavigatorWrapper.log,
+            navigatorSpy.log,
             [
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
@@ -212,7 +212,7 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
         
         XCTAssertEqual(
-            mockNavigatorWrapper.log,
+            navigatorSpy.log,
             [
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
@@ -238,7 +238,7 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.currentGreenFlowScene, .greenSecondScene)
         
         XCTAssertEqual(
-            mockNavigatorWrapper.log,
+            navigatorSpy.log,
             [
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
@@ -265,7 +265,7 @@ enum MockScene: Equatable {
     case greenThirdScene
 }
 
-class MockNavigatorWrapper {
+class NavigatorSpy {
     
     enum MethodCall: Equatable {
         case newFlow(source: MockScene, destination: MockScene, style: NewFlowNavigationStyle)

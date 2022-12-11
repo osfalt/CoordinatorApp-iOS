@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+// MARK: - Interface
+
 class SceneFactory<Scene> {
     
     let rootScene: () -> Scene
@@ -42,6 +44,8 @@ class SceneFactory<Scene> {
     }
     
 }
+
+// MARK: - Implementation
 
 extension SceneFactory {
     

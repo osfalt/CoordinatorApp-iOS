@@ -17,7 +17,7 @@ extension TabBarItem {
 
 class Coordinator<Scene> {
     
-    // MARK: - Public
+    // MARK: - Public Properties
     
     private(set) var rootScenes: [Scene] = []
     private(set) var redFlowScenes: [Scene] = []
@@ -27,7 +27,7 @@ class Coordinator<Scene> {
     var currentRedFlowScene: Scene? { redFlowScenes.last }
     var currentGreenFlowScene: Scene? { greenFlowScenes.last }
     
-    // MARK: - Private
+    // MARK: - Private Properties
     
     private let navigator: Navigator<Scene>
     private let factory: SceneFactory<Scene>
@@ -38,6 +38,8 @@ class Coordinator<Scene> {
         self.navigator = navigator
         self.factory = factory
     }
+    
+    // MARK: - Public Methods
     
     @discardableResult
     func start() -> Scene {
@@ -56,6 +58,8 @@ class Coordinator<Scene> {
         
         return rootScene
     }
+    
+    // MARK: - Private Methods
     
     private func pushSceneInRedFlow(_ scene: Scene) {
         guard let currentRedFlowScene = currentRedFlowScene else { return }
