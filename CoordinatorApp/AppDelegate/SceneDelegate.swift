@@ -24,10 +24,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigator = Navigator<UIViewController>.make()
         let sceneFactory = SceneFactory<UIViewController>.make(with: dependencies)
         let coordinator = Coordinator(navigator: navigator, factory: sceneFactory, interactor: dependencies)
-        let rootScene = coordinator.start()
+        let rootViewController = coordinator.start()
 
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = rootScene
+        window.rootViewController = rootViewController
         self.window = window
         window.makeKeyAndVisible()
         

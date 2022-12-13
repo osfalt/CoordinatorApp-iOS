@@ -137,7 +137,7 @@ extension Coordinator: SignInSceneOutputDelegate {
 
 extension Coordinator: SignUpSceneOutputDelegate {
     
-    func signInSceneDidRegisterSuccessfully() {
+    func signUpSceneDidRegisterSuccessfully() {
         completeAuthorizationFlow()
         
         guard let rootScene = currentRootScene else { return }

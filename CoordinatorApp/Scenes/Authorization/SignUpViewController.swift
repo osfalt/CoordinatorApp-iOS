@@ -12,7 +12,7 @@ import UIKit
 // MARK: - Scene Output
 
 public protocol SignUpSceneOutputDelegate: AnyObject {
-    func signInSceneDidRegisterSuccessfully()
+    func signUpSceneDidRegisterSuccessfully()
     func signUpSceneDidTapBackButton()
 }
 
@@ -32,7 +32,7 @@ public final class SignUpViewModel {
         interactor.authorizationService.registerUser { [weak self] result in
             switch result {
             case .success:
-                self?.outputDelegate?.signInSceneDidRegisterSuccessfully()
+                self?.outputDelegate?.signUpSceneDidRegisterSuccessfully()
             case .failure:
                 // show error
                 break
