@@ -13,7 +13,7 @@ public struct FetchedDynamicItem {
     public let name: String
 }
 
-public protocol HasDynamicItemsFetchable: AnyObject {
+public protocol HasDynamicItemsFetchable {
     var dynamicItemsFetcher: DynamicItemsFetchable { get }
 }
 

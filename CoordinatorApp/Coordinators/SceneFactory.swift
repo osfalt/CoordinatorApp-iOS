@@ -10,22 +10,22 @@ import UIKit
 
 // MARK: - Interface
 
-class SceneFactory<Scene> {
+public class SceneFactory<Scene> {
     
-    let rootScene: () -> Scene
-    let signInScene: (SignInSceneOutputDelegate) -> Scene
-    let signUpScene: (SignUpSceneOutputDelegate) -> Scene
-    let mainTabBarScene: () -> Scene
+    public let rootScene: () -> Scene
+    public let signInScene: (SignInSceneOutputDelegate) -> Scene
+    public let signUpScene: (SignUpSceneOutputDelegate) -> Scene
+    public let mainTabBarScene: () -> Scene
     
-    let redFirstScene: (RedFirstSceneOutputDelegate) -> Scene
-    let redSecondScene: (RedSecondSceneOutputDelegate) -> Scene
-    let redDynamicInfoScene: (RedDynamicInfoSceneOutputDelegate) -> Scene
+    public let redFirstScene: (RedFirstSceneOutputDelegate) -> Scene
+    public let redSecondScene: (RedSecondSceneOutputDelegate) -> Scene
+    public let redDynamicInfoScene: (RedDynamicInfoSceneOutputDelegate) -> Scene
     
-    let greenFirstScene: (GreenFirstSceneOutputDelegate) -> Scene
-    let greenSecondScene: (GreenSecondSceneOutputDelegate) -> Scene
-    let greenThirdScene: (String?, GreenThirdSceneOutputDelegate) -> Scene
+    public let greenFirstScene: (GreenFirstSceneOutputDelegate) -> Scene
+    public let greenSecondScene: (GreenSecondSceneOutputDelegate) -> Scene
+    public let greenThirdScene: (String?, GreenThirdSceneOutputDelegate) -> Scene
     
-    init(
+    public init(
         rootScene: @escaping () -> Scene,
         signInScene: @escaping (SignInSceneOutputDelegate) -> Scene,
         signUpScene: @escaping (SignUpSceneOutputDelegate) -> Scene,

@@ -10,14 +10,14 @@ import UIKit
 
 // MARK: - Models
 
-struct TabBarItem: Equatable {
+public struct TabBarItem: Equatable {
     let title: String
     let imageName: String
 }
 
-enum NewFlowNavigationStyle: Equatable {
+public enum NewFlowNavigationStyle: Equatable {
     
-    enum Mode: Equatable {
+    public enum Mode: Equatable {
         case flow
         case single
     }
@@ -27,21 +27,21 @@ enum NewFlowNavigationStyle: Equatable {
     case tabBar(TabBarItem)
 }
 
-enum CompleteFlowNavigationStyle: Equatable {
+public enum CompleteFlowNavigationStyle: Equatable {
     case dismissModal
     case unembed
 }
 
 // MARK: - Interface
 
-struct Navigator<Scene> {
+public struct Navigator<Scene> {
     
     private let newFlow: (_ source: Scene, _ destination: Scene, _ style: NewFlowNavigationStyle) -> Void
     private let continueFlow: (_ source: Scene, _ destination: Scene) -> Void
     private let completeFlow: (_ scene: Scene, _ style: CompleteFlowNavigationStyle) -> Void
     private let goBackInFlow: (_ source: Scene, _ destination: Scene?) -> Void
     
-    init(
+    public init(
         newFlow: @escaping (_ source: Scene, _ destination: Scene, _ style: NewFlowNavigationStyle) -> Void,
         continueFlow: @escaping (_ source: Scene, _ destination: Scene) -> Void,
         completeFlow: @escaping (_ scene: Scene, _ style: CompleteFlowNavigationStyle) -> Void,
@@ -53,19 +53,19 @@ struct Navigator<Scene> {
         self.goBackInFlow = goBackInFlow
     }
     
-    func newFlow(from source: Scene, to destination: Scene, style: NewFlowNavigationStyle) {
+    public func newFlow(from source: Scene, to destination: Scene, style: NewFlowNavigationStyle) {
         newFlow(source, destination, style)
     }
     
-    func continueFlow(from source: Scene, to destination: Scene) {
+    public func continueFlow(from source: Scene, to destination: Scene) {
         continueFlow(source, destination)
     }
 
-    func completeFlow(on scene: Scene, style: CompleteFlowNavigationStyle) {
+    public func completeFlow(on scene: Scene, style: CompleteFlowNavigationStyle) {
         completeFlow(scene, style)
     }
     
-    func goBackInFlow(to destination: Scene?, from source: Scene) {
+    public func goBackInFlow(to destination: Scene?, from source: Scene) {
         goBackInFlow(source, destination)
     }
     

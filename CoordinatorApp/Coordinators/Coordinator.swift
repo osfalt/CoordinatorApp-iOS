@@ -174,7 +174,7 @@ extension Coordinator: RedSecondSceneOutputDelegate {
 
 extension Coordinator: RedDynamicInfoSceneOutputDelegate {
     
-    func redDynamicInfoSceneDidSelectItem(_ item: Item) {
+    func redDynamicInfoSceneDidSelectItem(_ item: RedDynamicInfoItem) {
         print("👀 redDynamicInfoSceneDidSelectItem: \(item)")
     }
     

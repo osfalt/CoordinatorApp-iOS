@@ -41,6 +41,12 @@
 		31B5079926C081FE00C8F3B6 /* DeepLinkParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5079826C081FE00C8F3B6 /* DeepLinkParser.swift */; };
 		31B5079B26C1B7E900C8F3B6 /* DeepLinkPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5079A26C1B7E900C8F3B6 /* DeepLinkPayload.swift */; };
 		31B6F72B26B75A2A00FDBDA2 /* RedSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B6F72A26B75A2A00FDBDA2 /* RedSecondViewController.swift */; };
+		31CB428C294914AC00B1D2BB /* NavigatorSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB428B294914AC00B1D2BB /* NavigatorSpy.swift */; };
+		31CB428E2949155B00B1D2BB /* SceneFactoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB428D2949155B00B1D2BB /* SceneFactoryMock.swift */; };
+		31CB42902949168500B1D2BB /* DependenciesMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB428F2949168500B1D2BB /* DependenciesMock.swift */; };
+		31CB42922949204A00B1D2BB /* DynamicItemsFetcherMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB42912949204A00B1D2BB /* DynamicItemsFetcherMock.swift */; };
+		31CB4294294920F500B1D2BB /* AuthorizationTokenStoreMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB4293294920F500B1D2BB /* AuthorizationTokenStoreMock.swift */; };
+		31CB42962949219500B1D2BB /* AuthorizationServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB42952949219500B1D2BB /* AuthorizationServiceMock.swift */; };
 		31D7CDC32945FDC7003C027F /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D7CDC22945FDC7003C027F /* AuthorizationService.swift */; };
 		31D86E592728A4AB00664C97 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D86E582728A4AB00664C97 /* Dependencies.swift */; };
 /* End PBXBuildFile section */
@@ -103,6 +109,12 @@
 		31B5079826C081FE00C8F3B6 /* DeepLinkParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkParser.swift; sourceTree = "<group>"; };
 		31B5079A26C1B7E900C8F3B6 /* DeepLinkPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkPayload.swift; sourceTree = "<group>"; };
 		31B6F72A26B75A2A00FDBDA2 /* RedSecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedSecondViewController.swift; sourceTree = "<group>"; };
+		31CB428B294914AC00B1D2BB /* NavigatorSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigatorSpy.swift; sourceTree = "<group>"; };
+		31CB428D2949155B00B1D2BB /* SceneFactoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneFactoryMock.swift; sourceTree = "<group>"; };
+		31CB428F2949168500B1D2BB /* DependenciesMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependenciesMock.swift; sourceTree = "<group>"; };
+		31CB42912949204A00B1D2BB /* DynamicItemsFetcherMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicItemsFetcherMock.swift; sourceTree = "<group>"; };
+		31CB4293294920F500B1D2BB /* AuthorizationTokenStoreMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationTokenStoreMock.swift; sourceTree = "<group>"; };
+		31CB42952949219500B1D2BB /* AuthorizationServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationServiceMock.swift; sourceTree = "<group>"; };
 		31D7CDC22945FDC7003C027F /* AuthorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationService.swift; sourceTree = "<group>"; };
 		31D86E582728A4AB00664C97 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -253,6 +265,7 @@
 		319C46CE26B4B1D400DDC21C /* CoordinatorAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				31CB428A2949145F00B1D2BB /* Mocks */,
 				311028F2270237D60018184C /* CoordinatorsTests */,
 				318C29B8270B943600F965CA /* ServicesTests */,
 				312125D02703CEEB00CA2CCF /* ViewComponentsTests */,
@@ -322,6 +335,27 @@
 				31B5078B26BB427D00C8F3B6 /* GreenThirdViewController.swift */,
 			);
 			path = GreenFlow;
+			sourceTree = "<group>";
+		};
+		31CB428A2949145F00B1D2BB /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				31CB42972949236200B1D2BB /* Services */,
+				31CB428B294914AC00B1D2BB /* NavigatorSpy.swift */,
+				31CB428D2949155B00B1D2BB /* SceneFactoryMock.swift */,
+				31CB428F2949168500B1D2BB /* DependenciesMock.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		31CB42972949236200B1D2BB /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				31CB42912949204A00B1D2BB /* DynamicItemsFetcherMock.swift */,
+				31CB4293294920F500B1D2BB /* AuthorizationTokenStoreMock.swift */,
+				31CB42952949219500B1D2BB /* AuthorizationServiceMock.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -488,8 +522,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31CB42962949219500B1D2BB /* AuthorizationServiceMock.swift in Sources */,
+				31CB42922949204A00B1D2BB /* DynamicItemsFetcherMock.swift in Sources */,
+				31CB428C294914AC00B1D2BB /* NavigatorSpy.swift in Sources */,
 				31A96C562700A211009AA0A1 /* RedDynamicInfoViewModelTests.swift in Sources */,
+				31CB4294294920F500B1D2BB /* AuthorizationTokenStoreMock.swift in Sources */,
+				31CB42902949168500B1D2BB /* DependenciesMock.swift in Sources */,
 				318C29BA270B944F00F965CA /* AuthorizationTokenStoreTests.swift in Sources */,
+				31CB428E2949155B00B1D2BB /* SceneFactoryMock.swift in Sources */,
 				31990760270CFA8500D25183 /* KeyValueStoringImplementationTests.swift in Sources */,
 				31B0C70E29450B63000996A5 /* CoordinatorTests.swift in Sources */,
 				3124245F26B89C950074F592 /* BaseNavigationControllerTests.swift in Sources */,

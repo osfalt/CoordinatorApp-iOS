@@ -9,7 +9,7 @@ import Combine
 import SwiftUI
 import UIKit
 
-public struct Item: Identifiable {
+public struct RedDynamicInfoItem: Identifiable, Equatable {
     public let id: Int
     public let title: String
 }
@@ -17,7 +17,7 @@ public struct Item: Identifiable {
 // MARK: - Scene Output
 
 public protocol RedDynamicInfoSceneOutputDelegate: AnyObject {
-    func redDynamicInfoSceneDidSelectItem(_ item: Item)
+    func redDynamicInfoSceneDidSelectItem(_ item: RedDynamicInfoItem)
     func redDynamicInfoSceneDidTapBackButton()
 }
 
@@ -26,7 +26,7 @@ public protocol RedDynamicInfoSceneOutputDelegate: AnyObject {
 public final class RedDynamicInfoViewModel: ObservableObject {
     
     // output
-    @Published private(set) var items: [Item] = []
+    @Published private(set) var items: [RedDynamicInfoItem] = []
     @Published private(set) var isLoading = false
     @Published var showError: Bool = false
 
@@ -39,7 +39,7 @@ public final class RedDynamicInfoViewModel: ObservableObject {
         loadItems()
     }
 
-    func didSelectCell(_ item: Item) {
+    func didSelectCell(_ item: RedDynamicInfoItem) {
         didSelectItemSubject.send(item)
         outputDelegate?.redDynamicInfoSceneDidSelectItem(item)
     }
@@ -50,7 +50,7 @@ public final class RedDynamicInfoViewModel: ObservableObject {
 
     private let fetcher: DynamicItemsFetchable
     private var cancellables: Set<AnyCancellable> = []
-    private let didSelectItemSubject = PassthroughSubject<Item, Never>()
+    private let didSelectItemSubject = PassthroughSubject<RedDynamicInfoItem, Never>()
     private weak var outputDelegate: RedDynamicInfoSceneOutputDelegate?
     
     public init(fetcher: DynamicItemsFetchable, outputDelegate: RedDynamicInfoSceneOutputDelegate?) {
@@ -64,7 +64,7 @@ public final class RedDynamicInfoViewModel: ObservableObject {
 
         fetcher.fetchItems
             .map { fetchedItems in
-                fetchedItems.map { Item(id: $0.index, title: $0.name) }
+                fetchedItems.map { RedDynamicInfoItem(id: $0.index, title: $0.name) }
             }
             .sink(
                 receiveCompletion: { [weak self] completion in

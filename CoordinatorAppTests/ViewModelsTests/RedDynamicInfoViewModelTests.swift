@@ -12,13 +12,15 @@ import XCTest
 
 class RedDynamicInfoViewModelTests: XCTestCase {
 
-    private var fetcher: MockDynamicItemsFetcher!
+    private var fetcherMock: DynamicItemsFetcherMock!
+    private var outputDelegateSpy: RedDynamicInfoSceneOutputDelegateSpy!
     private var sut: RedDynamicInfoViewModel!
     private var cancellables: Set<AnyCancellable> = []
 
     override func setUpWithError() throws {
-        fetcher = MockDynamicItemsFetcher()
-        sut = RedDynamicInfoViewModel(fetcher: fetcher, outputDelegate: nil)
+        fetcherMock = DynamicItemsFetcherMock()
+        outputDelegateSpy = RedDynamicInfoSceneOutputDelegateSpy()
+        sut = RedDynamicInfoViewModel(fetcher: fetcherMock, outputDelegate: outputDelegateSpy)
     }
 
     // MARK: - Tests
@@ -28,7 +30,7 @@ class RedDynamicInfoViewModelTests: XCTestCase {
         sut.viewDidLoad()
         
         // then
-        XCTAssertNotNil(fetcher.fetchItemsPromise)
+        XCTAssertNotNil(fetcherMock.fetchItemsPromise)
         XCTAssertTrue(sut.isLoading)
         XCTAssertFalse(sut.showError)
         XCTAssertEqual(sut.items.count, 0)
@@ -44,7 +46,7 @@ class RedDynamicInfoViewModelTests: XCTestCase {
         
         // when
         sut.viewDidLoad()
-        fetcher.fetchItemsPromise?(.success(fetchedItems))
+        fetcherMock.fetchItemsPromise?(.success(fetchedItems))
         
         // then
         XCTAssertFalse(sut.isLoading)
@@ -57,7 +59,7 @@ class RedDynamicInfoViewModelTests: XCTestCase {
     func testViewDidLoad_TriggersFailedFetch() {
         // when
         sut.viewDidLoad()
-        fetcher.fetchItemsPromise?(.failure(MockError.test))
+        fetcherMock.fetchItemsPromise?(.failure(DummyError.error))
         
         // then
         XCTAssertFalse(sut.isLoading)
@@ -70,7 +72,7 @@ class RedDynamicInfoViewModelTests: XCTestCase {
         sut.didTapReloadButton()
         
         // then
-        XCTAssertNotNil(fetcher.fetchItemsPromise)
+        XCTAssertNotNil(fetcherMock.fetchItemsPromise)
         XCTAssertTrue(sut.isLoading)
         XCTAssertFalse(sut.showError)
         XCTAssertEqual(sut.items.count, 0)
@@ -86,7 +88,7 @@ class RedDynamicInfoViewModelTests: XCTestCase {
         
         // when
         sut.didTapReloadButton()
-        fetcher.fetchItemsPromise?(.success(fetchedItems))
+        fetcherMock.fetchItemsPromise?(.success(fetchedItems))
         
         // then
         XCTAssertFalse(sut.isLoading)
@@ -104,40 +106,41 @@ class RedDynamicInfoViewModelTests: XCTestCase {
             .init(index: 2, name: "Third Mock Item")
         ]
         
-        var selectedItem: Item?
-        sut.didSelectItemPublisher
-            .sink { selectedItem = $0 }
-            .store(in: &cancellables)
-        
         // when
         sut.didTapReloadButton()
-        fetcher.fetchItemsPromise?(.success(fetchedItems))
+        fetcherMock.fetchItemsPromise?(.success(fetchedItems))
         
-        let expectedItem = sut.items[1]
-        sut.didSelectCell(expectedItem)
+        let selectedItem = sut.items[1]
+        sut.didSelectCell(selectedItem)
         
         // then
-        XCTAssertNotNil(selectedItem)
-        XCTAssertEqual(selectedItem?.id, expectedItem.id)
-        XCTAssertEqual(selectedItem?.title, expectedItem.title)
+        let expectedItem = RedDynamicInfoItem(id: 1, title: "Second Mock Item")
+        XCTAssertEqual(outputDelegateSpy.log, [.redDynamicInfoSceneDidSelectItem(expectedItem)])
     }
 
 }
 
 // MARK: - Mocks
 
-enum MockError: Error {
-    case test
+private enum DummyError: Error {
+    case error
 }
 
-private class MockDynamicItemsFetcher: DynamicItemsFetchable {
+private class RedDynamicInfoSceneOutputDelegateSpy: RedDynamicInfoSceneOutputDelegate {
     
-    var fetchItemsPromise: ((Result<[FetchedDynamicItem], Error>) -> Void)?
+    enum MethodCall: Equatable {
+        case redDynamicInfoSceneDidSelectItem(RedDynamicInfoItem)
+        case redDynamicInfoSceneDidTapBackButton
+    }
     
-    var fetchItems: AnyPublisher<[FetchedDynamicItem], Error> {
-        Future<[FetchedDynamicItem], Error> { promise in
-            self.fetchItemsPromise = promise
-        }.eraseToAnyPublisher()
+    private(set) var log: [MethodCall] = []
+    
+    func redDynamicInfoSceneDidSelectItem(_ item: RedDynamicInfoItem) {
+        log.append(.redDynamicInfoSceneDidSelectItem(item))
+    }
+    
+    func redDynamicInfoSceneDidTapBackButton() {
+        log.append(.redDynamicInfoSceneDidTapBackButton)
     }
     
 }

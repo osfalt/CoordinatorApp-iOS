@@ -19,7 +19,7 @@ final class CoordinatorTests: XCTestCase {
         
         navigatorSpy = NavigatorSpy()
         factory = SceneFactory<MockScene>.mock()
-        sut = Coordinator(navigator: navigatorSpy.navigator, factory: factory)
+        sut = Coordinator(navigator: navigatorSpy.navigator, factory: factory, interactor: DependenciesMock())
     }
     
     // MARK: - Start Tests
@@ -250,65 +250,4 @@ final class CoordinatorTests: XCTestCase {
         )
     }
 
-}
-
-// MARK: - Mocks
-
-enum MockScene: Equatable {
-    case rootScene
-    case mainTabBarScene
-    case redFirstScene
-    case redSecondScene
-    case redDynamicInfoScene
-    case greenFirstScene
-    case greenSecondScene
-    case greenThirdScene
-}
-
-class NavigatorSpy {
-    
-    enum MethodCall: Equatable {
-        case newFlow(source: MockScene, destination: MockScene, style: NewFlowNavigationStyle)
-        case continueFlow(source: MockScene, destination: MockScene)
-        case completeFlow(scene: MockScene)
-        case goBackInFlow(source: MockScene, destination: MockScene?)
-    }
-    
-    private(set) var log: [MethodCall] = []
-    private(set) var navigator: Navigator<MockScene>!
-    
-    init() {
-        navigator = .init(
-            newFlow: { source, destination, style in
-                self.log.append(.newFlow(source: source, destination: destination, style: style))
-            },
-            continueFlow: { source, destination in
-                self.log.append(.continueFlow(source: source, destination: destination))
-            },
-            completeFlow: { scene in
-                self.log.append(.completeFlow(scene: scene))
-            },
-            goBackInFlow: { source, destination in
-                self.log.append(.goBackInFlow(source: source, destination: destination))
-            }
-        )
-    }
-    
-}
-
-extension SceneFactory {
-    
-    static func mock() -> SceneFactory<MockScene> {
-        SceneFactory<MockScene>(
-            rootScene: { .rootScene },
-            mainTabBarScene: { .mainTabBarScene },
-            redFirstScene: { delegate in .redFirstScene },
-            redSecondScene: { delegate in .redSecondScene },
-            redDynamicInfoScene: { delegate in .redDynamicInfoScene },
-            greenFirstScene: { delegate in .greenFirstScene },
-            greenSecondScene: { delegate in .greenSecondScene },
-            greenThirdScene: { text, delegate in .greenThirdScene }
-        )
-    }
-    
 }
