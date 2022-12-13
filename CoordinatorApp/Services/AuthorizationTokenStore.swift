@@ -40,7 +40,7 @@ public final class AuthorizationTokenStore: ObservableObject, AuthorizationToken
         self.token = store.getValue(forKey: Key.token)
         
         self.store.valueDidChangePublisher(for: Key.token)
-            .sink { [weak self] (authToken: String?) in
+            .sink { [weak self] authToken in
                 self?.token = authToken
             }
             .store(in: &cancellables)

@@ -11,56 +11,53 @@ import XCTest
 
 class AuthorizationTokenStoreTests: XCTestCase {
 
-    private var authorizationTokenStore: AuthorizationTokenStore!
-    private var keyValueStore: KeyValueStoring!
+    private var sut: AuthorizationTokenStore!
+    private var keyValueStoreMock: KeyValueStoring!
     private var cancellables: Set<AnyCancellable> = []
 
-    override func setUpWithError() throws {
-        keyValueStore = MockAuthorizationTokenKeyValueStore()
-        authorizationTokenStore = AuthorizationTokenStore(store: keyValueStore)
+    override func setUp() {
+        super.setUp()
+        keyValueStoreMock = KeyValueStoreMock()
+        sut = AuthorizationTokenStore(store: keyValueStoreMock)
     }
 
     // MARK: - Tests
 
     func testSaveToken() throws {
-        let initialValue: String? = keyValueStore.getValue(forKey: AuthorizationTokenStore.Key.token)
+        let initialValue: String? = keyValueStoreMock.getValue(forKey: AuthorizationTokenStore.Key.token)
         XCTAssertNil(initialValue)
 
-        authorizationTokenStore.token = "TEST_TOKEN"
-        let savedValue: String? = keyValueStore.getValue(forKey: AuthorizationTokenStore.Key.token)
+        sut.token = "TEST_TOKEN"
+        let savedValue: String? = keyValueStoreMock.getValue(forKey: AuthorizationTokenStore.Key.token)
         XCTAssertEqual(savedValue, "TEST_TOKEN")
     }
 
     func testRemoveToken() throws {
-        authorizationTokenStore.token = "TEST_TOKEN"
-        let initialValue: String? = keyValueStore.getValue(forKey: AuthorizationTokenStore.Key.token)
+        sut.token = "TEST_TOKEN"
+        let initialValue: String? = keyValueStoreMock.getValue(forKey: AuthorizationTokenStore.Key.token)
         XCTAssertNotNil(initialValue)
 
-        authorizationTokenStore.token = nil
-        let savedValue: String? = keyValueStore.getValue(forKey: AuthorizationTokenStore.Key.token)
+        sut.token = nil
+        let savedValue: String? = keyValueStoreMock.getValue(forKey: AuthorizationTokenStore.Key.token)
         XCTAssertNil(savedValue)
     }
 
     func testTokenDidChange() throws {
-        let expectation = XCTestExpectation(description: "TokenDidChange")
-
-        authorizationTokenStore.$token
-            .dropFirst()
-            .sink { token in
-                XCTAssertEqual(token, "TEST_TOKEN")
-                expectation.fulfill()
-            }
+        var token: String?
+        sut.$token
+            .sink { token = $0 }
             .store(in: &cancellables)
 
-        authorizationTokenStore.token = "TEST_TOKEN"
-        wait(for: [expectation], timeout: 0.01)
+        sut.token = "TEST_TOKEN"
+        
+        XCTAssertEqual(token, "TEST_TOKEN")
     }
 
 }
 
 // MARK: - Mock
 
-private class MockAuthorizationTokenKeyValueStore: KeyValueStoring {
+private class KeyValueStoreMock: KeyValueStoring {
 
     private static let tokenKey = AuthorizationTokenStore.Key.token
 
