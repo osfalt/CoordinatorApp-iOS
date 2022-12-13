@@ -16,19 +16,9 @@ public protocol RedSecondSceneOutputDelegate: AnyObject {
     func redSecondSceneDidTapBackButton()
 }
 
-// MARK: - Module Output
-
-public protocol RedSecondModuleOutput: AnyObject {
-    var didTapNextButtonPublisher: AnyPublisher<Void, Never> { get }
-}
-
 // MARK: - View Model
 
-public final class RedSecondViewModel: RedSecondModuleOutput {
-    // module output
-    public var didTapNextButtonPublisher: AnyPublisher<Void, Never> {
-        didTapNextButtonSubject.eraseToAnyPublisher()
-    }
+public final class RedSecondViewModel {
 
     // output
     let title: String
@@ -56,14 +46,10 @@ public final class RedSecondViewModel: RedSecondModuleOutput {
 
 // MARK: - View Controller
 
-final class RedSecondViewController: BaseViewController<RedSecondView>, RedFlowInterfaceStateContaining {
+final class RedSecondViewController: BaseViewController<RedSecondView> {
 
     override var content: Content {
         RedSecondView(viewModel: viewModel)
-    }
-
-    var state: RedFlowCoordinator.InterfaceState {
-        .redSecondScreen
     }
     
     private let viewModel: RedSecondViewModel

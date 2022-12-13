@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-public protocol HasAuthorizationTokenStore {
+public protocol HasAuthorizationTokenStoring {
     var authorizationTokenStore: AuthorizationTokenStoring { get }
 }
 

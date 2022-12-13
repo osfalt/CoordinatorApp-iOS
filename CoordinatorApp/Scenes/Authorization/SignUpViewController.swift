@@ -16,22 +16,11 @@ public protocol SignUpSceneOutputDelegate: AnyObject {
     func signUpSceneDidTapBackButton()
 }
 
-// MARK: - Module Output
-
-public protocol SignUpModuleOutput: AnyObject {
-    var didTapSignUpButtonPublisher: AnyPublisher<Void, Never> { get }
-}
-
 // MARK: - View Model
 
-public final class SignUpViewModel: SignUpModuleOutput {
+public final class SignUpViewModel {
     
-    public typealias Interactor = HasAuthorizationService
-    
-    // module output
-    public var didTapSignUpButtonPublisher: AnyPublisher<Void, Never> {
-        didTapSignUpButtonSubject.eraseToAnyPublisher()
-    }
+    public typealias Interactor = HasAuthorizationServicing
 
     // output
     let title: String
@@ -69,14 +58,10 @@ public final class SignUpViewModel: SignUpModuleOutput {
 
 // MARK: - View Controller
 
-final class SignUpViewController: BaseViewController<SignUpView>, AuthorizationInterfaceStateContaining {
+final class SignUpViewController: BaseViewController<SignUpView> {
 
     override var content: Content {
         SignUpView(viewModel: viewModel)
-    }
-
-    var state: AuthorizationCoordinator.InterfaceState {
-        .signUp
     }
 
     let viewModel: SignUpViewModel

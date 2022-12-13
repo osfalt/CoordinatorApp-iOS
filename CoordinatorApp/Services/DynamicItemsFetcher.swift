@@ -13,6 +13,10 @@ public struct FetchedDynamicItem {
     public let name: String
 }
 
+public protocol HasDynamicItemsFetchable: AnyObject {
+    var dynamicItemsFetcher: DynamicItemsFetchable { get }
+}
+
 public protocol DynamicItemsFetchable: AnyObject {
     var fetchItems: AnyPublisher<[FetchedDynamicItem], Error> { get }
 }

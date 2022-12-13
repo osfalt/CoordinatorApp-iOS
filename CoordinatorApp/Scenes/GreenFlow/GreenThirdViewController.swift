@@ -16,19 +16,9 @@ public protocol GreenThirdSceneOutputDelegate: AnyObject {
     func greenThirdSceneDidTapBackButton()
 }
 
-// MARK: - Module Output
-
-public protocol GreenThirdModuleOutput: AnyObject {
-    var didTapNextButtonPublisher: AnyPublisher<Void, Never> { get }
-}
-
 // MARK: - View Model
 
-public final class GreenThirdViewModel: GreenThirdModuleOutput {
-    // module output
-    public var didTapNextButtonPublisher: AnyPublisher<Void, Never> {
-        didTapNextButtonSubject.eraseToAnyPublisher()
-    }
+public final class GreenThirdViewModel {
 
     // output
     let title: String
@@ -37,7 +27,6 @@ public final class GreenThirdViewModel: GreenThirdModuleOutput {
 
     // input
     func didTapNextButton() {
-        didTapNextButtonSubject.send(())
         outputDelegate?.greenThirdSceneDidTapNextButton()
     }
     
@@ -45,7 +34,6 @@ public final class GreenThirdViewModel: GreenThirdModuleOutput {
         outputDelegate?.greenThirdSceneDidTapBackButton()
     }
 
-    private let didTapNextButtonSubject = PassthroughSubject<Void, Never>()
     private weak var outputDelegate: GreenThirdSceneOutputDelegate?
 
     public init(dynamicText: String? = nil, outputDelegate: GreenThirdSceneOutputDelegate?) {
@@ -58,7 +46,7 @@ public final class GreenThirdViewModel: GreenThirdModuleOutput {
 
 // MARK: - View Controller
 
-final class GreenThirdViewController: BaseViewController<AnyView>, GreenFlowInterfaceStateContaining {
+final class GreenThirdViewController: BaseViewController<AnyView> {
 
     override var content: Content {
         AnyView(
@@ -73,10 +61,6 @@ final class GreenThirdViewController: BaseViewController<AnyView>, GreenFlowInte
                 }
             }
         )
-    }
-
-    var state: GreenFlowCoordinator.InterfaceState {
-        .greenThirdScreen(nil)
     }
     
     let viewModel: GreenThirdViewModel

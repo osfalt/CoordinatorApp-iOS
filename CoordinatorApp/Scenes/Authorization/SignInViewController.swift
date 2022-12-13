@@ -16,26 +16,11 @@ public protocol SignInSceneOutputDelegate: AnyObject {
     func signInSceneDidTapCreateAccountButton()
 }
 
-// MARK: - Module Output
-
-public protocol SignInModuleOutput: AnyObject {
-    var didTapSignInButtonPublisher: AnyPublisher<Void, Never> { get }
-    var didTapCreateAccountButtonPublisher: AnyPublisher<Void, Never> { get }
-}
-
 // MARK: - View Model
 
-public final class SignInViewModel: SignInModuleOutput {
+public final class SignInViewModel {
     
-    public typealias Interactor = HasAuthorizationService
-    
-    // module output
-    public var didTapSignInButtonPublisher: AnyPublisher<Void, Never> {
-        didTapSignInButtonSubject.eraseToAnyPublisher()
-    }
-    public var didTapCreateAccountButtonPublisher: AnyPublisher<Void, Never> {
-        didTapCreateAccountButtonSubject.eraseToAnyPublisher()
-    }
+    public typealias Interactor = HasAuthorizationServicing
 
     // output
     let title: String
@@ -75,14 +60,10 @@ public final class SignInViewModel: SignInModuleOutput {
 
 // MARK: - View Controller
 
-final class SignInViewController: BaseViewController<SignInView>, AuthorizationInterfaceStateContaining {
+final class SignInViewController: BaseViewController<SignInView> {
 
     override var content: Content {
         SignInView(viewModel: viewModel)
-    }
-
-    var state: AuthorizationCoordinator.InterfaceState {
-        .signIn
     }
 
     let viewModel: SignInViewModel

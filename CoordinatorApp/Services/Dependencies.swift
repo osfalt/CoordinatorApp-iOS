@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol Dependencies: HasAuthorizationTokenStore, HasAuthorizationService {
+public protocol Dependencies: HasDynamicItemsFetchable, HasAuthorizationTokenStoring, HasAuthorizationServicing {
 
     var dynamicItemsFetcher: DynamicItemsFetchable { get }
     var authorizationTokenStore: AuthorizationTokenStoring { get }

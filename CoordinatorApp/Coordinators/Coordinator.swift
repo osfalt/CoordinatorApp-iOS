@@ -15,7 +15,7 @@ extension TabBarItem {
 
 class Coordinator<Scene> {
     
-    typealias Interactor = HasAuthorizationTokenStore
+    typealias Interactor = HasAuthorizationTokenStoring
     
     // MARK: - Public Properties
     

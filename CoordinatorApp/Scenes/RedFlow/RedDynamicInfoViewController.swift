@@ -21,20 +21,10 @@ public protocol RedDynamicInfoSceneOutputDelegate: AnyObject {
     func redDynamicInfoSceneDidTapBackButton()
 }
 
-// MARK: - Module Output
-
-public protocol RedDynamicInfoModuleOutput: AnyObject {
-    var didSelectItemPublisher: AnyPublisher<Item, Never> { get }
-}
-
 // MARK: - View Model
 
-public final class RedDynamicInfoViewModel: ObservableObject, RedDynamicInfoModuleOutput {
-    // module output
-    public var didSelectItemPublisher: AnyPublisher<Item, Never> {
-        didSelectItemSubject.eraseToAnyPublisher()
-    }
-
+public final class RedDynamicInfoViewModel: ObservableObject {
+    
     // output
     @Published private(set) var items: [Item] = []
     @Published private(set) var isLoading = false
@@ -92,14 +82,10 @@ public final class RedDynamicInfoViewModel: ObservableObject, RedDynamicInfoModu
 
 // MARK: - View Controller
 
-final class RedDynamicInfoViewController: BaseViewController<RedDynamicInfoView>, RedFlowInterfaceStateContaining {
+final class RedDynamicInfoViewController: BaseViewController<RedDynamicInfoView> {
 
     override var content: Content {
         RedDynamicInfoView(viewModel: viewModel)
-    }
-
-    var state: RedFlowCoordinator.InterfaceState {
-        .redDynamicInfoScreen
     }
 
     private let viewModel: RedDynamicInfoViewModel

@@ -16,6 +16,10 @@ protocol DeepLinkParsing {
     func parseURL(url: URL) -> DeepLink?
 }
 
+struct GreenFlowDeepLinkPayload: DeepLinkPayload {
+    let dynamicText: String
+}
+
 final class DeepLinkParser: DeepLinkParsing {
 
     func parseURL(url: URL) -> DeepLink? {

@@ -15,19 +15,9 @@ public protocol GreenFirstSceneOutputDelegate: AnyObject {
     func greenFirstSceneDidTapNextButton()
 }
 
-// MARK: - Module Output
-
-public protocol GreenFirstModuleOutput: AnyObject {
-    var didTapNextButtonPublisher: AnyPublisher<Void, Never> { get }
-}
-
 // MARK: - View Model
 
-public final class GreenFirstViewModel: GreenFirstModuleOutput {
-    // module output
-    public var didTapNextButtonPublisher: AnyPublisher<Void, Never> {
-        didTapNextButtonSubject.eraseToAnyPublisher()
-    }
+public final class GreenFirstViewModel {
 
     // output
     let title: String
@@ -35,11 +25,9 @@ public final class GreenFirstViewModel: GreenFirstModuleOutput {
 
     // input
     func didTapNextButton() {
-        didTapNextButtonSubject.send(())
         outputDelegate?.greenFirstSceneDidTapNextButton()
     }
 
-    private let didTapNextButtonSubject = PassthroughSubject<Void, Never>()
     private weak var outputDelegate: GreenFirstSceneOutputDelegate?
     
     public init(outputDelegate: GreenFirstSceneOutputDelegate?) {
@@ -51,14 +39,10 @@ public final class GreenFirstViewModel: GreenFirstModuleOutput {
 
 // MARK: - View Controller
 
-final class GreenFirstViewController: BaseViewController<GreenFirstView>, GreenFlowInterfaceStateContaining {
+final class GreenFirstViewController: BaseViewController<GreenFirstView> {
 
     override var content: Content {
         GreenFirstView(viewModel: viewModel)
-    }
-
-    var state: GreenFlowCoordinator.InterfaceState {
-        .greenFirstScreen
     }
 
     let viewModel: GreenFirstViewModel

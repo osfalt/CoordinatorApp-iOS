@@ -16,19 +16,9 @@ public protocol GreenSecondSceneOutputDelegate: AnyObject {
     func greenSecondSceneDidTapBackButton()
 }
 
-// MARK: - Module Output
-
-public protocol GreenSecondModuleOutput: AnyObject {
-    var didTapNextButtonPublisher: AnyPublisher<Void, Never> { get }
-}
-
 // MARK: - View Model
 
-public final class GreenSecondViewModel: GreenSecondModuleOutput {
-    // module output
-    public var didTapNextButtonPublisher: AnyPublisher<Void, Never> {
-        didTapNextButtonSubject.eraseToAnyPublisher()
-    }
+public final class GreenSecondViewModel {
 
     // output
     let title: String
@@ -36,7 +26,6 @@ public final class GreenSecondViewModel: GreenSecondModuleOutput {
 
     // input
     func didTapNextButton() {
-        didTapNextButtonSubject.send(())
         outputDelegate?.greenSecondSceneDidTapNextButton()
     }
     
@@ -44,7 +33,6 @@ public final class GreenSecondViewModel: GreenSecondModuleOutput {
         outputDelegate?.greenSecondSceneDidTapBackButton()
     }
 
-    private let didTapNextButtonSubject = PassthroughSubject<Void, Never>()
     private weak var outputDelegate: GreenSecondSceneOutputDelegate?
     
     public init(outputDelegate: GreenSecondSceneOutputDelegate?) {
@@ -54,14 +42,10 @@ public final class GreenSecondViewModel: GreenSecondModuleOutput {
     }
 }
 
-final class GreenSecondViewController: BaseViewController<GreenSecondView>, GreenFlowInterfaceStateContaining {
+final class GreenSecondViewController: BaseViewController<GreenSecondView> {
 
     override var content: Content {
         GreenSecondView(viewModel: viewModel)
-    }
-
-    var state: GreenFlowCoordinator.InterfaceState {
-        .greenSecondScreen
     }
     
     let viewModel: GreenSecondViewModel

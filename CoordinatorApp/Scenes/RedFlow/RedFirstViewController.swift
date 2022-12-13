@@ -15,19 +15,9 @@ public protocol RedFirstSceneOutputDelegate: AnyObject {
     func redFirstSceneDidTapNextButton()
 }
 
-// MARK: - Module Output
-
-public protocol RedFirstModuleOutput: AnyObject {
-    var didTapNextButtonPublisher: AnyPublisher<Void, Never> { get }
-}
-
 // MARK: - View Model
 
-public final class RedFirstViewModel: RedFirstModuleOutput {
-    // module output
-    public var didTapNextButtonPublisher: AnyPublisher<Void, Never> {
-        didTapNextButtonSubject.eraseToAnyPublisher()
-    }
+public final class RedFirstViewModel {
 
     // output
     let title: String
@@ -51,14 +41,10 @@ public final class RedFirstViewModel: RedFirstModuleOutput {
 
 // MARK: - View Controller
 
-final class RedFirstViewController: BaseViewController<RedFirstView>, RedFlowInterfaceStateContaining {
+final class RedFirstViewController: BaseViewController<RedFirstView> {
 
     override var content: Content {
         RedFirstView(viewModel: viewModel)
-    }
-
-    var state: RedFlowCoordinator.InterfaceState {
-        .redFirstScreen
     }
 
     private let viewModel: RedFirstViewModel

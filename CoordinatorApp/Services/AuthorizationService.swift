@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-public protocol HasAuthorizationService {
+public protocol HasAuthorizationServicing {
     var authorizationService: AuthorizationServicing { get }
 }
 
