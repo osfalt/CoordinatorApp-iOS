@@ -19,6 +19,7 @@ enum MockScene: Equatable {
     case greenFirstScene
     case greenSecondScene
     case greenThirdScene
+    case settingsScene
 }
 
 extension SceneFactory {
@@ -34,7 +35,8 @@ extension SceneFactory {
             redDynamicInfoScene: { _ in .redDynamicInfoScene },
             greenFirstScene: { _ in .greenFirstScene },
             greenSecondScene: { _ in .greenSecondScene },
-            greenThirdScene: { _, _ in .greenThirdScene }
+            greenThirdScene: { _, _ in .greenThirdScene },
+            settingsScene: { _ in .settingsScene }
         )
     }
     

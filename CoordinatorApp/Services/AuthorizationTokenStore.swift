@@ -26,7 +26,11 @@ public final class AuthorizationTokenStore: ObservableObject, AuthorizationToken
     @Published public var token: String? {
         didSet {
             guard token != oldValue else { return }
-            store.save(value: token, forKey: Key.token)
+            if let token {
+                store.save(value: token, forKey: Key.token)
+            } else {
+                store.removeValue(forKey: Key.token)
+            }
         }
     }
     

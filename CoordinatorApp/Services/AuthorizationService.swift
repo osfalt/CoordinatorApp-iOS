@@ -15,6 +15,7 @@ public protocol HasAuthorizationServicing {
 public protocol AuthorizationServicing: AnyObject {
     func registerUser(completion: @escaping (Result<Void, Error>) -> Void)
     func logInUser(completion: @escaping (Result<Void, Error>) -> Void)
+    func logOut(completion: @escaping (Result<Void, Error>) -> Void)
 }
 
 public final class AuthorizationService: AuthorizationServicing {
@@ -37,6 +38,11 @@ public final class AuthorizationService: AuthorizationServicing {
             self.store.token = UUID().uuidString
             completion(.success(()))
         }
+    }
+    
+    public func logOut(completion: @escaping (Result<Void, Error>) -> Void) {
+        store.token = nil
+        completion(.success(()))
     }
     
 }

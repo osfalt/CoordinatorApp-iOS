@@ -38,11 +38,13 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.authorizationScenes, [.signInScene])
         XCTAssertEqual(sut.redFlowScenes, [])
         XCTAssertEqual(sut.greenFlowScenes, [])
+        XCTAssertEqual(sut.settingsScenes, [])
         
         XCTAssertEqual(sut.currentRootScene, .signInScene)
         XCTAssertEqual(sut.currentAuthorizationScene, .signInScene)
         XCTAssertEqual(sut.currentRedFlowScene, nil)
         XCTAssertEqual(sut.currentGreenFlowScene, nil)
+        XCTAssertEqual(sut.currentSettingsScene, nil)
         
         XCTAssertEqual(
             navigatorSpy.log,
@@ -62,18 +64,21 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.authorizationScenes, [])
         XCTAssertEqual(sut.redFlowScenes, [.redFirstScene])
         XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene])
+        XCTAssertEqual(sut.settingsScenes, [.settingsScene])
         
         XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
         XCTAssertEqual(sut.currentAuthorizationScene, nil)
         XCTAssertEqual(sut.currentRedFlowScene, .redFirstScene)
         XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
+        XCTAssertEqual(sut.currentSettingsScene, .settingsScene)
         
         XCTAssertEqual(
             navigatorSpy.log,
             [
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
-                .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem))
+                .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .settingsScene, style: .tabBar(.settingsItem)),
             ]
         )
     }
@@ -88,11 +93,13 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.authorizationScenes, [.signInScene, .signUpScene])
         XCTAssertEqual(sut.redFlowScenes, [])
         XCTAssertEqual(sut.greenFlowScenes, [])
+        XCTAssertEqual(sut.settingsScenes, [])
         
         XCTAssertEqual(sut.currentRootScene, .signInScene)
         XCTAssertEqual(sut.currentAuthorizationScene, .signUpScene)
         XCTAssertEqual(sut.currentRedFlowScene, nil)
         XCTAssertEqual(sut.currentGreenFlowScene, nil)
+        XCTAssertEqual(sut.currentSettingsScene, nil)
         
         XCTAssertEqual(
             navigatorSpy.log,
@@ -111,11 +118,13 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.authorizationScenes, [])
         XCTAssertEqual(sut.redFlowScenes, [.redFirstScene])
         XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene])
+        XCTAssertEqual(sut.settingsScenes, [.settingsScene])
         
         XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
         XCTAssertEqual(sut.currentAuthorizationScene, nil)
         XCTAssertEqual(sut.currentRedFlowScene, .redFirstScene)
         XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
+        XCTAssertEqual(sut.currentSettingsScene, .settingsScene)
         
         XCTAssertEqual(
             navigatorSpy.log,
@@ -125,6 +134,7 @@ final class CoordinatorTests: XCTestCase {
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
                 .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .settingsScene, style: .tabBar(.settingsItem)),
             ]
         )
     }
@@ -138,11 +148,13 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.authorizationScenes, [])
         XCTAssertEqual(sut.redFlowScenes, [.redFirstScene])
         XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene])
+        XCTAssertEqual(sut.settingsScenes, [.settingsScene])
         
         XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
         XCTAssertEqual(sut.currentAuthorizationScene, nil)
         XCTAssertEqual(sut.currentRedFlowScene, .redFirstScene)
         XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
+        XCTAssertEqual(sut.currentSettingsScene, .settingsScene)
         
         XCTAssertEqual(
             navigatorSpy.log,
@@ -153,6 +165,7 @@ final class CoordinatorTests: XCTestCase {
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
                 .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .settingsScene, style: .tabBar(.settingsItem)),
             ]
         )
     }
@@ -166,11 +179,13 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.authorizationScenes, [.signInScene])
         XCTAssertEqual(sut.redFlowScenes, [])
         XCTAssertEqual(sut.greenFlowScenes, [])
+        XCTAssertEqual(sut.settingsScenes, [])
         
         XCTAssertEqual(sut.currentRootScene, .signInScene)
         XCTAssertEqual(sut.currentAuthorizationScene, .signInScene)
         XCTAssertEqual(sut.currentRedFlowScene, nil)
         XCTAssertEqual(sut.currentGreenFlowScene, nil)
+        XCTAssertEqual(sut.currentSettingsScene, nil)
         
         XCTAssertEqual(
             navigatorSpy.log,
@@ -193,10 +208,12 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.rootScenes, [.rootScene, .mainTabBarScene])
         XCTAssertEqual(sut.redFlowScenes, [.redFirstScene, .redSecondScene])
         XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene])
+        XCTAssertEqual(sut.settingsScenes, [.settingsScene])
         
         XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
         XCTAssertEqual(sut.currentRedFlowScene, .redSecondScene)
         XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
+        XCTAssertEqual(sut.currentSettingsScene, .settingsScene)
         
         XCTAssertEqual(
             navigatorSpy.log,
@@ -204,6 +221,7 @@ final class CoordinatorTests: XCTestCase {
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
                 .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .settingsScene, style: .tabBar(.settingsItem)),
                 .continueFlow(source: .redFirstScene, destination: .redSecondScene)
             ]
         )
@@ -219,10 +237,12 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.rootScenes, [.rootScene, .mainTabBarScene])
         XCTAssertEqual(sut.redFlowScenes, [.redFirstScene, .redSecondScene, .redDynamicInfoScene])
         XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene])
+        XCTAssertEqual(sut.settingsScenes, [.settingsScene])
         
         XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
         XCTAssertEqual(sut.currentRedFlowScene, .redDynamicInfoScene)
         XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
+        XCTAssertEqual(sut.currentSettingsScene, .settingsScene)
         
         XCTAssertEqual(
             navigatorSpy.log,
@@ -230,6 +250,7 @@ final class CoordinatorTests: XCTestCase {
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
                 .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .settingsScene, style: .tabBar(.settingsItem)),
                 .continueFlow(source: .redFirstScene, destination: .redSecondScene),
                 .continueFlow(source: .redSecondScene, destination: .redDynamicInfoScene)
             ]
@@ -246,10 +267,12 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.rootScenes, [.rootScene, .mainTabBarScene])
         XCTAssertEqual(sut.redFlowScenes, [.redFirstScene])
         XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene])
+        XCTAssertEqual(sut.settingsScenes, [.settingsScene])
         
         XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
         XCTAssertEqual(sut.currentRedFlowScene, .redFirstScene)
         XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
+        XCTAssertEqual(sut.currentSettingsScene, .settingsScene)
         
         XCTAssertEqual(
             navigatorSpy.log,
@@ -257,6 +280,7 @@ final class CoordinatorTests: XCTestCase {
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
                 .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .settingsScene, style: .tabBar(.settingsItem)),
                 .continueFlow(source: .redFirstScene, destination: .redSecondScene),
                 .goBackInFlow(source: .redSecondScene, destination: nil)
             ]
@@ -274,10 +298,12 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.rootScenes, [.rootScene, .mainTabBarScene])
         XCTAssertEqual(sut.redFlowScenes, [.redFirstScene, .redSecondScene])
         XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene])
+        XCTAssertEqual(sut.settingsScenes, [.settingsScene])
         
         XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
         XCTAssertEqual(sut.currentRedFlowScene, .redSecondScene)
         XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
+        XCTAssertEqual(sut.currentSettingsScene, .settingsScene)
         
         XCTAssertEqual(
             navigatorSpy.log,
@@ -285,6 +311,7 @@ final class CoordinatorTests: XCTestCase {
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
                 .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .settingsScene, style: .tabBar(.settingsItem)),
                 .continueFlow(source: .redFirstScene, destination: .redSecondScene),
                 .continueFlow(source: .redSecondScene, destination: .redDynamicInfoScene),
                 .goBackInFlow(source: .redDynamicInfoScene, destination: nil)
@@ -303,10 +330,12 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.rootScenes, [.rootScene, .mainTabBarScene])
         XCTAssertEqual(sut.redFlowScenes, [.redFirstScene])
         XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene, .greenSecondScene])
+        XCTAssertEqual(sut.settingsScenes, [.settingsScene])
         
         XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
         XCTAssertEqual(sut.currentRedFlowScene, .redFirstScene)
         XCTAssertEqual(sut.currentGreenFlowScene, .greenSecondScene)
+        XCTAssertEqual(sut.currentSettingsScene, .settingsScene)
         
         XCTAssertEqual(
             navigatorSpy.log,
@@ -314,6 +343,7 @@ final class CoordinatorTests: XCTestCase {
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
                 .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .settingsScene, style: .tabBar(.settingsItem)),
                 .continueFlow(source: .greenFirstScene, destination: .greenSecondScene)
             ]
         )
@@ -329,10 +359,12 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.rootScenes, [.rootScene, .mainTabBarScene])
         XCTAssertEqual(sut.redFlowScenes, [.redFirstScene])
         XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene, .greenSecondScene, .greenThirdScene])
+        XCTAssertEqual(sut.settingsScenes, [.settingsScene])
         
         XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
         XCTAssertEqual(sut.currentRedFlowScene, .redFirstScene)
         XCTAssertEqual(sut.currentGreenFlowScene, .greenThirdScene)
+        XCTAssertEqual(sut.currentSettingsScene, .settingsScene)
         
         XCTAssertEqual(
             navigatorSpy.log,
@@ -340,6 +372,7 @@ final class CoordinatorTests: XCTestCase {
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
                 .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .settingsScene, style: .tabBar(.settingsItem)),
                 .continueFlow(source: .greenFirstScene, destination: .greenSecondScene),
                 .continueFlow(source: .greenSecondScene, destination: .greenThirdScene)
             ]
@@ -356,10 +389,12 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.rootScenes, [.rootScene, .mainTabBarScene])
         XCTAssertEqual(sut.redFlowScenes, [.redFirstScene])
         XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene])
+        XCTAssertEqual(sut.settingsScenes, [.settingsScene])
         
         XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
         XCTAssertEqual(sut.currentRedFlowScene, .redFirstScene)
         XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
+        XCTAssertEqual(sut.currentSettingsScene, .settingsScene)
         
         XCTAssertEqual(
             navigatorSpy.log,
@@ -367,6 +402,7 @@ final class CoordinatorTests: XCTestCase {
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
                 .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .settingsScene, style: .tabBar(.settingsItem)),
                 .continueFlow(source: .greenFirstScene, destination: .greenSecondScene),
                 .goBackInFlow(source: .greenSecondScene, destination: nil)
             ]
@@ -384,10 +420,12 @@ final class CoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.rootScenes, [.rootScene, .mainTabBarScene])
         XCTAssertEqual(sut.redFlowScenes, [.redFirstScene])
         XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene, .greenSecondScene])
+        XCTAssertEqual(sut.settingsScenes, [.settingsScene])
         
         XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
         XCTAssertEqual(sut.currentRedFlowScene, .redFirstScene)
         XCTAssertEqual(sut.currentGreenFlowScene, .greenSecondScene)
+        XCTAssertEqual(sut.currentSettingsScene, .settingsScene)
         
         XCTAssertEqual(
             navigatorSpy.log,
@@ -395,9 +433,41 @@ final class CoordinatorTests: XCTestCase {
                 .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
                 .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
                 .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .settingsScene, style: .tabBar(.settingsItem)),
                 .continueFlow(source: .greenFirstScene, destination: .greenSecondScene),
                 .continueFlow(source: .greenSecondScene, destination: .greenThirdScene),
                 .goBackInFlow(source: .greenThirdScene, destination: nil)
+            ]
+        )
+    }
+    
+    // MARK: - Settings Tests
+    
+    func testSettingsSceneDidLogoutSuccessfullyn_NavigatesToAuthorizationFlow() {
+        givenUserIsLoggedIn()
+        
+        sut.start()
+        sut.settingsSceneDidLogoutSuccessfully()
+        
+        XCTAssertEqual(sut.rootScenes, [.rootScene, .signInScene])
+        XCTAssertEqual(sut.redFlowScenes, [])
+        XCTAssertEqual(sut.greenFlowScenes, [])
+        XCTAssertEqual(sut.settingsScenes, [])
+        
+        XCTAssertEqual(sut.currentRootScene, .signInScene)
+        XCTAssertEqual(sut.currentRedFlowScene, nil)
+        XCTAssertEqual(sut.currentGreenFlowScene, nil)
+        XCTAssertEqual(sut.currentSettingsScene, nil)
+        
+        XCTAssertEqual(
+            navigatorSpy.log,
+            [
+                .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
+                .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
+                .newFlow(source: .mainTabBarScene, destination: .settingsScene, style: .tabBar(.settingsItem)),
+                .completeFlow(scene: .mainTabBarScene, style: .unembed),
+                .newFlow(source: .rootScene, destination: .signInScene, style: .embed(mode: .flow))
             ]
         )
     }

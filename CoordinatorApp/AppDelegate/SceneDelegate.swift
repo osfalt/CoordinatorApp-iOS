@@ -53,6 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         handleURL(url, sourceApplication: sendingAppID)
     }
 
+    // TODO: Fix for new coordinator
     private func handleURL(_ url: URL, sourceApplication: String?) {
         guard let deepLink = DeepLinkParser().parseURL(url: url) else {
             return

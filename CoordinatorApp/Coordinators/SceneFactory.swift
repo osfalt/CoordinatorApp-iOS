@@ -25,6 +25,8 @@ public class SceneFactory<Scene> {
     public let greenSecondScene: (GreenSecondSceneOutputDelegate) -> Scene
     public let greenThirdScene: (String?, GreenThirdSceneOutputDelegate) -> Scene
     
+    public let settingsScene: (SettingsSceneOutputDelegate) -> Scene
+    
     public init(
         rootScene: @escaping () -> Scene,
         signInScene: @escaping (SignInSceneOutputDelegate) -> Scene,
@@ -35,7 +37,8 @@ public class SceneFactory<Scene> {
         redDynamicInfoScene: @escaping (RedDynamicInfoSceneOutputDelegate) -> Scene,
         greenFirstScene: @escaping (GreenFirstSceneOutputDelegate) -> Scene,
         greenSecondScene: @escaping (GreenSecondSceneOutputDelegate) -> Scene,
-        greenThirdScene: @escaping (String?, GreenThirdSceneOutputDelegate) -> Scene
+        greenThirdScene: @escaping (String?, GreenThirdSceneOutputDelegate) -> Scene,
+        settingsScene: @escaping (SettingsSceneOutputDelegate) -> Scene
     ) {
         self.rootScene = rootScene
         self.signInScene = signInScene
@@ -47,6 +50,7 @@ public class SceneFactory<Scene> {
         self.greenFirstScene = greenFirstScene
         self.greenSecondScene = greenSecondScene
         self.greenThirdScene = greenThirdScene
+        self.settingsScene = settingsScene
     }
     
 }
@@ -104,6 +108,11 @@ extension SceneFactory {
             greenThirdScene: { dynamicText, outputDelegate in
                 let viewModel = GreenThirdViewModel(dynamicText: dynamicText, outputDelegate: outputDelegate)
                 let viewController = GreenThirdViewController(viewModel: viewModel)
+                return viewController
+            },
+            settingsScene: { outputDelegate in
+                let viewModel = SettingsViewModel(interactor: dependencies, outputDelegate: outputDelegate)
+                let viewController = SettingsViewController(viewModel: viewModel)
                 return viewController
             }
         )

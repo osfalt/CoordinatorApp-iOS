@@ -11,6 +11,7 @@ import UIKit
 extension TabBarItem {
     static let redFlowItem = TabBarItem(title: "Red Flow", imageName: "house.circle.fill")
     static let greenFlowItem = TabBarItem(title: "Green Flow", imageName: "book.circle.fill")
+    static let settingsItem = TabBarItem(title: "Settings Flow", imageName: "gear.circle.fill")
 }
 
 class Coordinator<Scene> {
@@ -23,11 +24,13 @@ class Coordinator<Scene> {
     private(set) var authorizationScenes: [Scene] = []
     private(set) var redFlowScenes: [Scene] = []
     private(set) var greenFlowScenes: [Scene] = []
+    private(set) var settingsScenes: [Scene] = []
     
     var currentRootScene: Scene? { rootScenes.last }
     var currentAuthorizationScene: Scene? { authorizationScenes.last }
     var currentRedFlowScene: Scene? { redFlowScenes.last }
     var currentGreenFlowScene: Scene? { greenFlowScenes.last }
+    var currentSettingsScene: Scene? { settingsScenes.last }
     
     // MARK: - Private Properties
     
@@ -87,6 +90,20 @@ class Coordinator<Scene> {
         let greenFirstScene = factory.greenFirstScene(self)
         navigator.newFlow(from: tabBarScene, to: greenFirstScene, style: .tabBar(.greenFlowItem))
         greenFlowScenes.append(greenFirstScene)
+        
+        let settingsScene = factory.settingsScene(self)
+        navigator.newFlow(from: tabBarScene, to: settingsScene, style: .tabBar(.settingsItem))
+        settingsScenes.append(settingsScene)
+    }
+    
+    private func completeMainFlow() {
+        guard let rootScene = currentRootScene else { return }
+        navigator.completeFlow(on: rootScene, style: .unembed)
+        
+        redFlowScenes = []
+        greenFlowScenes = []
+        settingsScenes = []
+        rootScenes.removeLast()
     }
     
     private func pushSceneInRedFlow(_ scene: Scene) {
@@ -212,6 +229,17 @@ extension Coordinator: GreenThirdSceneOutputDelegate {
     
     func greenThirdSceneDidTapBackButton() {
         popSceneInGreenFlow()
+    }
+    
+}
+
+extension Coordinator: SettingsSceneOutputDelegate {
+    
+    func settingsSceneDidLogoutSuccessfully() {
+        completeMainFlow()
+        
+        guard let rootScene = currentRootScene else { return }
+        startAuthorizationFlow(on: rootScene)
     }
     
 }
