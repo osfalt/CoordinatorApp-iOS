@@ -8,7 +8,9 @@
 import Foundation
 import CoordinatorApp
 
-class NavigatorSpy {
+final class NavigatorSpy: Navigator {
+    
+    typealias Scene = MockScene
     
     enum MethodCall: Equatable {
         case newFlow(source: MockScene, destination: MockScene, style: NewFlowNavigationStyle)
@@ -18,23 +20,21 @@ class NavigatorSpy {
     }
     
     private(set) var log: [MethodCall] = []
-    private(set) var navigator: Navigator<MockScene>!
     
-    init() {
-        navigator = .init(
-            newFlow: { source, destination, style in
-                self.log.append(.newFlow(source: source, destination: destination, style: style))
-            },
-            continueFlow: { source, destination in
-                self.log.append(.continueFlow(source: source, destination: destination))
-            },
-            completeFlow: { scene, style in
-                self.log.append(.completeFlow(scene: scene, style: style))
-            },
-            goBackInFlow: { source, destination in
-                self.log.append(.goBackInFlow(source: source, destination: destination))
-            }
-        )
+    func newFlow(from source: Scene, to destination: Scene, style: NewFlowNavigationStyle) {
+        log.append(.newFlow(source: source, destination: destination, style: style))
+    }
+    
+    func continueFlow(from source: Scene, to destination: Scene) {
+        log.append(.continueFlow(source: source, destination: destination))
+    }
+    
+    func completeFlow(on scene: Scene, style: CompleteFlowNavigationStyle) {
+        log.append(.completeFlow(scene: scene, style: style))
+    }
+    
+    func goBackInFlow(to destination: Scene?, from source: Scene) {
+        log.append(.goBackInFlow(source: source, destination: destination))
     }
     
 }

@@ -34,13 +34,13 @@ class Coordinator<Scene> {
     
     // MARK: - Private Properties
     
-    private let navigator: Navigator<Scene>
-    private let factory: SceneFactory<Scene>
+    private let navigator: any Navigator<Scene>
+    private let factory: any SceneFactory<Scene>
     private let interactor: Interactor
     
     // MARK: - Init
     
-    init(navigator: Navigator<Scene>, factory: SceneFactory<Scene>, interactor: Interactor) {
+    init(navigator: any Navigator<Scene>, factory: any SceneFactory<Scene>, interactor: Interactor) {
         self.navigator = navigator
         self.factory = factory
         self.interactor = interactor
@@ -65,7 +65,7 @@ class Coordinator<Scene> {
     // MARK: - Private Methods
     
     private func startAuthorizationFlow(on rootScene: Scene) {
-        let signInScene = factory.signInScene(self)
+        let signInScene = factory.signInScene(delegate: self)
         navigator.newFlow(from: rootScene, to: signInScene, style: .embed(mode: .flow))
         rootScenes.append(signInScene)
         authorizationScenes.append(signInScene)
@@ -83,15 +83,15 @@ class Coordinator<Scene> {
         navigator.newFlow(from: rootScene, to: tabBarScene, style: .embed(mode: .single))
         rootScenes.append(tabBarScene)
         
-        let redFirstScene = factory.redFirstScene(self)
+        let redFirstScene = factory.redFirstScene(delegate: self)
         navigator.newFlow(from: tabBarScene, to: redFirstScene, style: .tabBar(.redFlowItem))
         redFlowScenes.append(redFirstScene)
         
-        let greenFirstScene = factory.greenFirstScene(self)
+        let greenFirstScene = factory.greenFirstScene(delegate: self)
         navigator.newFlow(from: tabBarScene, to: greenFirstScene, style: .tabBar(.greenFlowItem))
         greenFlowScenes.append(greenFirstScene)
         
-        let settingsScene = factory.settingsScene(self)
+        let settingsScene = factory.settingsScene(delegate: self)
         navigator.newFlow(from: tabBarScene, to: settingsScene, style: .tabBar(.settingsItem))
         settingsScenes.append(settingsScene)
     }
@@ -145,7 +145,7 @@ extension Coordinator: SignInSceneOutputDelegate {
     
     func signInSceneDidTapCreateAccountButton() {
         guard let currentAuthorizationScene = currentAuthorizationScene else { return }
-        let signUpScene = factory.signUpScene(self)
+        let signUpScene = factory.signUpScene(delegate: self)
         navigator.continueFlow(from: currentAuthorizationScene, to: signUpScene)
         authorizationScenes.append(signUpScene)
     }
@@ -172,7 +172,7 @@ extension Coordinator: SignUpSceneOutputDelegate {
 extension Coordinator: RedFirstSceneOutputDelegate {
     
     func redFirstSceneDidTapNextButton() {
-        pushSceneInRedFlow(factory.redSecondScene(self))
+        pushSceneInRedFlow(factory.redSecondScene(delegate: self))
     }
     
 }
@@ -180,7 +180,7 @@ extension Coordinator: RedFirstSceneOutputDelegate {
 extension Coordinator: RedSecondSceneOutputDelegate {
     
     func redSecondSceneDidTapNextButton() {
-        pushSceneInRedFlow(factory.redDynamicInfoScene(self))
+        pushSceneInRedFlow(factory.redDynamicInfoScene(delegate: self))
     }
     
     func redSecondSceneDidTapBackButton() {
@@ -204,7 +204,7 @@ extension Coordinator: RedDynamicInfoSceneOutputDelegate {
 extension Coordinator: GreenFirstSceneOutputDelegate {
     
     func greenFirstSceneDidTapNextButton() {
-        pushSceneInGreenFlow(factory.greenSecondScene(self))
+        pushSceneInGreenFlow(factory.greenSecondScene(delegate: self))
     }
     
 }
@@ -212,7 +212,7 @@ extension Coordinator: GreenFirstSceneOutputDelegate {
 extension Coordinator: GreenSecondSceneOutputDelegate {
     
     func greenSecondSceneDidTapNextButton() {
-        pushSceneInGreenFlow(factory.greenThirdScene(nil, self))
+        pushSceneInGreenFlow(factory.greenThirdScene(text: nil, delegate: self))
     }
     
     func greenSecondSceneDidTapBackButton() {

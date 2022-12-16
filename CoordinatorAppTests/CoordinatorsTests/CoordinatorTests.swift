@@ -11,7 +11,7 @@ import XCTest
 final class CoordinatorTests: XCTestCase {
     
     private var navigatorSpy: NavigatorSpy!
-    private var factory: SceneFactory<MockScene>!
+    private var factoryMock: SceneFactoryMock!
     private var dependenciesMock: DependenciesMock!
     private var authorizationTokenStoreMock: AuthorizationTokenStoreMock!
     private var sut: Coordinator<MockScene>!
@@ -20,12 +20,12 @@ final class CoordinatorTests: XCTestCase {
         super.setUp()
         
         navigatorSpy = NavigatorSpy()
-        factory = SceneFactory<MockScene>.mock()
+        factoryMock = SceneFactoryMock()
         
         authorizationTokenStoreMock = AuthorizationTokenStoreMock()
         dependenciesMock = DependenciesMock(authorizationTokenStore: authorizationTokenStoreMock)
         
-        sut = Coordinator(navigator: navigatorSpy.navigator, factory: factory, interactor: dependenciesMock)
+        sut = Coordinator(navigator: navigatorSpy, factory: factoryMock, interactor: dependenciesMock)
     }
     
     // MARK: - Start Tests

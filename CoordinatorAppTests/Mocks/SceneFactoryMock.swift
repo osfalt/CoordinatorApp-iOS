@@ -22,22 +22,52 @@ enum MockScene: Equatable {
     case settingsScene
 }
 
-extension SceneFactory {
+struct SceneFactoryMock: SceneFactory {
     
-    static func mock() -> SceneFactory<MockScene> {
-        SceneFactory<MockScene>(
-            rootScene: { .rootScene },
-            signInScene: { _ in .signInScene },
-            signUpScene: { _ in .signUpScene },
-            mainTabBarScene: { .mainTabBarScene },
-            redFirstScene: { _ in .redFirstScene },
-            redSecondScene: { _ in .redSecondScene },
-            redDynamicInfoScene: { _ in .redDynamicInfoScene },
-            greenFirstScene: { _ in .greenFirstScene },
-            greenSecondScene: { _ in .greenSecondScene },
-            greenThirdScene: { _, _ in .greenThirdScene },
-            settingsScene: { _ in .settingsScene }
-        )
+    typealias Scene = MockScene
+    
+    func rootScene() -> Scene {
+        .rootScene
+    }
+    
+    func signInScene(delegate: SignInSceneOutputDelegate) -> Scene {
+        .signInScene
+    }
+    
+    func signUpScene(delegate: SignUpSceneOutputDelegate) -> Scene {
+        .signUpScene
+    }
+    
+    func mainTabBarScene() -> Scene {
+        .mainTabBarScene
+    }
+    
+    func redFirstScene(delegate: RedFirstSceneOutputDelegate) -> Scene {
+        .redFirstScene
+    }
+    
+    func redSecondScene(delegate: RedSecondSceneOutputDelegate) -> Scene {
+        .redSecondScene
+    }
+    
+    func redDynamicInfoScene(delegate: RedDynamicInfoSceneOutputDelegate) -> Scene {
+        .redDynamicInfoScene
+    }
+    
+    func greenFirstScene(delegate: GreenFirstSceneOutputDelegate) -> Scene {
+        .greenFirstScene
+    }
+    
+    func greenSecondScene(delegate: GreenSecondSceneOutputDelegate) -> Scene {
+        .greenSecondScene
+    }
+    
+    func greenThirdScene(text: String?, delegate: GreenThirdSceneOutputDelegate) -> Scene {
+        .greenThirdScene
+    }
+    
+    func settingsScene(delegate: SettingsSceneOutputDelegate) -> Scene {
+        .settingsScene
     }
     
 }

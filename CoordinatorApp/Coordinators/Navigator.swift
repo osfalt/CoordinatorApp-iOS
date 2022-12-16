@@ -34,96 +34,76 @@ public enum CompleteFlowNavigationStyle: Equatable {
 
 // MARK: - Interface
 
-public struct Navigator<Scene> {
+public protocol Navigator<Scene> {
     
-    private let newFlow: (_ source: Scene, _ destination: Scene, _ style: NewFlowNavigationStyle) -> Void
-    private let continueFlow: (_ source: Scene, _ destination: Scene) -> Void
-    private let completeFlow: (_ scene: Scene, _ style: CompleteFlowNavigationStyle) -> Void
-    private let goBackInFlow: (_ source: Scene, _ destination: Scene?) -> Void
+    associatedtype Scene
     
-    public init(
-        newFlow: @escaping (_ source: Scene, _ destination: Scene, _ style: NewFlowNavigationStyle) -> Void,
-        continueFlow: @escaping (_ source: Scene, _ destination: Scene) -> Void,
-        completeFlow: @escaping (_ scene: Scene, _ style: CompleteFlowNavigationStyle) -> Void,
-        goBackInFlow: @escaping (_ source: Scene, _ destination: Scene?) -> Void
-    ) {
-        self.newFlow = newFlow
-        self.continueFlow = continueFlow
-        self.completeFlow = completeFlow
-        self.goBackInFlow = goBackInFlow
-    }
-    
-    public func newFlow(from source: Scene, to destination: Scene, style: NewFlowNavigationStyle) {
-        newFlow(source, destination, style)
-    }
-    
-    public func continueFlow(from source: Scene, to destination: Scene) {
-        continueFlow(source, destination)
-    }
-
-    public func completeFlow(on scene: Scene, style: CompleteFlowNavigationStyle) {
-        completeFlow(scene, style)
-    }
-    
-    public func goBackInFlow(to destination: Scene?, from source: Scene) {
-        goBackInFlow(source, destination)
-    }
-    
+    func newFlow(from source: Scene, to destination: Scene, style: NewFlowNavigationStyle)
+    func continueFlow(from source: Scene, to destination: Scene)
+    func completeFlow(on scene: Scene, style: CompleteFlowNavigationStyle)
+    func goBackInFlow(to destination: Scene?, from source: Scene)
 }
 
 // MARK: - Implementation
 
-extension Navigator {
+struct ViewControllerNavigator: Navigator {
     
-    static func make(animatedTransitions: Bool = UIView.areAnimationsEnabled) -> Navigator<UIViewController> {
-        Navigator<UIViewController>(
-            newFlow: { source, destination, style in
-                switch style {
-                case .modal(let mode):
-                    var presentedScene = destination
-                    if mode == .flow {
-                        presentedScene = BaseNavigationController(rootViewController: destination)
-                    }
-                    source.present(presentedScene, animated: animatedTransitions)
-                    
-                case .embed(let mode):
-                    var embededScene = destination
-                    if mode == .flow {
-                        embededScene = BaseNavigationController(rootViewController: destination)
-                    }
-                    source.embed(embededScene)
-                    
-                case .tabBar(let item) where source is UITabBarController:
-                    let navigationController = BaseNavigationController(rootViewController: destination)
-
-                    let image: UIImage? = .init(systemName: item.imageName) ?? .init(named: item.imageName)
-                    navigationController.tabBarItem = UITabBarItem(title: item.title, image: image, selectedImage: nil)
-
-                    source.addChild(navigationController)
-                    
-                default:
-                    fatalError("Unsupported combination of source: \(source), destination: \(destination), style: \(style)")
-                }
-            },
-            continueFlow: { source, destination in
-                source.navigationController?.pushViewController(destination, animated: animatedTransitions)
-            },
-            completeFlow: { scene, style in
-                switch style {
-                case .dismissModal:
-                    scene.dismiss(animated: animatedTransitions)
-                case .unembed:
-                    scene.unembed()
-                }
-            },
-            goBackInFlow: { source, destination in
-                if let destination = destination {
-                    source.navigationController?.popToViewController(destination, animated: animatedTransitions)
-                } else {
-                    source.navigationController?.popViewController(animated: animatedTransitions)
-                }
+    typealias Scene = UIViewController
+    
+    private let animatedTransitions: Bool
+    
+    init(animatedTransitions: Bool = UIView.areAnimationsEnabled) {
+        self.animatedTransitions = animatedTransitions
+    }
+    
+    func newFlow(from source: Scene, to destination: Scene, style: NewFlowNavigationStyle) {
+        switch style {
+        case .modal(let mode):
+            var presentedScene = destination
+            if mode == .flow {
+                presentedScene = BaseNavigationController(rootViewController: destination)
             }
-        )
+            source.present(presentedScene, animated: animatedTransitions)
+            
+        case .embed(let mode):
+            var embededScene = destination
+            if mode == .flow {
+                embededScene = BaseNavigationController(rootViewController: destination)
+            }
+            source.embed(embededScene)
+            
+        case .tabBar(let item) where source is UITabBarController:
+            let navigationController = BaseNavigationController(rootViewController: destination)
+
+            let image: UIImage? = .init(systemName: item.imageName) ?? .init(named: item.imageName)
+            navigationController.tabBarItem = UITabBarItem(title: item.title, image: image, selectedImage: nil)
+
+            source.addChild(navigationController)
+            
+        default:
+            fatalError("Unsupported combination of source: \(source), destination: \(destination), style: \(style)")
+        }
+    }
+    
+    func continueFlow(from source: Scene, to destination: Scene) {
+        source.navigationController?.pushViewController(destination, animated: animatedTransitions)
+    }
+
+    func completeFlow(on scene: Scene, style: CompleteFlowNavigationStyle) {
+        switch style {
+        case .dismissModal:
+            scene.dismiss(animated: animatedTransitions)
+        case .unembed:
+            scene.unembed()
+        }
+    }
+    
+    func goBackInFlow(to destination: Scene?, from source: Scene) {
+        if let destination = destination {
+            source.navigationController?.popToViewController(destination, animated: animatedTransitions)
+        } else {
+            source.navigationController?.popViewController(animated: animatedTransitions)
+        }
     }
     
 }
