@@ -22,11 +22,9 @@ final class AppCoordinator<Scene>: Coordinator {
     
     private(set) var rootScenes: [Scene] = []
     private(set) var authorizationScenes: [Scene] = []
-    private(set) var settingsScenes: [Scene] = []
     
     var currentRootScene: Scene? { rootScenes.last }
     var currentAuthorizationScene: Scene? { authorizationScenes.last }
-    var currentSettingsScene: Scene? { settingsScenes.last }
     
     // MARK: - Private Properties
     
@@ -90,9 +88,10 @@ final class AppCoordinator<Scene>: Coordinator {
         navigator.newFlow(from: tabBarScene, to: greenFirstScene, style: .tabBar(.greenFlowItem))
         children.append(greenFlowCoordinator)
         
-        let settingsScene = factory.settingsScene(delegate: self)
+        let settingsCoordinator = SettingsCoordinator(navigator: navigator, factory: factory, delegate: self)
+        let settingsScene = settingsCoordinator.start()
         navigator.newFlow(from: tabBarScene, to: settingsScene, style: .tabBar(.settingsItem))
-        settingsScenes.append(settingsScene)
+        children.append(settingsCoordinator)
     }
     
     private func completeMainFlow() {
@@ -100,8 +99,20 @@ final class AppCoordinator<Scene>: Coordinator {
         navigator.completeFlow(on: rootScene, style: .unembed)
         
         #warning("TODO: Clear children?")
-        settingsScenes = []
         rootScenes.removeLast()
+    }
+    
+}
+
+// MARK: - Child Coordinator Delegates
+
+extension AppCoordinator: SettingsCoordinatorDelegate {
+    
+    func settingsCoordinatorDidFinish() {
+        completeMainFlow()
+
+        guard let rootScene = currentRootScene else { return }
+        startAuthorizationFlow(on: rootScene)
     }
     
 }
@@ -139,17 +150,6 @@ extension AppCoordinator: SignUpSceneOutputDelegate {
         guard let currentAuthorizationScene = currentAuthorizationScene else { return }
         navigator.goBackInFlow(to: nil, from: currentAuthorizationScene)
         authorizationScenes.removeLast()
-    }
-    
-}
-
-extension AppCoordinator: SettingsSceneOutputDelegate {
-    
-    func settingsSceneDidLogoutSuccessfully() {
-        completeMainFlow()
-        
-        guard let rootScene = currentRootScene else { return }
-        startAuthorizationFlow(on: rootScene)
     }
     
 }
