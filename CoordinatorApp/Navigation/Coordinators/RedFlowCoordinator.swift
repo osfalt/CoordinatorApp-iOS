@@ -27,6 +27,8 @@ final class RedFlowCoordinator<Scene>: Coordinator {
         self.factory = factory
     }
     
+    // MARK: - Coordinator Protocol
+    
     @discardableResult
     func start() -> Scene {
         let redFirstScene = factory.redFirstScene(delegate: self)

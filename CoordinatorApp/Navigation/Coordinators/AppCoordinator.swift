@@ -14,7 +14,7 @@ extension TabBarItem {
     static let settingsItem = TabBarItem(title: "Settings Flow", imageName: "gear.circle.fill")
 }
 
-final class AppCoordinator<Scene> {
+final class AppCoordinator<Scene>: Coordinator {
     
     typealias Interactor = HasAuthorizationTokenStoring
     
@@ -43,7 +43,7 @@ final class AppCoordinator<Scene> {
         self.interactor = interactor
     }
     
-    // MARK: - Public Methods
+    // MARK: - Coordinator Protocol
     
     @discardableResult
     func start() -> Scene {

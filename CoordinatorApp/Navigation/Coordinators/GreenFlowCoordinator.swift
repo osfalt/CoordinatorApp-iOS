@@ -27,6 +27,8 @@ final class GreenFlowCoordinator<Scene>: Coordinator {
         self.factory = factory
     }
     
+    // MARK: - Coordinator Protocol
+    
     @discardableResult
     func start() -> Scene {
         let greenFirstScene = factory.greenFirstScene(delegate: self)
