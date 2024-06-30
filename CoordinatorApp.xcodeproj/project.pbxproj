@@ -196,15 +196,23 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		3171B7B426B9D9360094D31B /* Coordinators */ = {
+		3171B7B426B9D9360094D31B /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				31803E0D2C31F4E80074CF6C /* Coordinators */,
 				3103E3162941469000916BCA /* Navigator.swift */,
 				3103E31A29414A7800916BCA /* SceneFactory.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		31803E0D2C31F4E80074CF6C /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
 				31803E072C31C8090074CF6C /* Coordinator.swift */,
 				3103E31829414A5100916BCA /* AppCoordinator.swift */,
-				31803E092C31C8280074CF6C /* GreenFlowCoordinator.swift */,
 				31803E0B2C31E1BA0074CF6C /* RedFlowCoordinator.swift */,
+				31803E092C31C8280074CF6C /* GreenFlowCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -261,7 +269,7 @@
 			children = (
 				31990761270CFAE800D25183 /* AppDelegate */,
 				319C46ED26B4B66000DDC21C /* Common */,
-				3171B7B426B9D9360094D31B /* Coordinators */,
+				3171B7B426B9D9360094D31B /* Navigation */,
 				31B5079726C081E500C8F3B6 /* DeepLinking */,
 				319C46E826B4B36400DDC21C /* Scenes */,
 				3150391426C1D891009ECBEF /* Services */,
