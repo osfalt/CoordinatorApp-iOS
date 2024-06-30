@@ -7,12 +7,6 @@
 
 import Foundation
 
-extension TabBarItem {
-    static let redFlowItem = TabBarItem(title: "Red Flow", imageName: "house.circle.fill")
-    static let greenFlowItem = TabBarItem(title: "Green Flow", imageName: "book.circle.fill")
-    static let settingsItem = TabBarItem(title: "Settings Flow", imageName: "gear.circle.fill")
-}
-
 final class AppCoordinator<Scene>: Coordinator {
     
     typealias Interactor = HasAuthorizationTokenStoring
@@ -63,24 +57,10 @@ final class AppCoordinator<Scene>: Coordinator {
     }
     
     private func startMainFlow(on rootScene: Scene) {
-        let tabBarScene = factory.mainTabBarScene()
+        let mainTabBarCoordinator = MainTabBarCoordinator(navigator: navigator, factory: factory, delegate: self)
+        let tabBarScene = mainTabBarCoordinator.start()
         navigator.newFlow(from: rootScene, to: tabBarScene, style: .embed(mode: .single))
-        rootScenes.append(tabBarScene)
-        
-        let redFlowCoordinator = RedFlowCoordinator(navigator: navigator, factory: factory)
-        let redFirstScene = redFlowCoordinator.start()
-        navigator.newFlow(from: tabBarScene, to: redFirstScene, style: .tabBar(.redFlowItem))
-        children.append(redFlowCoordinator)
-        
-        let greenFlowCoordinator = GreenFlowCoordinator(navigator: navigator, factory: factory)
-        let greenFirstScene = greenFlowCoordinator.start()
-        navigator.newFlow(from: tabBarScene, to: greenFirstScene, style: .tabBar(.greenFlowItem))
-        children.append(greenFlowCoordinator)
-        
-        let settingsCoordinator = SettingsCoordinator(navigator: navigator, factory: factory, delegate: self)
-        let settingsScene = settingsCoordinator.start()
-        navigator.newFlow(from: tabBarScene, to: settingsScene, style: .tabBar(.settingsItem))
-        children.append(settingsCoordinator)
+        children.append(mainTabBarCoordinator)
     }
     
     private func completeMainFlow() {
@@ -95,22 +75,20 @@ final class AppCoordinator<Scene>: Coordinator {
 
 // MARK: - Child Coordinator Delegates
 
-extension AppCoordinator: SettingsCoordinatorDelegate {
-    
-    func settingsCoordinatorDidFinish() {
-        completeMainFlow()
-
-        guard let rootScene = currentRootScene else { return }
-        startAuthorizationFlow(on: rootScene)
-    }
-    
-}
-
 extension AppCoordinator: AuthorizationCoordinatorDelegate {
     
     func authorizationCoordinatorDidFinish() {
         guard let rootScene = currentRootScene else { return }
         startMainFlow(on: rootScene)
+    }
+    
+}
+
+extension AppCoordinator: MainTabBarCoordinatorDelegate {
+    
+    func mainTabBarCoordinatorDidFinish() {
+        guard let rootScene = currentRootScene else { return }
+        startAuthorizationFlow(on: rootScene)
     }
     
 }
