@@ -41,11 +41,11 @@ open class BaseViewController<Content: View>: UIViewController, SwiftUIContentRe
         }
         
         baseNavigationController.didPopViewControllerPublisher
-            .filter { [weak self] in $0.popped == self }
-            .sink { [weak self] _, _ in
+            .filter { [weak self] in $0 === self }
+            .sink { [weak self] _ in
                 self?.didTapBackButton()
             }
             .store(in: &cancellables)
     }
-
+    
 }

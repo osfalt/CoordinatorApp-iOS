@@ -9,70 +9,72 @@ import Combine
 import UIKit
 
 open class BaseNavigationController: UINavigationController, UINavigationControllerDelegate {
-
+    
     // MARK: - Public
-
-    public var didPopViewControllerPublisher: AnyPublisher<(popped: UIViewController, shown: UIViewController), Never> {
+    
+    public var didPopViewControllerPublisher: AnyPublisher<UIViewController, Never> {
         didPopViewControllerSubject.eraseToAnyPublisher()
     }
-
+    
     open override var delegate: UINavigationControllerDelegate? {
         get { proxyDelegate }
         set { proxyDelegate = newValue }
     }
-
+    
     public var animationEnabled: Bool?
-
+    
     // MARK: - Private
-
+    
     private weak var proxyDelegate: UINavigationControllerDelegate?
-    private lazy var storedChildsCount = viewControllers.count
-    private weak var storedTopViewController: UIViewController?
-    private let didPopViewControllerSubject = PassthroughSubject<(popped: UIViewController, shown: UIViewController), Never>()
-
+    private var viewControllersBeforePop: [UIViewController] = []
+    private let didPopViewControllerSubject = PassthroughSubject<UIViewController, Never>()
+    
     // MARK: - Init
-
+    
     public init() {
         super.init(nibName: nil, bundle: nil)
         commonInit()
     }
-
+    
     public override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
         commonInit()
     }
-
+    
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         commonInit()
     }
-
+    
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func commonInit() {
         super.delegate = self
     }
-
+    
     // MARK: - Overrides
-
+    
     @discardableResult
     open override func popViewController(animated: Bool) -> UIViewController? {
-        return super.popViewController(animated: animationEnabled ?? animated)
+        viewControllersBeforePop = viewControllers
+        return super.popViewController(animated: animated)
     }
-
+    
     open override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
-        return super.popToViewController(viewController, animated: animationEnabled ?? animated)
+        viewControllersBeforePop = viewControllers
+        return super.popToViewController(viewController, animated: animated)
     }
-
+    
     @discardableResult
     open override func popToRootViewController(animated: Bool) -> [UIViewController]? {
-        return super.popToRootViewController(animated: animationEnabled ?? animated)
+        viewControllersBeforePop = viewControllers
+        return super.popToRootViewController(animated: animated)
     }
-
+    
     // MARK: - UINavigationControllerDelegate
-
+    
     public func navigationController(
         _ navigationController: UINavigationController,
         willShow viewController: UIViewController,
@@ -80,21 +82,42 @@ open class BaseNavigationController: UINavigationController, UINavigationControl
     ) {
         proxyDelegate?.navigationController?(navigationController, willShow: viewController, animated: animated)
     }
-
+    
     public func navigationController(
         _ navigationController: UINavigationController,
         didShow viewController: UIViewController,
         animated: Bool
     ) {
         proxyDelegate?.navigationController?(navigationController, didShow: viewController, animated: animated)
-
-        let isPop = viewControllers.count < storedChildsCount
-        if isPop, let storedTopViewController = storedTopViewController {
-            didPopViewControllerSubject.send((popped: storedTopViewController, shown: viewController))
+        
+        guard let fromVC = navigationController.transitionCoordinator?.viewController(forKey: .from) else {
+            return
         }
-
-        storedChildsCount = viewControllers.count
-        storedTopViewController = topViewController
+        
+        let isPop = !navigationController.viewControllers.contains(fromVC)
+        guard isPop else {
+            return
+        }
+        
+        let viewControllersToPop: [UIViewController] = {
+            var viewControllersToPop: [UIViewController] = []
+            let diff = viewControllersBeforePop.difference(from: navigationController.viewControllers)
+            for change in diff {
+                switch change {
+                case .insert(_, let element, _):
+                    viewControllersToPop.append(element)
+                case .remove:
+                    break
+                }
+            }
+            return viewControllersToPop.reversed()
+        }()
+        
+        viewControllersBeforePop = []
+        
+        for popVC in viewControllersToPop {
+            didPopViewControllerSubject.send(popVC)
+        }
     }
-
+    
 }
