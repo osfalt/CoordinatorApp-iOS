@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 extension TabBarItem {
     static let redFlowItem = TabBarItem(title: "Red Flow", imageName: "house.circle.fill")
@@ -21,10 +20,7 @@ final class AppCoordinator<Scene>: Coordinator {
     // MARK: - Public Properties
     
     private(set) var rootScenes: [Scene] = []
-    private(set) var authorizationScenes: [Scene] = []
-    
     var currentRootScene: Scene? { rootScenes.last }
-    var currentAuthorizationScene: Scene? { authorizationScenes.last }
     
     // MARK: - Private Properties
     
@@ -60,17 +56,10 @@ final class AppCoordinator<Scene>: Coordinator {
     // MARK: - Private Methods
     
     private func startAuthorizationFlow(on rootScene: Scene) {
-        let signInScene = factory.signInScene(delegate: self)
+        let authorizationCoordinator = AuthorizationCoordinator(navigator: navigator, factory: factory, delegate: self)
+        let signInScene = authorizationCoordinator.start()
         navigator.newFlow(from: rootScene, to: signInScene, style: .embed(mode: .flow))
-        rootScenes.append(signInScene)
-        authorizationScenes.append(signInScene)
-    }
-    
-    private func completeAuthorizationFlow() {
-        guard let currentAuthorizationScene = currentAuthorizationScene else { return }
-        navigator.completeFlow(on: currentAuthorizationScene, style: .unembed)
-        authorizationScenes = []
-        rootScenes.removeLast()
+        children.append(authorizationCoordinator)
     }
     
     private func startMainFlow(on rootScene: Scene) {
@@ -98,8 +87,8 @@ final class AppCoordinator<Scene>: Coordinator {
         guard let rootScene = currentRootScene else { return }
         navigator.completeFlow(on: rootScene, style: .unembed)
         
-        #warning("TODO: Clear children?")
         rootScenes.removeLast()
+        children = []
     }
     
 }
@@ -117,39 +106,11 @@ extension AppCoordinator: SettingsCoordinatorDelegate {
     
 }
 
-// MARK: - Scenes Outputs
-
-extension AppCoordinator: SignInSceneOutputDelegate {
+extension AppCoordinator: AuthorizationCoordinatorDelegate {
     
-    func signInSceneDidLogInSuccessfully() {
-        completeAuthorizationFlow()
-        
+    func authorizationCoordinatorDidFinish() {
         guard let rootScene = currentRootScene else { return }
         startMainFlow(on: rootScene)
-    }
-    
-    func signInSceneDidTapCreateAccountButton() {
-        guard let currentAuthorizationScene = currentAuthorizationScene else { return }
-        let signUpScene = factory.signUpScene(delegate: self)
-        navigator.continueFlow(from: currentAuthorizationScene, to: signUpScene)
-        authorizationScenes.append(signUpScene)
-    }
-    
-}
-
-extension AppCoordinator: SignUpSceneOutputDelegate {
-    
-    func signUpSceneDidRegisterSuccessfully() {
-        completeAuthorizationFlow()
-        
-        guard let rootScene = currentRootScene else { return }
-        startMainFlow(on: rootScene)
-    }
-    
-    func signUpSceneDidTapBackButton() {
-        guard let currentAuthorizationScene = currentAuthorizationScene else { return }
-        navigator.goBackInFlow(to: nil, from: currentAuthorizationScene)
-        authorizationScenes.removeLast()
     }
     
 }
