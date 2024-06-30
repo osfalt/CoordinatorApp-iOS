@@ -12,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     private lazy var dependencies = AppDependencies()
-    private var coordinator: Coordinator<UIViewController>?
+    private var coordinator: AppCoordinator<UIViewController>?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let navigator = ViewControllerNavigator()
         let sceneFactory = ViewControllerSceneFactory(dependencies: dependencies)
-        let coordinator = Coordinator<UIViewController>(navigator: navigator, factory: sceneFactory, interactor: dependencies)
+        let coordinator = AppCoordinator<UIViewController>(navigator: navigator, factory: sceneFactory, interactor: dependencies)
         let rootViewController = coordinator.start()
 
         let window = UIWindow(windowScene: windowScene)
