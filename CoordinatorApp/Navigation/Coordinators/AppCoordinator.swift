@@ -13,15 +13,14 @@ final class AppCoordinator<Scene>: Coordinator {
     
     // MARK: - Public Properties
     
-    private(set) var rootScenes: [Scene] = []
-    var currentRootScene: Scene? { rootScenes.last }
+    private(set) var scenes: [Scene] = []
+    private(set) var children: [any Coordinator] = []
     
     // MARK: - Private Properties
     
     private let navigator: any Navigator<Scene>
     private let factory: any SceneFactory<Scene>
     private let interactor: Interactor
-    private var children: [any Coordinator] = []
     
     // MARK: - Init
     
@@ -31,12 +30,12 @@ final class AppCoordinator<Scene>: Coordinator {
         self.interactor = interactor
     }
     
-    // MARK: - Coordinator Protocol
+    // MARK: - Public Methods
     
     @discardableResult
     func start() -> Scene {
         let rootScene = factory.rootScene()
-        rootScenes.append(rootScene)
+        scenes.append(rootScene)
         
         if interactor.authorizationTokenStore.token == nil {
             startAuthorizationFlow(on: rootScene)
@@ -64,10 +63,10 @@ final class AppCoordinator<Scene>: Coordinator {
     }
     
     private func completeMainFlow() {
-        guard let rootScene = currentRootScene else { return }
+        guard let rootScene = currentScene else { return }
         navigator.completeFlow(on: rootScene, style: .unembed)
         
-        rootScenes.removeLast()
+        scenes.removeLast()
         children = []
     }
     
@@ -78,7 +77,7 @@ final class AppCoordinator<Scene>: Coordinator {
 extension AppCoordinator: AuthorizationCoordinatorDelegate {
     
     func authorizationCoordinatorDidFinish() {
-        guard let rootScene = currentRootScene else { return }
+        guard let rootScene = currentScene else { return }
         startMainFlow(on: rootScene)
     }
     
@@ -87,7 +86,7 @@ extension AppCoordinator: AuthorizationCoordinatorDelegate {
 extension AppCoordinator: MainTabBarCoordinatorDelegate {
     
     func mainTabBarCoordinatorDidFinish() {
-        guard let rootScene = currentRootScene else { return }
+        guard let rootScene = currentScene else { return }
         startAuthorizationFlow(on: rootScene)
     }
     

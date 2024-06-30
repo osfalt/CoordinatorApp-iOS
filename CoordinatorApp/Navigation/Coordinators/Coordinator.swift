@@ -11,7 +11,14 @@ protocol Coordinator: AnyObject {
     
     associatedtype Scene
     
+    var scenes: [Scene] { get }
+    var children: [any Coordinator] { get }
+    
     @discardableResult
     func start() -> Scene
     
+}
+
+extension Coordinator {
+    var currentScene: Scene? { scenes.last }
 }

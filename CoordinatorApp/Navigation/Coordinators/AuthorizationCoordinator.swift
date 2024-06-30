@@ -15,14 +15,13 @@ final class AuthorizationCoordinator<Scene>: Coordinator {
     
     // MARK: - Public Properties
     
-    var currentScene: Scene? { scenes.last }
     private(set) var scenes: [Scene] = []
+    private(set) var children: [any Coordinator] = []
     
     // MARK: - Private Properties
     
     private let navigator: any Navigator<Scene>
     private let factory: any SceneFactory<Scene>
-    private var children: [any Coordinator] = []
     private weak var delegate: AuthorizationCoordinatorDelegate?
     
     // MARK: - Init
@@ -33,7 +32,7 @@ final class AuthorizationCoordinator<Scene>: Coordinator {
         self.delegate = delegate
     }
     
-    // MARK: - Coordinator Protocol
+    // MARK: - Public Methods
     
     @discardableResult
     func start() -> Scene {
