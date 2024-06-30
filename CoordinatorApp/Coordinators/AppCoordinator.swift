@@ -22,12 +22,10 @@ final class AppCoordinator<Scene> {
     
     private(set) var rootScenes: [Scene] = []
     private(set) var authorizationScenes: [Scene] = []
-    private(set) var redFlowScenes: [Scene] = []
     private(set) var settingsScenes: [Scene] = []
     
     var currentRootScene: Scene? { rootScenes.last }
     var currentAuthorizationScene: Scene? { authorizationScenes.last }
-    var currentRedFlowScene: Scene? { redFlowScenes.last }
     var currentSettingsScene: Scene? { settingsScenes.last }
     
     // MARK: - Private Properties
@@ -82,9 +80,10 @@ final class AppCoordinator<Scene> {
         navigator.newFlow(from: rootScene, to: tabBarScene, style: .embed(mode: .single))
         rootScenes.append(tabBarScene)
         
-        let redFirstScene = factory.redFirstScene(delegate: self)
+        let redFlowCoordinator = RedFlowCoordinator(navigator: navigator, factory: factory)
+        let redFirstScene = redFlowCoordinator.start()
         navigator.newFlow(from: tabBarScene, to: redFirstScene, style: .tabBar(.redFlowItem))
-        redFlowScenes.append(redFirstScene)
+        children.append(redFlowCoordinator)
         
         let greenFlowCoordinator = GreenFlowCoordinator(navigator: navigator, factory: factory)
         let greenFirstScene = greenFlowCoordinator.start()
@@ -100,21 +99,9 @@ final class AppCoordinator<Scene> {
         guard let rootScene = currentRootScene else { return }
         navigator.completeFlow(on: rootScene, style: .unembed)
         
-        redFlowScenes = []
+        #warning("TODO: Clear children?")
         settingsScenes = []
         rootScenes.removeLast()
-    }
-    
-    private func pushSceneInRedFlow(_ scene: Scene) {
-        guard let currentRedFlowScene = currentRedFlowScene else { return }
-        navigator.continueFlow(from: currentRedFlowScene, to: scene)
-        redFlowScenes.append(scene)
-    }
-    
-    private func popSceneInRedFlow() {
-        guard let currentRedFlowScene = currentRedFlowScene else { return }
-        navigator.goBackInFlow(to: nil, from: currentRedFlowScene)
-        redFlowScenes.removeLast()
     }
     
 }
@@ -152,38 +139,6 @@ extension AppCoordinator: SignUpSceneOutputDelegate {
         guard let currentAuthorizationScene = currentAuthorizationScene else { return }
         navigator.goBackInFlow(to: nil, from: currentAuthorizationScene)
         authorizationScenes.removeLast()
-    }
-    
-}
-
-extension AppCoordinator: RedFirstSceneOutputDelegate {
-    
-    func redFirstSceneDidTapNextButton() {
-        pushSceneInRedFlow(factory.redSecondScene(delegate: self))
-    }
-    
-}
-
-extension AppCoordinator: RedSecondSceneOutputDelegate {
-    
-    func redSecondSceneDidTapNextButton() {
-        pushSceneInRedFlow(factory.redDynamicInfoScene(delegate: self))
-    }
-    
-    func redSecondSceneDidTapBackButton() {
-        popSceneInRedFlow()
-    }
-    
-}
-
-extension AppCoordinator: RedDynamicInfoSceneOutputDelegate {
-    
-    func redDynamicInfoSceneDidSelectItem(_ item: RedDynamicInfoItem) {
-        print("👀 redDynamicInfoSceneDidSelectItem: \(item)")
-    }
-    
-    func redDynamicInfoSceneDidTapBackButton() {
-        popSceneInRedFlow()
     }
     
 }
