@@ -41,14 +41,6 @@ final class AuthorizationCoordinator<Scene>: Coordinator {
         return signInScene
     }
     
-    // MARK: - Private Methods
-    
-    private func completeFlow() {
-        guard let currentScene = currentScene else { return }
-        navigator.completeFlow(on: currentScene, style: .unembed)
-        scenes = []
-    }
-    
 }
 
 // MARK: - Scene Outputs
@@ -56,7 +48,6 @@ final class AuthorizationCoordinator<Scene>: Coordinator {
 extension AuthorizationCoordinator: SignInSceneOutputDelegate {
     
     func signInSceneDidLogInSuccessfully() {
-        completeFlow()
         delegate?.authorizationCoordinatorDidFinish()
     }
     
@@ -72,7 +63,6 @@ extension AuthorizationCoordinator: SignInSceneOutputDelegate {
 extension AuthorizationCoordinator: SignUpSceneOutputDelegate {
     
     func signUpSceneDidRegisterSuccessfully() {
-        completeFlow()
         delegate?.authorizationCoordinatorDidFinish()
     }
     

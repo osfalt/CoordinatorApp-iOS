@@ -69,8 +69,16 @@ final class AppCoordinator<Scene>: Coordinator {
 extension AppCoordinator: AuthorizationCoordinatorDelegate {
     
     func authorizationCoordinatorDidFinish() {
-        guard let currentScene else { return }
+        let authorizationCoordinator = children.compactMap { $0 as? AuthorizationCoordinator<Scene> }.first
+        guard let authorizationCurrentScene = authorizationCoordinator?.currentScene else {
+            assertionFailure()
+            return
+        }
+
+        navigator.completeFlow(on: authorizationCurrentScene, style: .unembed)
         children.removeAll(where: { $0 is AuthorizationCoordinator<Scene> })
+        
+        guard let currentScene else { return }
         startMainFlow(on: currentScene)
     }
     
@@ -79,8 +87,16 @@ extension AppCoordinator: AuthorizationCoordinatorDelegate {
 extension AppCoordinator: MainTabBarCoordinatorDelegate {
     
     func mainTabBarCoordinatorDidFinish() {
-        guard let currentScene else { return }
+        let mainTabBarCoordinator = children.compactMap { $0 as? MainTabBarCoordinator<Scene> }.first
+        guard let mainTabBarCurrentScene = mainTabBarCoordinator?.currentScene else {
+            assertionFailure()
+            return
+        }
+
+        navigator.completeFlow(on: mainTabBarCurrentScene, style: .unembed)
         children.removeAll(where: { $0 is MainTabBarCoordinator<Scene> })
+        
+        guard let currentScene else { return }
         startAuthorizationFlow(on: currentScene)
     }
     

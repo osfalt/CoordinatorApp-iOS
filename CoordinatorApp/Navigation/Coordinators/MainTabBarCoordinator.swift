@@ -63,14 +63,6 @@ final class MainTabBarCoordinator<Scene>: Coordinator {
         return tabBarScene
     }
     
-    // MARK: - Private Methods
-    
-    private func completeFlow() {
-        guard let currentScene = currentScene else { return }
-        navigator.completeFlow(on: currentScene, style: .unembed)
-        scenes = []
-    }
-    
 }
 
 // MARK: - Child Coordinator Delegates
@@ -78,7 +70,6 @@ final class MainTabBarCoordinator<Scene>: Coordinator {
 extension MainTabBarCoordinator: SettingsCoordinatorDelegate {
     
     func settingsCoordinatorDidFinish() {
-        completeFlow()
         delegate?.mainTabBarCoordinatorDidFinish()
     }
     
