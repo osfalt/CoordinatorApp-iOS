@@ -56,6 +56,8 @@
 		31CB42962949219500B1D2BB /* AuthorizationServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB42952949219500B1D2BB /* AuthorizationServiceMock.swift */; };
 		31D7CDC32945FDC7003C027F /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D7CDC22945FDC7003C027F /* AuthorizationService.swift */; };
 		31D86E592728A4AB00664C97 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D86E582728A4AB00664C97 /* Dependencies.swift */; };
+		31DFB4162C332A0A00E6FD14 /* AppCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DFB4152C332A0A00E6FD14 /* AppCoordinatorTests.swift */; };
+		31DFB4182C332F1200E6FD14 /* BaseCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DFB4172C332F1200E6FD14 /* BaseCoordinatorTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +133,8 @@
 		31CB42952949219500B1D2BB /* AuthorizationServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationServiceMock.swift; sourceTree = "<group>"; };
 		31D7CDC22945FDC7003C027F /* AuthorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationService.swift; sourceTree = "<group>"; };
 		31D86E582728A4AB00664C97 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
+		31DFB4152C332A0A00E6FD14 /* AppCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorTests.swift; sourceTree = "<group>"; };
+		31DFB4172C332F1200E6FD14 /* BaseCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinatorTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +165,8 @@
 		311028F2270237D60018184C /* CoordinatorsTests */ = {
 			isa = PBXGroup;
 			children = (
+				31DFB4172C332F1200E6FD14 /* BaseCoordinatorTests.swift */,
+				31DFB4152C332A0A00E6FD14 /* AppCoordinatorTests.swift */,
 				31B0C70D29450B63000996A5 /* CoordinatorTests.swift */,
 			);
 			path = CoordinatorsTests;
@@ -574,7 +580,9 @@
 				31CB42902949168500B1D2BB /* DependenciesMock.swift in Sources */,
 				318C29BA270B944F00F965CA /* AuthorizationTokenStoreTests.swift in Sources */,
 				31CB428E2949155B00B1D2BB /* SceneFactoryMock.swift in Sources */,
+				31DFB4162C332A0A00E6FD14 /* AppCoordinatorTests.swift in Sources */,
 				31990760270CFA8500D25183 /* KeyValueStoringImplementationTests.swift in Sources */,
+				31DFB4182C332F1200E6FD14 /* BaseCoordinatorTests.swift in Sources */,
 				31B0C70E29450B63000996A5 /* CoordinatorTests.swift in Sources */,
 				3124245F26B89C950074F592 /* BaseNavigationControllerTests.swift in Sources */,
 			);

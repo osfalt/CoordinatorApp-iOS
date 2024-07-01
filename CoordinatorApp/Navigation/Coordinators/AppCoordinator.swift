@@ -62,14 +62,6 @@ final class AppCoordinator<Scene>: Coordinator {
         children.append(mainTabBarCoordinator)
     }
     
-    private func completeMainFlow() {
-        guard let rootScene = currentScene else { return }
-        navigator.completeFlow(on: rootScene, style: .unembed)
-        
-        scenes.removeLast()
-        children = []
-    }
-    
 }
 
 // MARK: - Child Coordinator Delegates
@@ -77,8 +69,9 @@ final class AppCoordinator<Scene>: Coordinator {
 extension AppCoordinator: AuthorizationCoordinatorDelegate {
     
     func authorizationCoordinatorDidFinish() {
-        guard let rootScene = currentScene else { return }
-        startMainFlow(on: rootScene)
+        guard let currentScene else { return }
+        children.removeAll(where: { $0 is AuthorizationCoordinator<Scene> })
+        startMainFlow(on: currentScene)
     }
     
 }
@@ -86,8 +79,9 @@ extension AppCoordinator: AuthorizationCoordinatorDelegate {
 extension AppCoordinator: MainTabBarCoordinatorDelegate {
     
     func mainTabBarCoordinatorDidFinish() {
-        guard let rootScene = currentScene else { return }
-        startAuthorizationFlow(on: rootScene)
+        guard let currentScene else { return }
+        children.removeAll(where: { $0 is MainTabBarCoordinator<Scene> })
+        startAuthorizationFlow(on: currentScene)
     }
     
 }

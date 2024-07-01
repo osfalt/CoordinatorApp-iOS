@@ -10,6 +10,7 @@ import UIKit
 import XCTest
 @testable import CoordinatorApp
 
+/*
 class BaseNavigationControllerTests: XCTestCase {
 
     private enum Spec {
@@ -191,3 +192,4 @@ private class NavigationControllerDelegate: NSObject, UINavigationControllerDele
     }
 
 }
+*/

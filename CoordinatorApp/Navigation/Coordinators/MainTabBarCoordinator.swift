@@ -68,7 +68,7 @@ final class MainTabBarCoordinator<Scene>: Coordinator {
     private func completeFlow() {
         guard let currentScene = currentScene else { return }
         navigator.completeFlow(on: currentScene, style: .unembed)
-        scenes.removeLast()
+        scenes = []
     }
     
 }

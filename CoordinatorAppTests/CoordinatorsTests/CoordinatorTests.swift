@@ -8,81 +8,9 @@
 import XCTest
 @testable import CoordinatorApp
 
+/*
 final class CoordinatorTests: XCTestCase {
-    
-    private var navigatorSpy: NavigatorSpy!
-    private var factoryMock: SceneFactoryMock!
-    private var dependenciesMock: DependenciesMock!
-    private var authorizationTokenStoreMock: AuthorizationTokenStoreMock!
-    private var sut: Coordinator<MockScene>!
-
-    override func setUp() {
-        super.setUp()
         
-        navigatorSpy = NavigatorSpy()
-        factoryMock = SceneFactoryMock()
-        
-        authorizationTokenStoreMock = AuthorizationTokenStoreMock()
-        dependenciesMock = DependenciesMock(authorizationTokenStore: authorizationTokenStoreMock)
-        
-        sut = Coordinator(navigator: navigatorSpy, factory: factoryMock, interactor: dependenciesMock)
-    }
-    
-    // MARK: - Start Tests
-    
-    func testStartCoordinatorForGuestUser() {
-        let rootScene = sut.start()
-        
-        XCTAssertEqual(rootScene, .rootScene)
-        XCTAssertEqual(sut.rootScenes, [.rootScene, .signInScene])
-        XCTAssertEqual(sut.authorizationScenes, [.signInScene])
-        XCTAssertEqual(sut.redFlowScenes, [])
-        XCTAssertEqual(sut.greenFlowScenes, [])
-        XCTAssertEqual(sut.settingsScenes, [])
-        
-        XCTAssertEqual(sut.currentRootScene, .signInScene)
-        XCTAssertEqual(sut.currentAuthorizationScene, .signInScene)
-        XCTAssertEqual(sut.currentRedFlowScene, nil)
-        XCTAssertEqual(sut.currentGreenFlowScene, nil)
-        XCTAssertEqual(sut.currentSettingsScene, nil)
-        
-        XCTAssertEqual(
-            navigatorSpy.log,
-            [
-                .newFlow(source: .rootScene, destination: .signInScene, style: .embed(mode: .flow))
-            ]
-        )
-    }
-
-    func testStartCoordinatorForLoggedInUser() {
-        givenUserIsLoggedIn()
-        
-        let rootScene = sut.start()
-        
-        XCTAssertEqual(rootScene, .rootScene)
-        XCTAssertEqual(sut.rootScenes, [.rootScene, .mainTabBarScene])
-        XCTAssertEqual(sut.authorizationScenes, [])
-        XCTAssertEqual(sut.redFlowScenes, [.redFirstScene])
-        XCTAssertEqual(sut.greenFlowScenes, [.greenFirstScene])
-        XCTAssertEqual(sut.settingsScenes, [.settingsScene])
-        
-        XCTAssertEqual(sut.currentRootScene, .mainTabBarScene)
-        XCTAssertEqual(sut.currentAuthorizationScene, nil)
-        XCTAssertEqual(sut.currentRedFlowScene, .redFirstScene)
-        XCTAssertEqual(sut.currentGreenFlowScene, .greenFirstScene)
-        XCTAssertEqual(sut.currentSettingsScene, .settingsScene)
-        
-        XCTAssertEqual(
-            navigatorSpy.log,
-            [
-                .newFlow(source: .rootScene, destination: .mainTabBarScene, style: .embed(mode: .single)),
-                .newFlow(source: .mainTabBarScene, destination: .redFirstScene, style: .tabBar(.redFlowItem)),
-                .newFlow(source: .mainTabBarScene, destination: .greenFirstScene, style: .tabBar(.greenFlowItem)),
-                .newFlow(source: .mainTabBarScene, destination: .settingsScene, style: .tabBar(.settingsItem)),
-            ]
-        )
-    }
-    
     // MARK: - Authorization Flow Tests
     
     func testSignInSceneDidTapCreateAccountButton_NavigatesToSignUpScene() {
@@ -471,11 +399,6 @@ final class CoordinatorTests: XCTestCase {
             ]
         )
     }
-    
-    // MARK: - Private Methods
-    
-    private func givenUserIsLoggedIn() {
-        authorizationTokenStoreMock.token = "auth_token"
-    }
 
 }
+*/

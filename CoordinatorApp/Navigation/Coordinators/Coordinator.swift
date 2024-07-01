@@ -20,5 +20,9 @@ protocol Coordinator: AnyObject {
 }
 
 extension Coordinator {
-    var currentScene: Scene? { scenes.last }
+    
+    var currentScene: Scene? {
+        scenes.last
+    }
+    
 }
