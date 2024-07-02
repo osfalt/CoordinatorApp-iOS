@@ -20,7 +20,7 @@ final class MainTabBarCoordinatorTests: BaseCoordinatorTests {
         sut = MainTabBarCoordinator(navigator: navigatorSpy, factory: factoryMock, delegate: delegateSpy)
     }
     
-    func testStart_NavigatesToSignInScene() {
+    func testStart_NavigatesToMainTabBarScene() {
         // given/when
         let scene = sut.start()
         
