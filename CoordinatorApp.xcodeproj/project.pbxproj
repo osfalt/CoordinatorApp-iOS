@@ -58,6 +58,7 @@
 		31D86E592728A4AB00664C97 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D86E582728A4AB00664C97 /* Dependencies.swift */; };
 		31DFB4162C332A0A00E6FD14 /* AppCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DFB4152C332A0A00E6FD14 /* AppCoordinatorTests.swift */; };
 		31DFB4182C332F1200E6FD14 /* BaseCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DFB4172C332F1200E6FD14 /* BaseCoordinatorTests.swift */; };
+		31DFB41A2C3338A200E6FD14 /* AuthorizationCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DFB4192C3338A200E6FD14 /* AuthorizationCoordinatorTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,6 +136,7 @@
 		31D86E582728A4AB00664C97 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		31DFB4152C332A0A00E6FD14 /* AppCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorTests.swift; sourceTree = "<group>"; };
 		31DFB4172C332F1200E6FD14 /* BaseCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinatorTests.swift; sourceTree = "<group>"; };
+		31DFB4192C3338A200E6FD14 /* AuthorizationCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationCoordinatorTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 			children = (
 				31DFB4172C332F1200E6FD14 /* BaseCoordinatorTests.swift */,
 				31DFB4152C332A0A00E6FD14 /* AppCoordinatorTests.swift */,
+				31DFB4192C3338A200E6FD14 /* AuthorizationCoordinatorTests.swift */,
 				31B0C70D29450B63000996A5 /* CoordinatorTests.swift */,
 			);
 			path = CoordinatorsTests;
@@ -576,6 +579,7 @@
 				31CB42922949204A00B1D2BB /* DynamicItemsFetcherMock.swift in Sources */,
 				31CB428C294914AC00B1D2BB /* NavigatorSpy.swift in Sources */,
 				31A96C562700A211009AA0A1 /* RedDynamicInfoViewModelTests.swift in Sources */,
+				31DFB41A2C3338A200E6FD14 /* AuthorizationCoordinatorTests.swift in Sources */,
 				31CB4294294920F500B1D2BB /* AuthorizationTokenStoreMock.swift in Sources */,
 				31CB42902949168500B1D2BB /* DependenciesMock.swift in Sources */,
 				318C29BA270B944F00F965CA /* AuthorizationTokenStoreTests.swift in Sources */,
