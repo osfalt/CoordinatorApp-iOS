@@ -63,6 +63,7 @@ struct ViewControllerNavigator: Navigator {
             if mode == .flow {
                 presentedScene = BaseNavigationController(rootViewController: destination)
             }
+            presentedScene.isModalInPresentation = true
             source.present(presentedScene, animated: animatedTransitions)
             
         case .embed(let mode):

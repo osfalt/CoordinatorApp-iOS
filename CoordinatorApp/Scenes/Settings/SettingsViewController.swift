@@ -11,6 +11,7 @@ import UIKit
 // MARK: - Scene Output
 
 public protocol SettingsSceneOutputDelegate: AnyObject {
+    func settingsSceneDidTapProfileDetails()
     func settingsSceneDidLogoutSuccessfully()
 }
 
@@ -34,6 +35,10 @@ public final class SettingsViewModel {
                 break
             }
         }
+    }
+    
+    func didTapProfileDetailsButton() {
+        outputDelegate?.settingsSceneDidTapProfileDetails()
     }
 
     private let interactor: Interactor
@@ -73,7 +78,8 @@ struct SettingsView: View {
     let viewModel: SettingsViewModel
 
     var body: some View {
-        ZStack {
+        VStack(spacing: 24) {
+            Button("Open Profile Details", action: viewModel.didTapProfileDetailsButton)
             Button("Log Out", action: viewModel.didTapLogOutButton)
         }
     }

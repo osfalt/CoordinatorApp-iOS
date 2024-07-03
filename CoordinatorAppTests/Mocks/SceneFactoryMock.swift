@@ -20,6 +20,7 @@ enum MockScene: Equatable {
     case greenSecondScene
     case greenThirdScene
     case settingsScene
+    case profileDetails
 }
 
 struct SceneFactoryMock: SceneFactory {
@@ -68,6 +69,10 @@ struct SceneFactoryMock: SceneFactory {
     
     func settingsScene(delegate: SettingsSceneOutputDelegate) -> Scene {
         .settingsScene
+    }
+    
+    func profileDetails(delegate: ProfileDetailsSceneOutputDelegate) -> MockScene {
+        .profileDetails
     }
     
 }

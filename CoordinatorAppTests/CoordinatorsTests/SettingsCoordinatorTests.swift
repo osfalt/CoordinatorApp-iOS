@@ -48,6 +48,48 @@ final class SettingsCoordinatorTests: BaseCoordinatorTests {
         XCTAssertEqual(delegate.log, [.settingsCoordinatorDidFinish])
     }
     
+    func testSettingsSceneDidTapProfileDetails_NavigatesToProfileDetailsScene() {
+        // given
+        sut.start()
+
+        // when
+        sut.settingsSceneDidTapProfileDetails()
+
+        // then
+        XCTAssertEqual(sut.scenes, [.settingsScene, .profileDetails])
+        XCTAssertEqual(sut.currentScene, .profileDetails)
+        XCTAssertEqual(sut.children.count, 0)
+        XCTAssertEqual(
+            navigatorSpy.log,
+            [
+                .newFlow(source: .settingsScene, destination: .profileDetails, style: .modal(mode: .single))
+            ]
+        )
+        XCTAssertEqual(delegate.log, [])
+    }
+    
+    func testProfileDetailsSceneDidTapCloseButton_NavigatesToSettingsScene() {
+        // given
+        sut.start()
+        sut.settingsSceneDidTapProfileDetails()
+
+        // when
+        sut.profileDetailsSceneDidTapCloseButton()
+
+        // then
+        XCTAssertEqual(sut.scenes, [.settingsScene])
+        XCTAssertEqual(sut.currentScene, .settingsScene)
+        XCTAssertEqual(sut.children.count, 0)
+        XCTAssertEqual(
+            navigatorSpy.log,
+            [
+                .newFlow(source: .settingsScene, destination: .profileDetails, style: .modal(mode: .single)),
+                .completeFlow(scene: .profileDetails, style: .dismissModal)
+            ]
+        )
+        XCTAssertEqual(delegate.log, [])
+    }
+    
 }
 
 // MARK: - Mocks

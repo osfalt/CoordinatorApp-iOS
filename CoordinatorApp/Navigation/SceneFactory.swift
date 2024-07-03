@@ -28,6 +28,7 @@ public protocol SceneFactory<Scene> {
     func greenThirdScene(text: String?, delegate: GreenThirdSceneOutputDelegate) -> Scene
     
     func settingsScene(delegate: SettingsSceneOutputDelegate) -> Scene
+    func profileDetails(delegate: ProfileDetailsSceneOutputDelegate) -> Scene
     
 }
 
@@ -104,6 +105,12 @@ struct ViewControllerSceneFactory: SceneFactory {
     func settingsScene(delegate: SettingsSceneOutputDelegate) -> Scene {
         let viewModel = SettingsViewModel(interactor: dependencies, outputDelegate: delegate)
         let viewController = SettingsViewController(viewModel: viewModel)
+        return viewController
+    }
+    
+    func profileDetails(delegate: ProfileDetailsSceneOutputDelegate) -> Scene {
+        let viewModel = ProfileDetailsViewModel(outputDelegate: delegate)
+        let viewController = ProfileDetailsViewController(viewModel: viewModel)
         return viewController
     }
     

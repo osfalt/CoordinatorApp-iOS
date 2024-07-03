@@ -11,7 +11,6 @@ protocol SettingsCoordinatorDelegate: AnyObject {
     func settingsCoordinatorDidFinish()
 }
 
-#warning("TODO: add presenting modal scene from here")
 final class SettingsCoordinator<Scene>: Coordinator {
     
     // MARK: - Public Properties
@@ -48,8 +47,25 @@ final class SettingsCoordinator<Scene>: Coordinator {
 
 extension SettingsCoordinator: SettingsSceneOutputDelegate {
     
+    func settingsSceneDidTapProfileDetails() {
+        guard let currentScene else { return }
+        let profileDetailsScene = factory.profileDetails(delegate: self)
+        navigator.newFlow(from: currentScene, to: profileDetailsScene, style: .modal(mode: .single))
+        scenes.append(profileDetailsScene)
+    }
+    
     func settingsSceneDidLogoutSuccessfully() {
         delegate?.settingsCoordinatorDidFinish()
+    }
+    
+}
+
+extension SettingsCoordinator: ProfileDetailsSceneOutputDelegate {
+    
+    func profileDetailsSceneDidTapCloseButton() {
+        guard let currentScene else { return }
+        navigator.completeFlow(on: currentScene, style: .dismissModal)
+        scenes.removeLast()
     }
     
 }
