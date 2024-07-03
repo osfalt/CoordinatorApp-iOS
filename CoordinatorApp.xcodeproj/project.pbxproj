@@ -44,8 +44,8 @@
 		319DF4AD2C349B2900153D11 /* MainTabBarCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319DF4AC2C349B2900153D11 /* MainTabBarCoordinatorTests.swift */; };
 		319DF4AF2C349E2100153D11 /* RedFlowCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319DF4AE2C349E2100153D11 /* RedFlowCoordinatorTests.swift */; };
 		319DF4B12C35AFEA00153D11 /* GreenFlowCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319DF4B02C35AFEA00153D11 /* GreenFlowCoordinatorTests.swift */; };
+		319DF4B32C35B26500153D11 /* SettingsCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319DF4B22C35B26500153D11 /* SettingsCoordinatorTests.swift */; };
 		31A96C562700A211009AA0A1 /* RedDynamicInfoViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A96C552700A211009AA0A1 /* RedDynamicInfoViewModelTests.swift */; };
-		31B0C70E29450B63000996A5 /* CoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B0C70D29450B63000996A5 /* CoordinatorTests.swift */; };
 		31B5078C26BB427D00C8F3B6 /* GreenThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5078B26BB427D00C8F3B6 /* GreenThirdViewController.swift */; };
 		31B5079626C077AA00C8F3B6 /* DeepLinkHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5079526C077AA00C8F3B6 /* DeepLinkHandling.swift */; };
 		31B5079926C081FE00C8F3B6 /* DeepLinkParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B5079826C081FE00C8F3B6 /* DeepLinkParser.swift */; };
@@ -125,8 +125,8 @@
 		319DF4AC2C349B2900153D11 /* MainTabBarCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarCoordinatorTests.swift; sourceTree = "<group>"; };
 		319DF4AE2C349E2100153D11 /* RedFlowCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedFlowCoordinatorTests.swift; sourceTree = "<group>"; };
 		319DF4B02C35AFEA00153D11 /* GreenFlowCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenFlowCoordinatorTests.swift; sourceTree = "<group>"; };
+		319DF4B22C35B26500153D11 /* SettingsCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinatorTests.swift; sourceTree = "<group>"; };
 		31A96C552700A211009AA0A1 /* RedDynamicInfoViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedDynamicInfoViewModelTests.swift; sourceTree = "<group>"; };
-		31B0C70D29450B63000996A5 /* CoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorTests.swift; sourceTree = "<group>"; };
 		31B5078B26BB427D00C8F3B6 /* GreenThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenThirdViewController.swift; sourceTree = "<group>"; };
 		31B5079526C077AA00C8F3B6 /* DeepLinkHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkHandling.swift; sourceTree = "<group>"; };
 		31B5079826C081FE00C8F3B6 /* DeepLinkParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkParser.swift; sourceTree = "<group>"; };
@@ -179,7 +179,7 @@
 				319DF4AC2C349B2900153D11 /* MainTabBarCoordinatorTests.swift */,
 				319DF4AE2C349E2100153D11 /* RedFlowCoordinatorTests.swift */,
 				319DF4B02C35AFEA00153D11 /* GreenFlowCoordinatorTests.swift */,
-				31B0C70D29450B63000996A5 /* CoordinatorTests.swift */,
+				319DF4B22C35B26500153D11 /* SettingsCoordinatorTests.swift */,
 			);
 			path = CoordinatorsTests;
 			sourceTree = "<group>";
@@ -589,6 +589,7 @@
 				319DF4AF2C349E2100153D11 /* RedFlowCoordinatorTests.swift in Sources */,
 				319DF4AD2C349B2900153D11 /* MainTabBarCoordinatorTests.swift in Sources */,
 				31CB428C294914AC00B1D2BB /* NavigatorSpy.swift in Sources */,
+				319DF4B32C35B26500153D11 /* SettingsCoordinatorTests.swift in Sources */,
 				319DF4B12C35AFEA00153D11 /* GreenFlowCoordinatorTests.swift in Sources */,
 				31A96C562700A211009AA0A1 /* RedDynamicInfoViewModelTests.swift in Sources */,
 				31DFB41A2C3338A200E6FD14 /* AuthorizationCoordinatorTests.swift in Sources */,
@@ -599,7 +600,6 @@
 				31DFB4162C332A0A00E6FD14 /* AppCoordinatorTests.swift in Sources */,
 				31990760270CFA8500D25183 /* KeyValueStoringImplementationTests.swift in Sources */,
 				31DFB4182C332F1200E6FD14 /* BaseCoordinatorTests.swift in Sources */,
-				31B0C70E29450B63000996A5 /* CoordinatorTests.swift in Sources */,
 				3124245F26B89C950074F592 /* BaseNavigationControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
